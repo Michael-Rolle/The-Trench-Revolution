@@ -1,6 +1,6 @@
 #include "Rifleman.h"
 
-Rifleman::Rifleman()
+Rifleman::Rifleman(sf::Texture* texture)
 {
     this->health = 100;
     this->damage = 100;
