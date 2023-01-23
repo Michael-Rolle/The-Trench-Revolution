@@ -23,6 +23,7 @@ class Rifleman : public Unit
         float range; //Range out of 100 blocks
         float accuracy; //Percentage chance of hitting a shot
         float speed; //Blocks per minute
+        float reloadTime;
 };
 
 #endif // RIFLEMAN_H
