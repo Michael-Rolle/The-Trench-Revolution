@@ -23,7 +23,7 @@ int main(){
     auto gameState = GameState::StartScreen;
     auto screenRenderer = make_shared<ScreenRenderer>(gameWidth, gameHeight);
 
-    auto drawableObjects = vector<shared_ptr<Drawable>>{screenRenderer};
+    auto drawableObjects = vector<shared_ptr<Drawable>>{ screenRenderer };
 
     while(window.isOpen())
     {
@@ -34,6 +34,14 @@ int main(){
             {
                 window.close();
                 break;
+            }
+            if(event.type == sf::Event::MouseButtonPressed && event.mouseButton.button == sf::Mouse::Left)
+            {
+                auto buttonRect = screenRenderer->startButtonCoordinates();
+                auto mouseX = (float)sf::Mouse::getPosition().x;
+                auto mouseY = (float)sf::Mouse::getPosition().y;
+                if((mouseX - buttonRect.left <= buttonRect.width) && (mouseX - buttonRect.left > 0) && (mouseY - buttonRect.top  <= buttonRect.height) && (mouseY - buttonRect.top  > 0))
+                    gameState = GameState::Playing;
             }
         }
 

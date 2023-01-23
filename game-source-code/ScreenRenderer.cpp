@@ -3,9 +3,9 @@
 ScreenRenderer::ScreenRenderer(const float gameWidth, const float gameHeight)
 {
     if(!startBackgroundText.loadFromFile("resources/startBackground.png"))
-        throw "Cannot load background image";
+        throw "Cannot load starting background image";
     startBackground.setTexture(startBackgroundText);
-    startBackground.setScale(gameWidth/startBackground.getLocalBounds().width, gameHeight/startBackground.getLocalBounds().height);
+    startBackground.setScale(gameWidth/startBackground.getGlobalBounds().width, gameHeight/startBackground.getGlobalBounds().height);
 
     if(!font.loadFromFile("resources/HeadlinerNo45.ttf"))
         throw "Cannot load font";
@@ -13,7 +13,7 @@ ScreenRenderer::ScreenRenderer(const float gameWidth, const float gameHeight)
     title.setString("The  Trench  Revolution");
     title.setCharacterSize(150);
     title.setLetterSpacing(2);
-    title.setOrigin(title.getLocalBounds().width/2, title.getLocalBounds().height/2);
+    title.setOrigin(title.getGlobalBounds().left + title.getGlobalBounds().width/2.0f, title.getGlobalBounds().top + title.getGlobalBounds().height/2.0f);
     title.setPosition(0.5*gameWidth, 0.15*gameHeight);
     title.setColor(sf::Color::Black);
     title.setOutlineColor(sf::Color::White);
@@ -22,9 +22,14 @@ ScreenRenderer::ScreenRenderer(const float gameWidth, const float gameHeight)
     if(!startButtonText.loadFromFile("resources/startButton.png"))
         throw "Cannot load start button image";
     startButton.setTexture(startButtonText);
-    startButton.setScale(0.05*gameWidth/startButton.getLocalBounds().width, 0.05*gameHeight/startButton.getLocalBounds().height);
-    startButton.setOrigin(startButton.getLocalBounds().width/2, startButton.getLocalBounds().height/2);
+    startButton.setScale(0.05*gameWidth/startButton.getGlobalBounds().width, 0.05*gameHeight/startButton.getGlobalBounds().height);
+    startButton.setOrigin(startButton.getGlobalBounds().left + startButton.getGlobalBounds().width/2.0f, startButton.getGlobalBounds().top + startButton.getGlobalBounds().height/2.0f);
     startButton.setPosition(0.5*gameWidth, 0.5*gameHeight);
+
+    if(!playingFieldBackgroundText.loadFromFile("resources/playingFieldBackground.png"))
+        throw "Cannot load playing field background";
+    playingFieldBackground.setTexture(playingFieldBackgroundText);
+    playingFieldBackground.setScale(gameWidth/playingFieldBackground.getLocalBounds().width, gameHeight/playingFieldBackground.getLocalBounds().height);
 }
 
 void ScreenRenderer::draw(sf::RenderWindow& window, const GameState gameState)
