@@ -1,11 +1,12 @@
 #ifndef DRAWABLE_H
 #define DRAWABLE_H
 
+#include "GameState.h"
 
 class Drawable //Abstract Base Class for drawable objects
 {
     public:
-        virtual void draw(sf::RenderWindow& window) = 0;
+        virtual void draw(sf::RenderWindow& window, const GameState gameState) = 0;
         virtual ~Drawable(){}
 };
 

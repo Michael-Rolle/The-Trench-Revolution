@@ -9,12 +9,9 @@ class ScreenRenderer : public Drawable//Renders the background image as well as 
 {
     public:
         ScreenRenderer(const float gameWidth, const float gameHeight);
-        //void renderStartScreen();
-        //void renderPlayingField();
-        virtual void draw(sf::RenderWindow& window) override;
+        virtual void draw(sf::RenderWindow& window, const GameState gameState) override;
 
     private:
-        GameState gameState;
         sf::Font font;
         sf::Text title;
         sf::Texture startButtonText;
