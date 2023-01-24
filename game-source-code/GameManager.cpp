@@ -1,7 +1,7 @@
 #include "GameManager.h"
 
 GameManager::GameManager():
-    window{sf::VideoMode(1920.0f, 1080.0f), "The Trench Revoltion"},
+    window{sf::VideoMode(1280.0f, 720.0f), "The Trench Revoltion"},
     gameState{GameState::StartScreen},
     screenRenderer{make_shared<ScreenRenderer>(gameWidth, gameHeight)},
     buttonController{make_shared<ButtonController>(gameWidth, gameHeight)},
@@ -34,15 +34,7 @@ void GameManager::pollEvent()
             window.close();
             break;
         }
-        /*if(event->type == sf::Event::MouseButtonPressed && event->mouseButton.button == sf::Mouse::Left)
-        {
-            auto buttonRect = make_unique<sf::FloatRect>(screenRenderer->startButtonCoordinates());
-            auto mouseX = make_unique<float>(sf::Mouse::getPosition(window).x);
-            auto mouseY = make_unique<float>(sf::Mouse::getPosition(window).y);
-            if((*mouseX - buttonRect->left <= buttonRect->width) && (*mouseX - buttonRect->left > 0) && (*mouseY - buttonRect->top  <= buttonRect->height) && (*mouseY - buttonRect->top  > 0))
-                gameState = GameState::Playing;
-        }*/
-        buttonController->checkButtonClicks(*event, window, gameState);
+        buttonController->checkButtonClicks(*event, window, gameState, gameWidth, gameHeight);
     }
 }
 

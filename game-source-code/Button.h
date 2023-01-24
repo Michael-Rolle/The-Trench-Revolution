@@ -9,7 +9,7 @@ class Button : public Drawable
     public:
         Button(){}
         Button(sf::Texture* texture, sf::IntRect positionDetails);
-        bool checkClicked(const sf::Event& event, sf::RenderWindow& window);
+        bool checkClicked(const sf::Event& event, sf::RenderWindow& window, const float gameWidth, const float gameHeight);
         virtual void draw(sf::RenderWindow& window, const GameState gameState) override;
 
     private:

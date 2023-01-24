@@ -9,7 +9,7 @@ class ButtonController : public Drawable
 {
     public:
         ButtonController(const float gameWidth, const float gameHeight);
-        void checkButtonClicks(const sf::Event& event, sf::RenderWindow& window, GameState& gameState);
+        void checkButtonClicks(const sf::Event& event, sf::RenderWindow& window, GameState& gameState, const float gameWidth, const float gameHeight);
         virtual void draw(sf::RenderWindow& window, const GameState gameState) override;
 
     private:

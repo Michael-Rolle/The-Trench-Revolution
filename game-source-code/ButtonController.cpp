@@ -15,11 +15,11 @@ ButtonController::ButtonController(const float gameWidth, const float gameHeight
     startButton = Button{&startButtonText, startButtonRect};
 }
 
-void ButtonController::checkButtonClicks(const sf::Event& event, sf::RenderWindow& window, GameState& gameState)
+void ButtonController::checkButtonClicks(const sf::Event& event, sf::RenderWindow& window, GameState& gameState, const float gameWidth, const float gameHeight)
 {
     if(gameState == GameState::StartScreen)
     {
-        if(startButton.checkClicked(event, window))
+        if(startButton.checkClicked(event, window, gameWidth, gameHeight))
         {
             ButtonController::startGame(gameState);
         }
