@@ -1,6 +1,7 @@
 #include <SFML/Graphics.hpp>
 #include "ScreenRenderer.h"
 #include "GameState.h"
+#include "Drawable.h"
 #include <memory>
 #include <vector>
 
