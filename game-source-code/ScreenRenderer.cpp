@@ -19,12 +19,12 @@ ScreenRenderer::ScreenRenderer(const float gameWidth, const float gameHeight)
     title.setOutlineColor(sf::Color::White);
     title.setOutlineThickness(3);
 
-    if(!startButtonText.loadFromFile("resources/startButton.png"))
+    /*if(!startButtonText.loadFromFile("resources/startButton.png"))
         throw "Cannot load start button image";
     startButton.setTexture(startButtonText);
     startButton.setOrigin(startButton.getLocalBounds().left + startButton.getLocalBounds().width/2.0f, startButton.getLocalBounds().top + startButton.getLocalBounds().height/2.0f);
     startButton.setScale(0.05*gameWidth/startButton.getLocalBounds().width, 0.05*gameWidth/startButton.getLocalBounds().width);
-    startButton.setPosition(0.5*gameWidth, 0.5*gameHeight);
+    startButton.setPosition(0.5*gameWidth, 0.5*gameHeight);*/
 
     if(!playingFieldBackgroundText.loadFromFile("resources/playingFieldBackground.png"))
         throw "Cannot load playing field background";
@@ -39,7 +39,7 @@ void ScreenRenderer::draw(sf::RenderWindow& window, const GameState gameState)
         case GameState::StartScreen:
             window.draw(startBackground);
             window.draw(title);
-            window.draw(startButton);
+            //window.draw(startButton);
             //window.draw(quitButton);
             break;
         case GameState::Playing:

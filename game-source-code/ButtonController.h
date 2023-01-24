@@ -3,12 +3,14 @@
 
 #include "Button.h"
 #include "GameState.h"
+#include "Drawable.h"
 
-class ButtonController
+class ButtonController : public Drawable
 {
     public:
         ButtonController(const float gameWidth, const float gameHeight);
         void checkButtonClicks(const sf::Event& event, sf::RenderWindow& window, GameState& gameState);
+        virtual void draw(sf::RenderWindow& window, const GameState gameState) override;
 
     private:
         void startGame(GameState& gameState) { gameState = GameState::Playing; }

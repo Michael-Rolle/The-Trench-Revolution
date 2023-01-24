@@ -10,13 +10,13 @@ class ScreenRenderer : public Drawable//Renders the background image as well as 
     public:
         ScreenRenderer(const float gameWidth, const float gameHeight);
         virtual void draw(sf::RenderWindow& window, const GameState gameState) override;
-        sf::FloatRect startButtonCoordinates() { return startButton.getGlobalBounds(); }
+        //sf::FloatRect startButtonCoordinates() { return startButton.getGlobalBounds(); }
 
     private:
         sf::Font font;
         sf::Text title;
-        sf::Texture startButtonText;
-        sf::Sprite startButton;
+        //sf::Texture startButtonText;
+        //sf::Sprite startButton;
         sf::Texture quitButtonText;
         sf::Sprite quitButton;
         sf::Texture startBackgroundText;

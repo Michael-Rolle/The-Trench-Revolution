@@ -6,6 +6,7 @@
 #include "GameState.h"
 #include "Drawable.h"
 #include "Unit.h"
+#include "ButtonController.h"
 #include <memory>
 #include <vector>
 
@@ -31,6 +32,7 @@ class GameManager
         const unsigned short frameRate = 60;
         GameState gameState;
         shared_ptr<ScreenRenderer> screenRenderer;
+        shared_ptr<ButtonController> buttonController;
         vector<shared_ptr<Drawable>> drawableObjects;
         vector<shared_ptr<Unit>> friendlyUnits;
         vector<shared_ptr<Unit>> enemyUnits;

@@ -4,7 +4,8 @@ Button::Button(sf::Texture* texture, sf::IntRect positionDetails):
     buttonRect{positionDetails}
 {
     buttonSprite.setTexture(*texture);
-    buttonSprite.setTextureRect(positionDetails);
+    buttonSprite.setScale(positionDetails.width/buttonSprite.getGlobalBounds().width, positionDetails.height/buttonSprite.getGlobalBounds().height);
+    buttonSprite.setPosition(positionDetails.left, positionDetails.top);
 }
 
 bool Button::checkClicked(const sf::Event& event, sf::RenderWindow& window)
@@ -17,4 +18,9 @@ bool Button::checkClicked(const sf::Event& event, sf::RenderWindow& window)
             return true;
     }
     return false;
+}
+
+void Button::draw(sf::RenderWindow& window, const GameState gameState)
+{
+    window.draw(buttonSprite);
 }

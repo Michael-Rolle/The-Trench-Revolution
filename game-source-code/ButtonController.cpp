@@ -25,3 +25,21 @@ void ButtonController::checkButtonClicks(const sf::Event& event, sf::RenderWindo
         }
     }
 }
+
+void ButtonController::draw(sf::RenderWindow& window, const GameState gameState)
+{
+    switch(gameState)
+    {
+        case GameState::StartScreen:
+            startButton.draw(window, gameState);
+            break;
+        case GameState::Playing:
+            //
+            break;
+        case GameState::EndScreen:
+            //
+            break;
+        default:
+            throw "Invalid game state";
+    }
+}
