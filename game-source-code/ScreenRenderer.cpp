@@ -22,8 +22,8 @@ ScreenRenderer::ScreenRenderer(const float gameWidth, const float gameHeight)
     if(!startButtonText.loadFromFile("resources/startButton.png"))
         throw "Cannot load start button image";
     startButton.setTexture(startButtonText);
-    startButton.setScale(0.05*gameWidth/startButton.getGlobalBounds().width, 0.05*gameHeight/startButton.getGlobalBounds().height);
-    startButton.setOrigin(startButton.getGlobalBounds().left + startButton.getGlobalBounds().width/2.0f, startButton.getGlobalBounds().top + startButton.getGlobalBounds().height/2.0f);
+    startButton.setOrigin(startButton.getLocalBounds().left + startButton.getLocalBounds().width/2.0f, startButton.getLocalBounds().top + startButton.getLocalBounds().height/2.0f);
+    startButton.setScale(0.05*gameWidth/startButton.getLocalBounds().width, 0.05*gameWidth/startButton.getLocalBounds().width);
     startButton.setPosition(0.5*gameWidth, 0.5*gameHeight);
 
     if(!playingFieldBackgroundText.loadFromFile("resources/playingFieldBackground.png"))

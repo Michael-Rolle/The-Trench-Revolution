@@ -3,6 +3,7 @@
 #include "GameState.h"
 #include <memory>
 #include <vector>
+#include <string>
 
 using namespace std;
 
@@ -37,10 +38,10 @@ int main(){
             }
             if(event.type == sf::Event::MouseButtonPressed && event.mouseButton.button == sf::Mouse::Left)
             {
-                auto buttonRect = screenRenderer->startButtonCoordinates();
-                auto mouseX = (float)sf::Mouse::getPosition().x;
-                auto mouseY = (float)sf::Mouse::getPosition().y;
-                if((mouseX - buttonRect.left <= buttonRect.width) && (mouseX - buttonRect.left > 0) && (mouseY - buttonRect.top  <= buttonRect.height) && (mouseY - buttonRect.top  > 0))
+                auto buttonRect = make_unique<sf::FloatRect>(screenRenderer->startButtonCoordinates());
+                auto mouseX = make_unique<float>(sf::Mouse::getPosition(window).x);
+                auto mouseY = make_unique<float>(sf::Mouse::getPosition(window).y);
+                if((*mouseX - buttonRect->left <= buttonRect->width) && (*mouseX - buttonRect->left > 0) && (*mouseY - buttonRect->top  <= buttonRect->height) && (*mouseY - buttonRect->top  > 0))
                     gameState = GameState::Playing;
             }
         }
