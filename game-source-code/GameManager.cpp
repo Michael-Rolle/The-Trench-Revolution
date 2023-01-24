@@ -1,7 +1,7 @@
 #include "GameManager.h"
 
 GameManager::GameManager():
-    window{sf::VideoMode(1280, 720), "The Trench Revoltion"},
+    window{sf::VideoMode(1920.0f, 1080.0f), "The Trench Revoltion"},
     gameState{GameState::StartScreen},
     screenRenderer{make_shared<ScreenRenderer>(gameWidth, gameHeight)},
     drawableObjects{ screenRenderer },
