@@ -7,7 +7,7 @@ Button::Button(sf::Texture* texture, sf::IntRect positionDetails):
     buttonSprite.setTextureRect(positionDetails);
 }
 
-bool Button::checkClicked(sf::Event& event, sf::RenderWindow& window)
+bool Button::checkClicked(const sf::Event& event, sf::RenderWindow& window)
 {
     if(event.type == sf::Event::MouseButtonPressed && event.mouseButton.button == sf::Mouse::Left)
     {
