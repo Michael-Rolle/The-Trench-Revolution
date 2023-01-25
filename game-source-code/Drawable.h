@@ -2,6 +2,7 @@
 #define DRAWABLE_H
 
 #include "GameState.h"
+#include <SFML/Graphics.hpp>
 
 class Drawable //Abstract Base Class for drawable objects
 {
