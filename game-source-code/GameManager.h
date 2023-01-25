@@ -8,6 +8,7 @@
 #include "Unit.h"
 #include "ButtonController.h"
 #include "UnitController.h"
+#include "Money.h"
 #include <memory>
 #include <vector>
 
@@ -36,6 +37,7 @@ class GameManager
         shared_ptr<ScreenRenderer> screenRenderer;
         shared_ptr<ButtonController> buttonController;
         shared_ptr<UnitController> unitController;
+        shared_ptr<Money> money;
         vector<shared_ptr<Drawable>> drawableObjects;
 };
 

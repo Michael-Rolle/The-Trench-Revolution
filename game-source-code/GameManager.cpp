@@ -6,7 +6,8 @@ GameManager::GameManager():
     screenRenderer{make_shared<ScreenRenderer>(gameWidth, gameHeight)},
     buttonController{make_shared<ButtonController>(gameWidth, gameHeight)},
     unitController{make_shared<UnitController>()},
-    drawableObjects{ screenRenderer, unitController, buttonController }
+    money{make_shared<Money>(gameWidth, gameHeight)},
+    drawableObjects{ screenRenderer, unitController, buttonController, money }
 {
     //Window
     window.setView(sf::View(sf::FloatRect(0.0f, 0.0f, gameWidth, gameHeight)));
@@ -40,7 +41,11 @@ void GameManager::pollEvent()
 void GameManager::update()
 {
     if(gameState == GameState::Playing)
-        unitController->updateUnits(clock.restart().asSeconds(), gameWidth, gameHeight);
+    {
+        unitController->updateUnits(clock.getElapsedTime().asSeconds(), gameWidth, gameHeight);
+        money->update(clock.getElapsedTime().asSeconds());
+        clock.restart();
+    }
 }
 
 void GameManager::render()
