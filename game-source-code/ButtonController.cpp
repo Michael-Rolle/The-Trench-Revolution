@@ -23,7 +23,7 @@ ButtonController::ButtonController(const float gameWidth, const float gameHeight
     riflemanButton = Button{&riflemanButtonText, sf::IntRect{left, top, width, height}};
 }
 
-void ButtonController::checkButtonClicks(const sf::Event& event, sf::RenderWindow& window, GameState& gameState, vector<shared_ptr<Unit>>& units, vector<shared_ptr<Drawable>>& drawableObjects, const float gameWidth, const float gameHeight)
+void ButtonController::checkButtonClicks(const sf::Event& event, sf::RenderWindow& window, GameState& gameState, shared_ptr<UnitController> unitController, const float gameWidth, const float gameHeight)
 {
     if(gameState == GameState::StartScreen)
     {
@@ -37,15 +37,14 @@ void ButtonController::checkButtonClicks(const sf::Event& event, sf::RenderWindo
         if(riflemanButton.checkClicked(event, window, gameWidth, gameHeight))
         {
             auto unit = make_shared<Rifleman>(&riflemanText, gameWidth, gameHeight);
-            ButtonController::spawnFriendlyUnit(units, drawableObjects, unit);
+            ButtonController::spawnFriendlyUnit(unitController, unit);
         }
     }
 }
 
-void ButtonController::spawnFriendlyUnit(vector<shared_ptr<Unit>>& units, vector<shared_ptr<Drawable>>& drawableObjects, shared_ptr<Unit> unit)
+void ButtonController::spawnFriendlyUnit(shared_ptr<UnitController> unitController, shared_ptr<Unit> unit)
 {
-    units.push_back(unit);
-    drawableObjects.push_back(unit);
+    unitController->addFriendlyUnit(unit);
 }
 
 void ButtonController::draw(sf::RenderWindow& window, const GameState gameState)

@@ -5,9 +5,8 @@ GameManager::GameManager():
     gameState{GameState::StartScreen},
     screenRenderer{make_shared<ScreenRenderer>(gameWidth, gameHeight)},
     buttonController{make_shared<ButtonController>(gameWidth, gameHeight)},
-    drawableObjects{ screenRenderer, buttonController },
-    friendlyUnits{},
-    enemyUnits{}
+    unitController{make_shared<UnitController>()},
+    drawableObjects{ screenRenderer, unitController, buttonController }
 {
     //Window
     window.setView(sf::View(sf::FloatRect(0.0f, 0.0f, gameWidth, gameHeight)));
@@ -34,7 +33,7 @@ void GameManager::pollEvent()
             window.close();
             break;
         }
-        buttonController->checkButtonClicks(*event, window, gameState, friendlyUnits, drawableObjects, gameWidth, gameHeight);
+        buttonController->checkButtonClicks(*event, window, gameState, unitController, gameWidth, gameHeight);
     }
 }
 
@@ -61,4 +60,9 @@ void GameManager::resetGame()
 void GameManager::draw(shared_ptr<Drawable> drawable)
 {
     drawable->draw(window, gameState);
+}
+
+void sortVec(vector<shared_ptr<Unit>>& units)
+{
+
 }

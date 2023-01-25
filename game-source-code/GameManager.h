@@ -7,6 +7,7 @@
 #include "Drawable.h"
 #include "Unit.h"
 #include "ButtonController.h"
+#include "UnitController.h"
 #include <memory>
 #include <vector>
 
@@ -33,9 +34,10 @@ class GameManager
         GameState gameState;
         shared_ptr<ScreenRenderer> screenRenderer;
         shared_ptr<ButtonController> buttonController;
+        shared_ptr<UnitController> unitController;
         vector<shared_ptr<Drawable>> drawableObjects;
-        vector<shared_ptr<Unit>> friendlyUnits;
-        vector<shared_ptr<Unit>> enemyUnits;
+        //vector<shared_ptr<Unit>> friendlyUnits;
+        //vector<shared_ptr<Unit>> enemyUnits;
 };
 
 #endif // GAMEMANAGER_H

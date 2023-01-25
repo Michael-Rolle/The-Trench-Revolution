@@ -3,6 +3,7 @@
 Unit::Unit(sf::Texture* texture)
 {
     unitSprite.setTexture(*texture);
+    row = 1+rand()%3; //Random number between 1 and 3
 }
 
 void Unit::draw(sf::RenderWindow& window, const GameState gameState)
