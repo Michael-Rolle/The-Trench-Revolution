@@ -39,7 +39,7 @@ void GameManager::pollEvent()
 
 void GameManager::update()
 {
-
+    unitController->updateUnits(clock.restart().asSeconds(), gameWidth);
 }
 
 void GameManager::render()
