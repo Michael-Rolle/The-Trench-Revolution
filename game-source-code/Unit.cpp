@@ -1,11 +1,15 @@
 #include "Unit.h"
 
-Unit::Unit(sf::Texture* texture)
+Unit::Unit(sf::Texture* texture, bool friendly)
 {
     unitSprite.setTexture(*texture);
     row = 1+rand()%3; //Random number between 1 and 3
-    blockNum = 1;
+    if(friendly)
+        blockNum = 1;
+    else
+        blockNum = 100;
     alive = true;
+    this->friendly = friendly;
 }
 
 void Unit::draw(sf::RenderWindow& window, const GameState gameState)

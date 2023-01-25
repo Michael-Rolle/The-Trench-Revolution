@@ -8,7 +8,7 @@
 class Unit : public Drawable //Abstract Base Class, use pointer or reference for derived classes
 {
     public:
-        Unit(sf::Texture* texture); //Scaling of sprite left for derived classes
+        Unit(sf::Texture* texture, bool friendly); //Scaling of sprite left for derived classes
         virtual void draw(sf::RenderWindow& window, const GameState gameState) override;
         virtual void fire() = 0; //Checks to see if closest enemy is in range and shoots
         virtual void reload() = 0; //Checks to see if magazine is empty and reloads
@@ -20,6 +20,7 @@ class Unit : public Drawable //Abstract Base Class, use pointer or reference for
         int row; //will either be in row 1, 2, or 3
         int blockNum;
         bool alive;
+        bool friendly;
 
         bool operator < (const Unit& unit) const
         {

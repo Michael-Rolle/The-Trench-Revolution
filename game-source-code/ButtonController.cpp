@@ -36,7 +36,7 @@ void ButtonController::checkButtonClicks(const sf::Event& event, sf::RenderWindo
     {
         if(riflemanButton.checkClicked(event, window, gameWidth, gameHeight))
         {
-            auto unit = make_shared<Rifleman>(&riflemanText, gameWidth, gameHeight);
+            auto unit = make_shared<Rifleman>(&riflemanText, gameWidth, gameHeight, true);
             ButtonController::spawnFriendlyUnit(unitController, unit);
         }
     }

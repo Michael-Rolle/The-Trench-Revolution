@@ -39,7 +39,8 @@ void GameManager::pollEvent()
 
 void GameManager::update()
 {
-    unitController->updateUnits(clock.restart().asSeconds(), gameWidth);
+    if(gameState == GameState::Playing)
+        unitController->updateUnits(clock.restart().asSeconds(), gameWidth, gameHeight);
 }
 
 void GameManager::render()
@@ -60,9 +61,4 @@ void GameManager::resetGame()
 void GameManager::draw(shared_ptr<Drawable> drawable)
 {
     drawable->draw(window, gameState);
-}
-
-void sortVec(vector<shared_ptr<Unit>>& units)
-{
-
 }
