@@ -10,6 +10,8 @@ Unit::Unit(sf::Texture* texture, bool friendly)
         blockNum = 100;
     alive = true;
     this->friendly = friendly;
+    canAdvance = true;
+    reloading = false;
 }
 
 void Unit::draw(sf::RenderWindow& window, const GameState gameState)

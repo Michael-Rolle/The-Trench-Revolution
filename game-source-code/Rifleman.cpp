@@ -20,8 +20,60 @@ Rifleman::Rifleman(sf::Texture* texture, const float gameWidth, const float game
 
 void Rifleman::advance(const float deltaTime)
 {
-    if(this->friendly)
-        unitSprite.move(sf::Vector2f(this->speed * deltaTime, 0));
-    else
-        unitSprite.move(sf::Vector2f(-this->speed * deltaTime, 0));
+    if(this->canAdvance)
+    {
+        if(this->friendly)
+            unitSprite.move(sf::Vector2f(this->speed * deltaTime, 0));
+        else
+            unitSprite.move(sf::Vector2f(-this->speed * deltaTime, 0));
+    }
+}
+
+void Rifleman::fire(vector<shared_ptr<Unit>> enemyUnits)
+{
+    for(auto& enemy : enemyUnits)
+    {
+        if(abs(enemy->blockNum - this->blockNum) <= this->range)
+        {
+            this->stop();
+            if(this->reloading == false)
+            {
+                if((1+rand()%100) <= this->accuracy)
+                    enemy->takeDamage(this->damage);
+                this->reloading = true;
+            }
+            return;
+        }
+    }
+    this->canAdvance = true;
+}
+
+void Rifleman::takeDamage(float damageAmount)
+{
+    this->health -= damageAmount;
+    if(health <= 0)
+        this->die();
+}
+
+void Rifleman::die()
+{
+    this->health = 0;
+    this->alive = false;
+}
+
+void Rifleman::reload(const float deltaTime)
+{
+    if(reloadTime <= 0)
+    {
+        reloadTime = 3;
+        return;
+    }
+    reloadTime -= deltaTime;
+    if(reloadTime <= 0)
+        this->reloading = false;
+}
+
+void Rifleman::stop()
+{
+    canAdvance = false;
 }

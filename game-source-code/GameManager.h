@@ -37,8 +37,6 @@ class GameManager
         shared_ptr<ButtonController> buttonController;
         shared_ptr<UnitController> unitController;
         vector<shared_ptr<Drawable>> drawableObjects;
-        //vector<shared_ptr<Unit>> friendlyUnits;
-        //vector<shared_ptr<Unit>> enemyUnits;
 };
 
 #endif // GAMEMANAGER_H
