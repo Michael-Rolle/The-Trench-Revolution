@@ -20,25 +20,25 @@ void Unit::draw(sf::RenderWindow& window, const GameState gameState)
     window.draw(unitSprite);
 }
 
-void Unit::updateAnimation(AnimationMode animationMode, const float deltaTime)
+void Unit::updateAnimation(AnimationMode animationMode, sf::Texture* texture, const float deltaTime)
 {
     switch(animationMode)
     {
         case AnimationMode::Idle:
-            unitSprite.setTexture(idleText);
-            animation.update(&idleText, AnimationMode::Idle, deltaTime, this->friendly);
+            unitSprite.setTexture(*texture);
+            animation.update(texture, AnimationMode::Idle, deltaTime, this->friendly);
             break;
         case AnimationMode::Run:
-            unitSprite.setTexture(runText);
-            animation.update(&runText, AnimationMode::Run, deltaTime, this->friendly);
+            unitSprite.setTexture(*texture);
+            animation.update(texture, AnimationMode::Run, deltaTime, this->friendly);
             break;
         case AnimationMode::Shoot:
-            unitSprite.setTexture(shootText);
-            animation.update(&shootText, AnimationMode::Shoot, deltaTime, this->friendly);
+            unitSprite.setTexture(*texture);
+            animation.update(texture, AnimationMode::Shoot, deltaTime, this->friendly);
             break;
         case AnimationMode::Die:
-            unitSprite.setTexture(dieText);
-            animation.update(&dieText, AnimationMode::Die, deltaTime, this->friendly);
+            unitSprite.setTexture(*texture);
+            animation.update(texture, AnimationMode::Die, deltaTime, this->friendly);
             break;
         default:
             throw "Invalid animation mode";

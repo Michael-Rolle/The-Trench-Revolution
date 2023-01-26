@@ -5,7 +5,13 @@ UnitController::UnitController(): \
     enemyUnits{}
 {
     totalTime = 0;
-    if(!enemyRiflemanText.loadFromFile("resources/Rifleman/Idle.png"))
+    if(!riflemanIdle.loadFromFile("resources/Rifleman/Idle.png"))
+        throw "Cannot load texture";
+    if(!riflemanRun.loadFromFile("resources/Rifleman/Run.png"))
+        throw "Cannot load texture";
+    if(!riflemanShoot.loadFromFile("resources/Rifleman/Shoot.png"))
+        throw "Cannot load texture";
+    if(!riflemanDie.loadFromFile("resources/Rifleman/Die.png"))
         throw "Cannot load texture";
 }
 
@@ -26,7 +32,10 @@ void UnitController::updateUnits(const float deltaTime, shared_ptr<Money> money,
     totalTime += deltaTime;
     for(auto& unit : friendlyUnits)
     {
-        unit->updateAnimation(AnimationMode::Run, deltaTime);
+        if(unit->blockNum < 70)
+            unit->updateAnimation(AnimationMode::Run, &riflemanRun, deltaTime);
+        else
+            unit->updateAnimation(AnimationMode::Shoot, &riflemanShoot, deltaTime);
         if(unit->reloading)
             unit->reload(deltaTime);
         if(unit->getPositionX() < (0.01*gameWidth)*unit->blockNum)
@@ -51,12 +60,12 @@ void UnitController::updateUnits(const float deltaTime, shared_ptr<Money> money,
     if(totalTime > 5+(rand()%10))
     {
         totalTime = 0;
-        UnitController::addEnemyUnit(make_shared<Rifleman>(&enemyRiflemanText, gameWidth, gameHeight, 10, 0.1, false));
+        UnitController::addEnemyUnit(make_shared<Rifleman>(&riflemanIdle, gameWidth, gameHeight, 10, 0.1, false));
     }
 
     for(auto& unit: enemyUnits)
     {
-        unit->updateAnimation(AnimationMode::Run, deltaTime);
+        unit->updateAnimation(AnimationMode::Run, &riflemanRun, deltaTime);
         if(unit->reloading)
             unit->reload(deltaTime);
         if(unit->getPositionX() > (0.01*gameWidth)*unit->blockNum)

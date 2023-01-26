@@ -23,7 +23,10 @@ class UnitController : public Drawable
 
     private:
         float totalTime;
-        sf::Texture enemyRiflemanText;
+        sf::Texture riflemanIdle;
+        sf::Texture riflemanRun;
+        sf::Texture riflemanShoot;
+        sf::Texture riflemanDie;
         vector<shared_ptr<Unit>> friendlyUnits;
         vector<shared_ptr<Unit>> enemyUnits;
 };

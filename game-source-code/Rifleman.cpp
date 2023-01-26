@@ -19,14 +19,14 @@ Rifleman::Rifleman(sf::Texture* texture, const float gameWidth, const float game
     this->cost = 50;
 
     //Textures
-    if(!this->idleText.loadFromFile("resources/Rifleman/Idle.png"))
+    /*if(!this->idleText.loadFromFile("resources/Rifleman/Idle.png"))
         throw "Cannot load texture";
     if(!this->runText.loadFromFile("resources/Rifleman/Run.png"))
         throw "Cannot load texture";
     if(!this->shootText.loadFromFile("resources/Rifleman/Shoot.png"))
         throw "Cannot load texture";
     if(!this->dieText.loadFromFile("resources/Rifleman/Die.png"))
-        throw "Cannot load texture";
+        throw "Cannot load texture";*/
 }
 
 void Rifleman::advance(const float deltaTime)

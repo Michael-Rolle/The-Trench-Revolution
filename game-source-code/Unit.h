@@ -23,7 +23,7 @@ class Unit : public Drawable //Abstract Base Class, use pointer or reference for
         virtual void stop() = 0; //Stops the unit from advancing
         virtual void takeDamage(float damageAmount) = 0;
         float getPositionX() { return unitSprite.getPosition().x; }
-        void updateAnimation(AnimationMode animationMode, const float deltaTime);
+        void updateAnimation(AnimationMode animationMode, sf::Texture* texture, const float deltaTime);
         int row; //will either be in row 1, 2, or 3
         int blockNum;
         int cost;
@@ -40,10 +40,10 @@ class Unit : public Drawable //Abstract Base Class, use pointer or reference for
         virtual ~Unit(){} // virtual desstructor, defaults to doing nothing
 
     protected:
-        sf::Texture idleText;
-        sf::Texture runText;
-        sf::Texture shootText;
-        sf::Texture dieText;
+        //sf::Texture idleText;
+        //sf::Texture runText;
+        //sf::Texture shootText;
+        //sf::Texture dieText;
         sf::Sprite unitSprite;
         Animation animation;
 };
