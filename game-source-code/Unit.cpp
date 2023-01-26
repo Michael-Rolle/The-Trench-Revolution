@@ -4,7 +4,7 @@ Unit::Unit(sf::Texture* texture, unsigned int frameCount, float switchTime, bool
     animation{texture, frameCount, switchTime}
 {
     unitSprite.setTexture(*texture);
-    row = 1+rand()%3; //Random number between 1 and 3
+    row = 1+rand()%10; //Random number between 1 and 10
     if(friendly)
         blockNum = 1;
     else

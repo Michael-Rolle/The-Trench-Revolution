@@ -24,7 +24,7 @@ class Unit : public Drawable //Abstract Base Class, use pointer or reference for
         virtual void takeDamage(float damageAmount) = 0;
         float getPositionX() { return unitSprite.getPosition().x; }
         void updateAnimation(AnimationMode animationMode, sf::Texture* texture, const float deltaTime);
-        int row; //will either be in row 1, 2, or 3
+        int row; //rows 1-10
         int blockNum;
         int cost;
         bool alive;

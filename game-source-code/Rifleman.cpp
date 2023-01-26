@@ -7,7 +7,7 @@ Rifleman::Rifleman(sf::Texture* texture, const float gameWidth, const float game
     //unitSprite.setScale(0.06*gameWidth/unitSprite.getGlobalBounds().width, 0.06*gameWidth/unitSprite.getGlobalBounds().height);
     //unitSprite.setOrigin(unitSprite.getGlobalBounds().left + 0.5*unitSprite.getGlobalBounds().width, unitSprite.getGlobalBounds().top + 0.5*unitSprite.getGlobalBounds().height);
     if(friendly)
-        unitSprite.setPosition(0, (0.65+0.08*(row-1))*gameHeight);
+        unitSprite.setPosition(0, (0.65+0.024*(row-1))*gameHeight);
     else
         unitSprite.setPosition(gameWidth, (0.65+0.08*(row-1))*gameHeight);
     this->health = 100;
