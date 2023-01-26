@@ -21,7 +21,7 @@ void Unit::draw(sf::RenderWindow& window, const GameState gameState)
     window.draw(unitSprite);
 }
 
-void Unit::updateAnimation(vector<shared_ptr<sf::Texture>> textures, const float deltaTime)
+void Unit::updateAnimation(const vector<shared_ptr<sf::Texture>>& textures, const float deltaTime)
 {
     switch(this->animationMode)
     {

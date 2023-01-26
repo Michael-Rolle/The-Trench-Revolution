@@ -24,7 +24,7 @@ class Unit : public Drawable //Abstract Base Class, use pointer or reference for
         virtual void stop() = 0; //Stops the unit from advancing
         virtual void takeDamage(float damageAmount) = 0;
         float getPositionX() { return unitSprite.getPosition().x; }
-        void updateAnimation(vector<shared_ptr<sf::Texture>> textures, const float deltaTime);
+        void updateAnimation(const vector<shared_ptr<sf::Texture>>& textures, const float deltaTime);
         int row; //rows 1-10
         int blockNum;
         int cost;

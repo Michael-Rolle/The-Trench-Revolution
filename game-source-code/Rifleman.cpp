@@ -34,6 +34,7 @@ void Rifleman::advance(const float deltaTime)
 {
     if(this->canAdvance)
     {
+        this->animationMode = AnimationMode::Run;
         if(this->friendly)
             unitSprite.move(sf::Vector2f(this->speed * deltaTime, 0));
         else
@@ -50,6 +51,7 @@ void Rifleman::fire(vector<shared_ptr<Unit>> enemyUnits)
             this->stop();
             if(this->reloading == false)
             {
+                this->animationMode = AnimationMode::Shoot;
                 if((1+rand()%100) <= this->accuracy)
                     enemy->takeDamage(this->damage);
                 this->reloading = true;
@@ -69,6 +71,7 @@ void Rifleman::takeDamage(float damageAmount)
 
 void Rifleman::die()
 {
+    this->animationMode = AnimationMode::Die;
     this->health = 0;
     this->alive = false;
 }
@@ -88,4 +91,5 @@ void Rifleman::reload(const float deltaTime)
 void Rifleman::stop()
 {
     canAdvance = false;
+    this->animationMode = AnimationMode::Idle;
 }

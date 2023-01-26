@@ -42,10 +42,15 @@ void UnitController::updateUnits(const float deltaTime, shared_ptr<Money> money,
     totalTime += deltaTime;
     for(auto& unit : friendlyUnits)
     {
-        if(unit->blockNum < 70)
-            unit->updateAnimation(riflemanTextures, deltaTime);
-        else
-            unit->updateAnimation(riflemanTextures, deltaTime);
+        switch(unit->unitType)
+        {
+            case UnitType::Rifleman:
+                unit->updateAnimation(riflemanTextures, deltaTime);
+                break;
+            default:
+                throw "Invalid unit type";
+        }
+
         if(unit->reloading)
             unit->reload(deltaTime);
         if(unit->getPositionX() < (0.01*gameWidth)*unit->blockNum)
