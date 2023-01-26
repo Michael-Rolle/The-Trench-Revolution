@@ -5,9 +5,9 @@ ButtonController::ButtonController(const float gameWidth, const float gameHeight
     //Load textures
     if(!startButtonText.loadFromFile("resources/startButton.png"))
         throw "Cannot laod texture";
-    if(!riflemanButtonText.loadFromFile("resources/Soldier-Guy-PNG/_Mode-Gun/01-Idle/E_E_Gun__Idle_000.png"))
+    if(!riflemanButtonText.loadFromFile("resources/Rifleman/Icon.png"))
         throw "Cannot load texture";
-    if(!riflemanText.loadFromFile("resources/Soldier-Guy-PNG/_Mode-Gun/01-Idle/E_E_Gun__Idle_000.png"))
+    if(!riflemanText.loadFromFile("resources/Rifleman/Idle.png"))
         throw "Cannot load texture";
 
     //Determine button positions
@@ -34,9 +34,9 @@ void ButtonController::checkButtonClicks(const sf::Event& event, sf::RenderWindo
     }
     else if(gameState == GameState::Playing)
     {
-        if(riflemanButton.checkClicked(event, window, gameWidth, gameHeight))
+        if(riflemanButton.checkClicked(event, window, gameWidth, gameHeight) && money->getMoney() >= 50)
         {
-            auto unit = make_shared<Rifleman>(&riflemanText, gameWidth, gameHeight, true);
+            auto unit = make_shared<Rifleman>(&riflemanText, gameWidth, gameHeight, 10, 0.1, true);
             ButtonController::spawnFriendlyUnit(unitController, unit, money);
         }
     }

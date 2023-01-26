@@ -5,7 +5,7 @@ UnitController::UnitController(): \
     enemyUnits{}
 {
     totalTime = 0;
-    if(!enemyRiflemanText.loadFromFile("resources/Soldier-Guy-PNG/_Mode-Gun/01-Idle/E_E_Gun__Idle_000.png"))
+    if(!enemyRiflemanText.loadFromFile("resources/Rifleman/Idle.png"))
         throw "Cannot load texture";
 }
 
@@ -26,6 +26,7 @@ void UnitController::updateUnits(const float deltaTime, shared_ptr<Money> money,
     totalTime += deltaTime;
     for(auto& unit : friendlyUnits)
     {
+        unit->updateAnimation(AnimationMode::Run, deltaTime);
         if(unit->reloading)
             unit->reload(deltaTime);
         if(unit->getPositionX() < (0.01*gameWidth)*unit->blockNum)
@@ -50,11 +51,12 @@ void UnitController::updateUnits(const float deltaTime, shared_ptr<Money> money,
     if(totalTime > 5+(rand()%10))
     {
         totalTime = 0;
-        UnitController::addEnemyUnit(make_shared<Rifleman>(&enemyRiflemanText, gameWidth, gameHeight, false));
+        UnitController::addEnemyUnit(make_shared<Rifleman>(&enemyRiflemanText, gameWidth, gameHeight, 10, 0.1, false));
     }
 
     for(auto& unit: enemyUnits)
     {
+        unit->updateAnimation(AnimationMode::Run, deltaTime);
         if(unit->reloading)
             unit->reload(deltaTime);
         if(unit->getPositionX() > (0.01*gameWidth)*unit->blockNum)

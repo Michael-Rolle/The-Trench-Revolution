@@ -1,11 +1,11 @@
 #include "Rifleman.h"
 #include <cstdlib>
 
-Rifleman::Rifleman(sf::Texture* texture, const float gameWidth, const float gameHeight, bool friendly):
-    Unit{texture, friendly}
+Rifleman::Rifleman(sf::Texture* texture, const float gameWidth, const float gameHeight, unsigned int frameCount, float switchTime, bool friendly):
+    Unit{texture, frameCount, switchTime, friendly}
 {
-    unitSprite.setScale(0.06*gameWidth/unitSprite.getGlobalBounds().width, 0.06*gameWidth/unitSprite.getGlobalBounds().height);
-    unitSprite.setOrigin(unitSprite.getGlobalBounds().left + 0.5*unitSprite.getGlobalBounds().width, unitSprite.getGlobalBounds().top + 0.5*unitSprite.getGlobalBounds().height);
+    //unitSprite.setScale(0.06*gameWidth/unitSprite.getGlobalBounds().width, 0.06*gameWidth/unitSprite.getGlobalBounds().height);
+    //unitSprite.setOrigin(unitSprite.getGlobalBounds().left + 0.5*unitSprite.getGlobalBounds().width, unitSprite.getGlobalBounds().top + 0.5*unitSprite.getGlobalBounds().height);
     if(friendly)
         unitSprite.setPosition(0, (0.65+0.08*(row-1))*gameHeight);
     else
@@ -17,6 +17,16 @@ Rifleman::Rifleman(sf::Texture* texture, const float gameWidth, const float game
     this->speed = 100;
     this->reloadTime = 3;
     this->cost = 50;
+
+    //Textures
+    if(!this->idleText.loadFromFile("resources/Rifleman/Idle.png"))
+        throw "Cannot load texture";
+    if(!this->runText.loadFromFile("resources/Rifleman/Run.png"))
+        throw "Cannot load texture";
+    if(!this->shootText.loadFromFile("resources/Rifleman/Shoot.png"))
+        throw "Cannot load texture";
+    if(!this->dieText.loadFromFile("resources/Rifleman/Die.png"))
+        throw "Cannot load texture";
 }
 
 void Rifleman::advance(const float deltaTime)

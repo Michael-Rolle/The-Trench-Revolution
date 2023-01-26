@@ -8,19 +8,19 @@ Animation::Animation(sf::Texture* texture, unsigned int frameCount, float switch
     totalTime = 0.0f;
     currentFrame = 0;
 
-    previousTexture = *texture;
+    prevAnimationMode = AnimationMode::Idle;
 
     textRect.width = texture->getSize().x / float(frameCount);
     textRect.height = texture->getSize().y;
     textRect.top = 0;
 }
 
-void Animation::update(sf::Texture* texture, float deltaTime, bool facingRight)
+void Animation::update(sf::Texture* texture, AnimationMode animationMode, float deltaTime, bool facingRight)
 {
-    if(texture->getNativeHandle() != previousTexture.getNativeHandle())
+    if(animationMode != prevAnimationMode)
     {
         currentFrame = 0;
-        previousTexture = *texture;
+        prevAnimationMode = animationMode;
         textRect.width = texture->getSize().x/float(frameCount);
         textRect.height = texture->getSize().y;
     }

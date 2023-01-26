@@ -5,6 +5,7 @@
 #include "Drawable.h"
 #include "Rifleman.h"
 #include "Money.h"
+#include "AnimationMode.h"
 #include <vector>
 #include <memory>
 #include <algorithm>
