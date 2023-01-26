@@ -4,6 +4,7 @@
 #include "Drawable.h"
 #include "Animation.h"
 #include "AnimationMode.h"
+#include "UnitType.h"
 #include <SFML/Graphics.hpp>
 #include <cstdlib>
 #include <vector>
@@ -14,7 +15,7 @@ using namespace std;
 class Unit : public Drawable //Abstract Base Class, use pointer or reference for derived classes
 {
     public:
-        Unit(sf::Texture* texture, unsigned int frameCount, float switchTime, bool friendly); //Scaling of sprite left for derived classes
+        Unit(shared_ptr<sf::Texture> texture, unsigned int frameCount, float switchTime, bool friendly); //Scaling of sprite left for derived classes
         virtual void draw(sf::RenderWindow& window, const GameState gameState) override;
         virtual void fire(vector<shared_ptr<Unit>> enemyUnits) = 0; //Checks to see if closest enemy is in range and shoots
         virtual void reload(const float deltaTime) = 0; //Checks to see if magazine is empty and reloads
@@ -23,7 +24,7 @@ class Unit : public Drawable //Abstract Base Class, use pointer or reference for
         virtual void stop() = 0; //Stops the unit from advancing
         virtual void takeDamage(float damageAmount) = 0;
         float getPositionX() { return unitSprite.getPosition().x; }
-        void updateAnimation(AnimationMode animationMode, sf::Texture* texture, const float deltaTime);
+        void updateAnimation(vector<shared_ptr<sf::Texture>> textures, const float deltaTime);
         int row; //rows 1-10
         int blockNum;
         int cost;
@@ -31,6 +32,8 @@ class Unit : public Drawable //Abstract Base Class, use pointer or reference for
         bool friendly;
         bool canAdvance;
         bool reloading;
+        AnimationMode animationMode;
+        UnitType unitType;
 
         //bool operator < (const Unit& unit) const
         //{

@@ -1,6 +1,6 @@
 #include "Button.h"
 
-Button::Button(sf::Texture* texture, sf::IntRect positionDetails):
+Button::Button(shared_ptr<sf::Texture> texture, sf::IntRect positionDetails):
     buttonRect{positionDetails}
 {
     buttonSprite.setTexture(*texture);

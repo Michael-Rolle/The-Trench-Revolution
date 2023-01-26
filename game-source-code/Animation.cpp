@@ -1,7 +1,7 @@
 #include "Animation.h"
 #include <cmath>
 
-Animation::Animation(sf::Texture* texture, unsigned int frameCount, float switchTime)
+Animation::Animation(shared_ptr<sf::Texture> texture, unsigned int frameCount, float switchTime)
 {
     this->frameCount = frameCount;
     this->switchTime = switchTime;
@@ -15,7 +15,7 @@ Animation::Animation(sf::Texture* texture, unsigned int frameCount, float switch
     textRect.top = 0;
 }
 
-void Animation::update(sf::Texture* texture, AnimationMode animationMode, float deltaTime, bool facingRight)
+void Animation::update(shared_ptr<sf::Texture> texture, AnimationMode animationMode, float deltaTime, bool facingRight)
 {
     if(animationMode != prevAnimationMode)
     {

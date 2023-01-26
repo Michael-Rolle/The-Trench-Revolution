@@ -3,13 +3,16 @@
 
 #include <SFML/Graphics.hpp>
 #include "AnimationMode.h"
+#include <memory>
+
+using namespace std;
 
 class Animation
 {
     public:
-        Animation(sf::Texture* texture, unsigned int frameCount, float switchTime);
+        Animation(shared_ptr<sf::Texture> texture, unsigned int frameCount, float switchTime);
         Animation(){}
-        void update(sf::Texture* texture, AnimationMode animationMode, float deltaTime, bool facingRight);
+        void update(shared_ptr<sf::Texture> texture, AnimationMode animationMode, float deltaTime, bool facingRight);
         sf::IntRect textRect;
 
     private:

@@ -1,7 +1,7 @@
 #include "Rifleman.h"
 #include <cstdlib>
 
-Rifleman::Rifleman(sf::Texture* texture, const float gameWidth, const float gameHeight, unsigned int frameCount, float switchTime, bool friendly):
+Rifleman::Rifleman(shared_ptr<sf::Texture> texture, const float gameWidth, const float gameHeight, unsigned int frameCount, float switchTime, bool friendly):
     Unit{texture, frameCount, switchTime, friendly}
 {
     //unitSprite.setScale(0.06*gameWidth/unitSprite.getGlobalBounds().width, 0.06*gameWidth/unitSprite.getGlobalBounds().height);
@@ -17,6 +17,7 @@ Rifleman::Rifleman(sf::Texture* texture, const float gameWidth, const float game
     this->speed = 100;
     this->reloadTime = 3;
     this->cost = 50;
+    this->unitType = UnitType::Rifleman;
 
     //Textures
     /*if(!this->idleText.loadFromFile("resources/Rifleman/Idle.png"))

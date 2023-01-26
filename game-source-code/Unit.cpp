@@ -1,18 +1,19 @@
 #include "Unit.h"
 
-Unit::Unit(sf::Texture* texture, unsigned int frameCount, float switchTime, bool friendly):
+Unit::Unit(shared_ptr<sf::Texture> texture, unsigned int frameCount, float switchTime, bool friendly):
     animation{texture, frameCount, switchTime}
 {
     unitSprite.setTexture(*texture);
-    row = 1+rand()%10; //Random number between 1 and 10
+    this->row = 1+rand()%10; //Random number between 1 and 10
     if(friendly)
         blockNum = 1;
     else
         blockNum = 100;
-    alive = true;
+    this->alive = true;
     this->friendly = friendly;
-    canAdvance = true;
-    reloading = false;
+    this->canAdvance = true;
+    this->reloading = false;
+    this->animationMode = AnimationMode::Idle;
 }
 
 void Unit::draw(sf::RenderWindow& window, const GameState gameState)
@@ -20,25 +21,25 @@ void Unit::draw(sf::RenderWindow& window, const GameState gameState)
     window.draw(unitSprite);
 }
 
-void Unit::updateAnimation(AnimationMode animationMode, sf::Texture* texture, const float deltaTime)
+void Unit::updateAnimation(vector<shared_ptr<sf::Texture>> textures, const float deltaTime)
 {
-    switch(animationMode)
+    switch(this->animationMode)
     {
         case AnimationMode::Idle:
-            unitSprite.setTexture(*texture);
-            animation.update(texture, AnimationMode::Idle, deltaTime, this->friendly);
+            unitSprite.setTexture(*textures.at(0));
+            animation.update(textures.at(0), AnimationMode::Idle, deltaTime, this->friendly);
             break;
         case AnimationMode::Run:
-            unitSprite.setTexture(*texture);
-            animation.update(texture, AnimationMode::Run, deltaTime, this->friendly);
+            unitSprite.setTexture(*textures.at(1));
+            animation.update(textures.at(1), AnimationMode::Run, deltaTime, this->friendly);
             break;
         case AnimationMode::Shoot:
-            unitSprite.setTexture(*texture);
-            animation.update(texture, AnimationMode::Shoot, deltaTime, this->friendly);
+            unitSprite.setTexture(*textures.at(2));
+            animation.update(textures.at(2), AnimationMode::Shoot, deltaTime, this->friendly);
             break;
         case AnimationMode::Die:
-            unitSprite.setTexture(*texture);
-            animation.update(texture, AnimationMode::Die, deltaTime, this->friendly);
+            unitSprite.setTexture(*textures.at(3));
+            animation.update(textures.at(3), AnimationMode::Die, deltaTime, this->friendly);
             break;
         default:
             throw "Invalid animation mode";
