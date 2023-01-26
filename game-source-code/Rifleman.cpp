@@ -46,6 +46,8 @@ void Rifleman::fire(vector<shared_ptr<Unit>> enemyUnits)
 {
     for(auto& enemy : enemyUnits)
     {
+        if(enemy->dying)
+            continue;
         if(abs(enemy->blockNum - this->blockNum) <= this->range)
         {
             this->stop();
@@ -74,6 +76,7 @@ void Rifleman::die()
     this->animationMode = AnimationMode::Die;
     this->health = 0;
     this->alive = false;
+    this->dying = true;
 }
 
 void Rifleman::reload(const float deltaTime)
@@ -91,5 +94,4 @@ void Rifleman::reload(const float deltaTime)
 void Rifleman::stop()
 {
     canAdvance = false;
-    this->animationMode = AnimationMode::Idle;
 }

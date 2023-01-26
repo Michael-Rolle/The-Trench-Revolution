@@ -12,7 +12,7 @@ class Animation
     public:
         Animation(shared_ptr<sf::Texture> texture, unsigned int frameCount, float switchTime);
         Animation(){}
-        void update(shared_ptr<sf::Texture> texture, AnimationMode animationMode, float deltaTime, bool facingRight);
+        void update(shared_ptr<sf::Texture> texture, AnimationMode animationMode, bool& dying, float deltaTime, bool facingRight);
         sf::IntRect textRect;
 
     private:

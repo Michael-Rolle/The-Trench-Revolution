@@ -13,6 +13,8 @@ Unit::Unit(shared_ptr<sf::Texture> texture, unsigned int frameCount, float switc
     this->friendly = friendly;
     this->canAdvance = true;
     this->reloading = false;
+    this->shooting = false;
+    this->dying = false;
     this->animationMode = AnimationMode::Idle;
 }
 
@@ -27,19 +29,19 @@ void Unit::updateAnimation(const vector<shared_ptr<sf::Texture>>& textures, cons
     {
         case AnimationMode::Idle:
             unitSprite.setTexture(*textures.at(0));
-            animation.update(textures.at(0), AnimationMode::Idle, deltaTime, this->friendly);
+            animation.update(textures.at(0), AnimationMode::Idle, this->dying, deltaTime, this->friendly);
             break;
         case AnimationMode::Run:
             unitSprite.setTexture(*textures.at(1));
-            animation.update(textures.at(1), AnimationMode::Run, deltaTime, this->friendly);
+            animation.update(textures.at(1), AnimationMode::Run, this->dying, deltaTime, this->friendly);
             break;
         case AnimationMode::Shoot:
             unitSprite.setTexture(*textures.at(2));
-            animation.update(textures.at(2), AnimationMode::Shoot, deltaTime, this->friendly);
+            animation.update(textures.at(2), AnimationMode::Shoot, this->dying, deltaTime, this->friendly);
             break;
         case AnimationMode::Die:
             unitSprite.setTexture(*textures.at(3));
-            animation.update(textures.at(3), AnimationMode::Die, deltaTime, this->friendly);
+            animation.update(textures.at(3), AnimationMode::Die, this->dying, deltaTime, this->friendly);
             break;
         default:
             throw "Invalid animation mode";

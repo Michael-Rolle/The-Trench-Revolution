@@ -32,6 +32,8 @@ class Unit : public Drawable //Abstract Base Class, use pointer or reference for
         bool friendly;
         bool canAdvance;
         bool reloading;
+        bool shooting;
+        bool dying;
         AnimationMode animationMode;
         UnitType unitType;
 

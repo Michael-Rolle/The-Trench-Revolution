@@ -50,26 +50,27 @@ void UnitController::updateUnits(const float deltaTime, shared_ptr<Money> money,
             default:
                 throw "Invalid unit type";
         }
-
-        if(unit->reloading)
-            unit->reload(deltaTime);
-        if(unit->getPositionX() < (0.01*gameWidth)*unit->blockNum)
+        if(unit->alive && !unit->dying)
         {
-            unit->advance(deltaTime);
+            if(unit->reloading)
+                unit->reload(deltaTime);
+            if(unit->getPositionX() < (0.01*gameWidth)*unit->blockNum)
+            {
+                unit->advance(deltaTime);
+            }
+            else//Check for enemies in range
+            {
+                if(unit->blockNum < 70)
+                    unit->blockNum++;
+            }
+            unit->fire(enemyUnits);
         }
-        else//Check for enemies in range
-        {
-            if(unit->blockNum < 70)
-                unit->blockNum++;
-        }
-        unit->fire(enemyUnits);
-        if(!unit->alive)
+        else if(!unit->alive && !unit->dying)
         {
             std::remove(friendlyUnits.begin(), friendlyUnits.end(), unit);
             friendlyUnits.erase(friendlyUnits.end());
             break;
         }
-
     }
 
     if(totalTime > 5+(rand()%10))
@@ -80,27 +81,36 @@ void UnitController::updateUnits(const float deltaTime, shared_ptr<Money> money,
 
     for(auto& unit: enemyUnits)
     {
-        unit->updateAnimation(riflemanTextures, deltaTime);
-        if(unit->reloading)
-            unit->reload(deltaTime);
-        if(unit->getPositionX() > (0.01*gameWidth)*unit->blockNum)
+        switch(unit->unitType)
         {
-            unit->advance(deltaTime);
+            case UnitType::Rifleman:
+                unit->updateAnimation(riflemanTextures, deltaTime);
+                break;
+            default:
+                throw "Invalid unit type";
         }
-        else
+        if(unit->alive && !unit->dying)
         {
-            if(unit->blockNum > 10)
-                unit->blockNum--;
+            if(unit->reloading)
+                unit->reload(deltaTime);
+            if(unit->getPositionX() > (0.01*gameWidth)*unit->blockNum)
+            {
+                unit->advance(deltaTime);
+            }
+            else
+            {
+                if(unit->blockNum > 10)
+                    unit->blockNum--;
+            }
+            unit->fire(friendlyUnits);
         }
-        unit->fire(friendlyUnits);
-        if(!unit->alive)
+        else if(!unit->alive && !unit->dying)
         {
             money->add((int)unit->cost/2);
             std::remove(enemyUnits.begin(), enemyUnits.end(), unit);
             enemyUnits.erase(enemyUnits.end());
             break;
         }
-
     }
 }
 
