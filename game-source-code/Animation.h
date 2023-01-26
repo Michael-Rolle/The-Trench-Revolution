@@ -5,14 +5,15 @@
 class Animation
 {
     public:
-        Animation(sf::Texture* texture, sf::Vector2u frameCount, float switchTime);
+        Animation(sf::Texture* texture, unsigned int frameCount, float switchTime);
         Animation(){}
-        void update(int row, float deltaTime, bool facingRight);
+        void update(sf::Texture* texture, float deltaTime, bool facingRight);
         sf::IntRect textRect;
 
     private:
-        sf::Vector2u frameCount;
-        sf::Vector2u currentFrame;
+        unsigned int frameCount;
+        unsigned int currentFrame;
+        sf::Texture previousTexture;
         float totalTime; //time since last changed frame
         float switchTime; //time between switching frames
 };

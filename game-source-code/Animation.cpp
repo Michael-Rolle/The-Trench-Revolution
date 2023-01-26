@@ -1,45 +1,51 @@
 #include "Animation.h"
 #include <cmath>
 
-Animation::Animation(sf::Texture* texture, sf::Vector2u frameCount, float switchTime)
+Animation::Animation(sf::Texture* texture, unsigned int frameCount, float switchTime)
 {
     this->frameCount = frameCount;
     this->switchTime = switchTime;
     totalTime = 0.0f;
-    currentFrame.x = 0;
+    currentFrame = 0;
 
-    textRect.width = texture->getSize().x / float(frameCount.x);
-    textRect.height = texture->getSize().y / float(frameCount.y);
+    previousTexture = *texture;
+
+    textRect.width = texture->getSize().x / float(frameCount);
+    textRect.height = texture->getSize().y;
+    textRect.top = 0;
 }
 
-void Animation::update(int row, float deltaTime, bool facingRight)
+void Animation::update(sf::Texture* texture, float deltaTime, bool facingRight)
 {
-    currentFrame.y = row;
+    if(texture->getNativeHandle() != previousTexture.getNativeHandle())
+    {
+        currentFrame = 0;
+        previousTexture = *texture;
+        textRect.width = texture->getSize().x/float(frameCount);
+        textRect.height = texture->getSize().y;
+    }
+
     totalTime += deltaTime;
 
     if(totalTime >= switchTime)
     {
         totalTime -= switchTime;
-        currentFrame.x++;
+        currentFrame++;
 
-        if(currentFrame.x >= frameCount.x)
+        if(currentFrame >= frameCount)
         {
-            currentFrame.x = 0;
+            currentFrame = 0;
         }
     }
 
-
-    textRect.top = currentFrame.y * textRect.height;
-
     if(facingRight)
     {
-        textRect.left = currentFrame.x * textRect.width;
+        textRect.left = currentFrame * textRect.width;
         textRect.width = abs(textRect.width);
     }
     else //flips row of animation to face the other direction
     {
-        textRect.left = (currentFrame.x + 1) * abs(textRect.width);
+        textRect.left = (currentFrame + 1) * abs(textRect.width);
         textRect.width = -abs(textRect.width);
     }
-
 }
