@@ -9,7 +9,7 @@ Rifleman::Rifleman(sf::Texture* texture, const float gameWidth, const float game
     if(friendly)
         unitSprite.setPosition(0, (0.65+0.024*(row-1))*gameHeight);
     else
-        unitSprite.setPosition(gameWidth, (0.65+0.08*(row-1))*gameHeight);
+        unitSprite.setPosition(gameWidth, (0.65+0.024*(row-1))*gameHeight);
     this->health = 100;
     this->damage = 100;
     this->range = 10;

@@ -15,16 +15,24 @@ UnitController::UnitController(): \
         throw "Cannot load texture";
 }
 
+struct sortUnit
+{
+    inline bool operator() (const shared_ptr<Unit>& unit1, const shared_ptr<Unit>& unit2)
+    {
+        return (unit1->row < unit2->row);
+    }
+};
+
 void UnitController::addFriendlyUnit(shared_ptr<Unit> unit)
 {
     friendlyUnits.push_back(unit);
-    sort(friendlyUnits.begin(), friendlyUnits.end()); //sorts them based on the row they're in
+    sort(friendlyUnits.begin(), friendlyUnits.end(), sortUnit()); //sorts them based on the row they're in
 }
 
 void UnitController::addEnemyUnit(shared_ptr<Unit> unit)
 {
     enemyUnits.push_back(unit);
-    sort(enemyUnits.begin(), enemyUnits.end());
+    sort(enemyUnits.begin(), enemyUnits.end(), sortUnit());
 }
 
 void UnitController::updateUnits(const float deltaTime, shared_ptr<Money> money, const float gameWidth, const float gameHeight)

@@ -32,10 +32,10 @@ class Unit : public Drawable //Abstract Base Class, use pointer or reference for
         bool canAdvance;
         bool reloading;
 
-        bool operator < (const Unit& unit) const
-        {
-            return (row < unit.row);
-        }
+        //bool operator < (const Unit& unit) const
+        //{
+        //    return (this->row < unit.row);
+        //}
 
         virtual ~Unit(){} // virtual desstructor, defaults to doing nothing
 
