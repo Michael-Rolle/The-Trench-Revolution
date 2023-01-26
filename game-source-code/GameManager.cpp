@@ -34,7 +34,7 @@ void GameManager::pollEvent()
             window.close();
             break;
         }
-        buttonController->checkButtonClicks(*event, window, gameState, unitController, gameWidth, gameHeight);
+        buttonController->checkButtonClicks(*event, window, gameState, unitController, money, gameWidth, gameHeight);
     }
 }
 
@@ -42,7 +42,7 @@ void GameManager::update()
 {
     if(gameState == GameState::Playing)
     {
-        unitController->updateUnits(clock.getElapsedTime().asSeconds(), gameWidth, gameHeight);
+        unitController->updateUnits(clock.getElapsedTime().asSeconds(), money, gameWidth, gameHeight);
         money->update(clock.getElapsedTime().asSeconds());
         clock.restart();
     }

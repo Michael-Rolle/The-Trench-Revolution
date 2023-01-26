@@ -16,6 +16,7 @@ Rifleman::Rifleman(sf::Texture* texture, const float gameWidth, const float game
     this->accuracy = 50;
     this->speed = 100;
     this->reloadTime = 3;
+    this->cost = 50;
 }
 
 void Rifleman::advance(const float deltaTime)

@@ -21,7 +21,7 @@ void UnitController::addEnemyUnit(shared_ptr<Unit> unit)
     sort(enemyUnits.begin(), enemyUnits.end());
 }
 
-void UnitController::updateUnits(const float deltaTime, const float gameWidth, const float gameHeight)
+void UnitController::updateUnits(const float deltaTime, shared_ptr<Money> money, const float gameWidth, const float gameHeight)
 {
     totalTime += deltaTime;
     for(auto& unit : friendlyUnits)
@@ -69,6 +69,7 @@ void UnitController::updateUnits(const float deltaTime, const float gameWidth, c
         unit->fire(friendlyUnits);
         if(!unit->alive)
         {
+            money->add((int)unit->cost/2);
             std::remove(enemyUnits.begin(), enemyUnits.end(), unit);
             enemyUnits.erase(enemyUnits.end());
             break;

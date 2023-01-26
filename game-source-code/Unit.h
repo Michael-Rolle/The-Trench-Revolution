@@ -23,6 +23,7 @@ class Unit : public Drawable //Abstract Base Class, use pointer or reference for
         float getPositionX() { return unitSprite.getPosition().x; }
         int row; //will either be in row 1, 2, or 3
         int blockNum;
+        int cost;
         bool alive;
         bool friendly;
         bool canAdvance;

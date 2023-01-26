@@ -7,6 +7,7 @@
 #include "Unit.h"
 #include "Rifleman.h"
 #include "UnitController.h"
+#include "Money.h"
 #include <vector>
 #include <memory>
 
@@ -16,12 +17,12 @@ class ButtonController : public Drawable
 {
     public:
         ButtonController(const float gameWidth, const float gameHeight);
-        void checkButtonClicks(const sf::Event& event, sf::RenderWindow& window, GameState& gameState, shared_ptr<UnitController> unitController, const float gameWidth, const float gameHeight);
+        void checkButtonClicks(const sf::Event& event, sf::RenderWindow& window, GameState& gameState, shared_ptr<UnitController> unitController, shared_ptr<Money> money, const float gameWidth, const float gameHeight);
         virtual void draw(sf::RenderWindow& window, const GameState gameState) override;
 
     private:
         void startGame(GameState& gameState) { gameState = GameState::Playing; }
-        void spawnFriendlyUnit(shared_ptr<UnitController> unitController, shared_ptr<Unit> unit);
+        void spawnFriendlyUnit(shared_ptr<UnitController> unitController, shared_ptr<Unit> unit, shared_ptr<Money> money);
 
     private:
         sf::Texture startButtonText;
