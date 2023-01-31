@@ -4,8 +4,6 @@
 Rifleman::Rifleman(shared_ptr<sf::Texture> texture, const float gameWidth, const float gameHeight, unsigned int frameCount, float switchTime, bool friendly):
     Unit{texture, frameCount, switchTime, friendly}
 {
-    //unitSprite.setScale(0.06*gameWidth/unitSprite.getGlobalBounds().width, 0.06*gameWidth/unitSprite.getGlobalBounds().height);
-    //unitSprite.setOrigin(unitSprite.getGlobalBounds().left + 0.5*unitSprite.getGlobalBounds().width, unitSprite.getGlobalBounds().top + 0.5*unitSprite.getGlobalBounds().height);
     if(friendly)
         unitSprite.setPosition(0, (0.65+0.024*(row-1))*gameHeight);
     else
@@ -18,21 +16,11 @@ Rifleman::Rifleman(shared_ptr<sf::Texture> texture, const float gameWidth, const
     this->reloadTime = 3;
     this->cost = 50;
     this->unitType = UnitType::Rifleman;
-
-    //Textures
-    /*if(!this->idleText.loadFromFile("resources/Rifleman/Idle.png"))
-        throw "Cannot load texture";
-    if(!this->runText.loadFromFile("resources/Rifleman/Run.png"))
-        throw "Cannot load texture";
-    if(!this->shootText.loadFromFile("resources/Rifleman/Shoot.png"))
-        throw "Cannot load texture";
-    if(!this->dieText.loadFromFile("resources/Rifleman/Die.png"))
-        throw "Cannot load texture";*/
 }
 
 void Rifleman::advance(const float deltaTime)
 {
-    if(this->canAdvance)
+    if(this->canAdvance && !this->shooting)
     {
         this->animationMode = AnimationMode::Run;
         if(this->friendly)
@@ -50,24 +38,33 @@ void Rifleman::fire(vector<shared_ptr<Unit>> enemyUnits)
             continue;
         if(abs(enemy->blockNum - this->blockNum) <= this->range)
         {
-            this->stop();
-            if(this->reloading == false)
+            if(!this->shooting)
+                this->stop();
+            if(!this->reloading)
             {
                 this->animationMode = AnimationMode::Shoot;
-                if((1+rand()%100) <= this->accuracy)
-                    enemy->takeDamage(this->damage);
-                this->reloading = true;
+                this->shooting = true;
+                if(this->canShoot) //Set to true at the correct spot in the animation
+                {
+                    if((1+rand()%100) <= this->accuracy)
+                        enemy->takeDamage(this->damage);
+                    this->reloading = true;
+                    this->canShoot = false;
+                }
             }
             return;
         }
     }
-    this->canAdvance = true;
+    if(!this->shooting) //not shooting and no enemies in range
+    {
+        this->canAdvance = true;
+    }
 }
 
 void Rifleman::takeDamage(float damageAmount)
 {
     this->health -= damageAmount;
-    if(health <= 0)
+    if(this->health <= 0)
         this->die();
 }
 
@@ -81,17 +78,18 @@ void Rifleman::die()
 
 void Rifleman::reload(const float deltaTime)
 {
-    if(reloadTime <= 0)
+    if(this->reloadTime <= 0)
     {
-        reloadTime = 3;
+        this->reloadTime = 3;
         return;
     }
-    reloadTime -= deltaTime;
+    this->reloadTime -= deltaTime;
     if(reloadTime <= 0)
         this->reloading = false;
 }
 
 void Rifleman::stop()
 {
-    canAdvance = false;
+    this->canAdvance = false;
+    this->animationMode = AnimationMode::Idle;
 }

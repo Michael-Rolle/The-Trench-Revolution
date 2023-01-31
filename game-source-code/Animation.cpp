@@ -15,7 +15,7 @@ Animation::Animation(shared_ptr<sf::Texture> texture, unsigned int frameCount, f
     textRect.top = 0;
 }
 
-void Animation::update(shared_ptr<sf::Texture> texture, AnimationMode animationMode, bool& dying, float deltaTime, bool facingRight)
+void Animation::update(shared_ptr<sf::Texture> texture, AnimationMode animationMode, bool& shooting, bool& dying, bool& canShoot, float deltaTime, bool facingRight)
 {
     if(animationMode != prevAnimationMode)
     {
@@ -31,6 +31,18 @@ void Animation::update(shared_ptr<sf::Texture> texture, AnimationMode animationM
     {
         totalTime -= switchTime;
         currentFrame++;
+
+        if(animationMode == AnimationMode::Shoot)
+        {
+            shooting = true;
+            if(currentFrame == 2)
+                canShoot = true;
+            if(currentFrame >= frameCount)
+            {
+                shooting = false;
+                currentFrame = 0;
+            }
+        }
 
         if(currentFrame >= frameCount)
         {
