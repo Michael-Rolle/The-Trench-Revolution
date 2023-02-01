@@ -58,6 +58,7 @@ void UnitController::updateUnits(const float deltaTime, shared_ptr<Money> money,
                 unit->updateAnimation(riflemanTextures, deltaTime);
                 break;
             case UnitType::Base:
+                unit->updateAnimation(baseTextures, deltaTime);
                 break;
             default:
                 throw "Invalid unit type";
@@ -99,6 +100,7 @@ void UnitController::updateUnits(const float deltaTime, shared_ptr<Money> money,
                 unit->updateAnimation(riflemanTextures, deltaTime);
                 break;
             case UnitType::Base:
+                unit->updateAnimation(baseTextures, deltaTime);
                 break;
             default:
                 throw "Invalid unit type";
