@@ -6,7 +6,7 @@ Unit::Unit(shared_ptr<sf::Texture> texture, unsigned int frameCount, float switc
     animation{texture, frameCount, switchTime}
 {
     unitSprite.setTexture(*texture);
-    this->row = 1+rand()%10; //Random number between 1 and 10
+    this->row = 1+rand()%50; //Random number between 1 and 50
     if(friendly)
         blockNum = 1;
     else

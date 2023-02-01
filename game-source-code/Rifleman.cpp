@@ -8,9 +8,9 @@ Rifleman::Rifleman(shared_ptr<sf::Texture> texture, const float gameWidth, const
     Unit{texture, frameCount, switchTime, friendly}
 {
     if(friendly)
-        unitSprite.setPosition(0, (0.72+0.024*(row-1))*gameHeight);
+        unitSprite.setPosition(0, (0.72+0.0048*(row-1))*gameHeight);
     else
-        unitSprite.setPosition(gameWidth, (0.72+0.024*(row-1))*gameHeight);
+        unitSprite.setPosition(gameWidth, (0.72+0.0048*(row-1))*gameHeight);
     this->health = 100;
     this->maxHealth = 100;
     this->damage = 50;
