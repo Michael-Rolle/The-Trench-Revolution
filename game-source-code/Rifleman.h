@@ -21,14 +21,6 @@ class Rifleman : public Unit
         static float spawnTime; //time you have to wait between spawning units
 
         virtual ~Rifleman(){}
-
-    private:
-        float health;
-        float damage;
-        int range; //Range out of 100 blocks
-        float accuracy; //Percentage chance of hitting a shot
-        float speed; //Blocks per minute
-        float reloadTime; //Time it takes before being able to fire again
 };
 
 #endif // RIFLEMAN_H

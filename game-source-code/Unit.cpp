@@ -1,6 +1,8 @@
 #include "Unit.h"
 
 Unit::Unit(shared_ptr<sf::Texture> texture, unsigned int frameCount, float switchTime, bool friendly):
+    greenHealthBar{sf::Vector2f{0.3, 0.03}},
+    redHealthBar{sf::Vector2f{0.3, 0.03}},
     animation{texture, frameCount, switchTime}
 {
     unitSprite.setTexture(*texture);
@@ -17,11 +19,18 @@ Unit::Unit(shared_ptr<sf::Texture> texture, unsigned int frameCount, float switc
     this->shooting = false;
     this->dying = false;
     this->animationMode = AnimationMode::Idle;
+
+    this->greenHealthBar.setFillColor(sf::Color::Green);
+    this->greenHealthBar.setOrigin(this->greenHealthBar.getLocalBounds().width*0.5f, this->greenHealthBar.getLocalBounds().height*0.5f);
+    this->redHealthBar.setFillColor(sf::Color::Red);
+    this->redHealthBar.setOrigin(this->redHealthBar.getLocalBounds().width*0.5f, this->redHealthBar.getLocalBounds().height*0.5f);
 }
 
 void Unit::draw(sf::RenderWindow& window, const GameState gameState)
 {
     window.draw(unitSprite);
+    window.draw(redHealthBar);
+    window.draw(greenHealthBar);
 }
 
 void Unit::updateAnimation(const vector<shared_ptr<sf::Texture>>& textures, const float deltaTime)
@@ -50,4 +59,10 @@ void Unit::updateAnimation(const vector<shared_ptr<sf::Texture>>& textures, cons
     unitSprite.setTextureRect(animation.textRect);
     unitSprite.setScale(0.03*1920.0f/unitSprite.getLocalBounds().width, 0.03*1920.0f/unitSprite.getLocalBounds().height);
     unitSprite.setOrigin(unitSprite.getLocalBounds().left + 0.5*unitSprite.getLocalBounds().width, unitSprite.getLocalBounds().top + 0.5*unitSprite.getLocalBounds().height);
+
+    greenHealthBar.setScale(0.03*1920.0f/greenHealthBar.getLocalBounds().width, 0.003*1920.0f/greenHealthBar.getLocalBounds().height);
+    greenHealthBar.setPosition(unitSprite.getPosition().x, unitSprite.getPosition().y - 0.7*unitSprite.getGlobalBounds().height);
+    greenHealthBar.setTextureRect(sf::IntRect{greenHealthBar.getGlobalBounds().left, greenHealthBar.getGlobalBounds().top, (float)((float)this->health/(float)this->maxHealth)*greenHealthBar.getGlobalBounds().width, greenHealthBar.getGlobalBounds().height});
+    redHealthBar.setScale(0.03*1920.0f/greenHealthBar.getLocalBounds().width, 0.003*1920.0f/greenHealthBar.getLocalBounds().height);
+    redHealthBar.setPosition(unitSprite.getPosition().x, unitSprite.getPosition().y - 0.7*unitSprite.getGlobalBounds().height);
 }

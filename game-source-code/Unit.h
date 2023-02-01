@@ -38,10 +38,19 @@ class Unit : public Drawable //Abstract Base Class, use pointer or reference for
         AnimationMode animationMode;
         UnitType unitType;
 
-        virtual ~Unit(){} // virtual desstructor, defaults to doing nothing
+        virtual ~Unit(){} // virtual destructor, defaults to doing nothing
 
     protected:
+        float health;
+        float maxHealth;
+        float damage;
+        int range; //Range out of 100 blocks
+        float accuracy; //Percentage chance of hitting a shot
+        float speed; //Blocks per minute
+        float reloadTime;
         sf::Sprite unitSprite;
+        sf::RectangleShape greenHealthBar;
+        sf::RectangleShape redHealthBar;
         Animation animation;
 };
 
