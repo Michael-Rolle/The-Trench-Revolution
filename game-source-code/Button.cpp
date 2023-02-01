@@ -1,8 +1,6 @@
 #include "Button.h"
-#include <iostream>
 
-Button::Button(shared_ptr<sf::Texture> texture, sf::IntRect positionDetails):
-    buttonRect{positionDetails}
+Button::Button(shared_ptr<sf::Texture> texture, sf::IntRect positionDetails)
 {
     buttonSprite.setTexture(*texture);
     buttonSprite.setScale(positionDetails.width/buttonSprite.getGlobalBounds().width, positionDetails.height/buttonSprite.getGlobalBounds().height);
@@ -13,10 +11,10 @@ bool Button::checkClicked(const sf::Event& event, sf::RenderWindow& window, cons
 {
     if(event.type == sf::Event::MouseButtonPressed && event.mouseButton.button == sf::Mouse::Left)
     {
-        auto mouseX = sf::Mouse::getPosition(window).x*gameWidth/window.getSize().x;
-        auto mouseY = sf::Mouse::getPosition(window).y*gameHeight/window.getSize().y;
-        cout << "mouseX : " + to_string(mouseX) + "\nmouseY : " + to_string(mouseY) + "\nbuttonLeft : " + to_string(buttonRect.left) + "\nbuttonTop : " + to_string(buttonRect.top) << endl;
-        if((mouseX - buttonRect.left <= buttonRect.width) && (mouseX - buttonRect.left > 0) && (mouseY - buttonRect.top  <= buttonRect.height) && (mouseY - buttonRect.top  > 0))
+        auto mouseX = (window.getView().getCenter().x - 0.5f*window.getView().getSize().x) + sf::Mouse::getPosition(window).x*window.getView().getSize().x/window.getDefaultView().getSize().x;
+        auto mouseY = (window.getView().getCenter().y - 0.5f*window.getView().getSize().y) + sf::Mouse::getPosition(window).y*window.getView().getSize().y/window.getDefaultView().getSize().y;
+        auto bounds = buttonSprite.getGlobalBounds();
+        if((mouseX - bounds.left <= bounds.width) && (mouseX - bounds.left > 0) && (mouseY - bounds.top <= bounds.height) && (mouseY - bounds.top > 0))
             return true;
     }
     return false;
@@ -24,7 +22,7 @@ bool Button::checkClicked(const sf::Event& event, sf::RenderWindow& window, cons
 
 void Button::setPosition(const sf::Vector2f& coordinates)
 {
-    buttonSprite.setPosition(coordinates.x - 0.5*buttonSprite.getGlobalBounds().width, coordinates.y - 0.5*buttonSprite.getGlobalBounds().height);
+    buttonSprite.setPosition(coordinates.x - 0.5f*buttonSprite.getGlobalBounds().width, coordinates.y -0.5f*buttonSprite.getGlobalBounds().height);
 }
 
 void Button::draw(sf::RenderWindow& window, const GameState gameState)

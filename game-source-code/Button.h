@@ -17,7 +17,6 @@ class Button : public Drawable
         virtual void draw(sf::RenderWindow& window, const GameState gameState) override;
 
     private:
-        sf::IntRect buttonRect;
         sf::Sprite buttonSprite;
 };
 

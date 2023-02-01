@@ -7,14 +7,14 @@ Rifleman::Rifleman(shared_ptr<sf::Texture> texture, const float gameWidth, const
     Unit{texture, frameCount, switchTime, friendly}
 {
     if(friendly)
-        unitSprite.setPosition(0, (0.65+0.024*(row-1))*gameHeight);
+        unitSprite.setPosition(0, (0.72+0.024*(row-1))*gameHeight);
     else
-        unitSprite.setPosition(gameWidth, (0.65+0.024*(row-1))*gameHeight);
+        unitSprite.setPosition(gameWidth, (0.72+0.024*(row-1))*gameHeight);
     this->health = 100;
     this->damage = 100;
     this->range = 10;
     this->accuracy = 50;
-    this->speed = 100;
+    this->speed = 30;
     this->reloadTime = 3;
     this->cost = riflemanCost;
     this->unitType = UnitType::Rifleman;

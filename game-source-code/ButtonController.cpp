@@ -19,8 +19,8 @@ ButtonController::ButtonController(const float gameWidth, const float gameHeight
     int left = 0.5*gameWidth - 0.5*width;
     int top = 0.5*gameHeight - 0.5*height;
     startButton = Button{startButtonText, sf::IntRect{left, top, width, height}};
-    width = 0.05*gameWidth;
-    height = 0.0584*gameHeight;
+    width = 0.02*gameWidth;
+    height = 0.0234*gameHeight;
     left = 0.05*gameWidth  - 0.5*width;
     top = 0.95*gameHeight - 0.5*height;
     riflemanButton = Button{riflemanButtonText, sf::IntRect{left, top, width, height}};
@@ -33,7 +33,8 @@ void ButtonController::checkButtonClicks(const sf::Event& event, sf::RenderWindo
         if(startButton.checkClicked(event, window, gameWidth, gameHeight))
         {
             ButtonController::startGame(gameState);
-            window.setView(sf::View{sf::FloatRect{0.0f, 0.25f*gameHeight, 0.75f*gameWidth, 0.75f*gameHeight}});
+            auto scaleFactor = 0.4f;
+            window.setView(sf::View{sf::FloatRect{0.0f, 0.6f*gameHeight, scaleFactor*gameWidth, scaleFactor*gameHeight}});
             clock.restart();
         }
     }
