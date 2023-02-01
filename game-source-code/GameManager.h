@@ -35,7 +35,9 @@ class GameManager
         //const float gameWidth = 1920.0f;
         //const float gameHeight = 1080.0f;
         const unsigned short frameRate = 60;
+        float elapsedTransitionTime;
         sf::Clock clock;
+        sf::Clock scrollClock;
         GameState gameState;
         shared_ptr<ScreenRenderer> screenRenderer;
         shared_ptr<ButtonController> buttonController;

@@ -15,6 +15,8 @@ GameManager::GameManager():
     //Window
     window.setView(sf::View(sf::FloatRect(0.0f, 0.0f, gameWidth, gameHeight)));
     window.setFramerateLimit(frameRate);
+
+    this->elapsedTransitionTime = 0.1;
 }
 
 void GameManager::run() //Main game loop
@@ -39,19 +41,25 @@ void GameManager::pollEvent()
         }
         if(gameState == GameState::Playing)
         {
+            elapsedTransitionTime += scrollClock.getElapsedTime().asMilliseconds();
             if(sf::Keyboard::isKeyPressed(sf::Keyboard::A) || sf::Keyboard::isKeyPressed(sf::Keyboard::D))
             {
                 auto windowWidth = window.getView().getSize().x;
                 auto windowHeight = window.getView().getSize().y;
                 auto windowLeft = window.getView().getCenter().x - 0.5f*windowWidth;
                 auto windowTop = window.getView().getCenter().y - 0.5f*windowHeight;
-                if(sf::Keyboard::isKeyPressed(sf::Keyboard::D) && (windowLeft + windowWidth < gameWidth))
+                if(elapsedTransitionTime > 50)
                 {
-                    window.setView(sf::View{sf::FloatRect{windowLeft+0.1*clock.getElapsedTime().asSeconds()*gameWidth, windowTop, windowWidth, windowHeight}});
-                }
-                else if(sf::Keyboard::isKeyPressed(sf::Keyboard::A) && (windowLeft > 0.0f))
-                {
-                    window.setView(sf::View{sf::FloatRect{windowLeft-0.1*clock.getElapsedTime().asSeconds()*gameWidth, windowTop, windowWidth, windowHeight}});
+                    elapsedTransitionTime = 0;
+                    if(sf::Keyboard::isKeyPressed(sf::Keyboard::D) && (windowLeft + windowWidth < 0.999f*gameWidth))
+                    {
+                        window.setView(sf::View{sf::FloatRect{windowLeft+0.002f*gameWidth, windowTop, windowWidth, windowHeight}});
+                    }
+                    else if(sf::Keyboard::isKeyPressed(sf::Keyboard::A) && (windowLeft > 0.001f*gameWidth))
+                    {
+                        window.setView(sf::View{sf::FloatRect{windowLeft-0.002f*gameWidth, windowTop, windowWidth, windowHeight}});
+                    }
+                    scrollClock.restart();
                 }
             }
         }
