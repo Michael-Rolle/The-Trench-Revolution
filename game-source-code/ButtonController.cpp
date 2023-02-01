@@ -48,11 +48,25 @@ void ButtonController::checkButtonClicks(const sf::Event& event, sf::RenderWindo
     }
     else if(gameState == GameState::Playing)
     {
-        if(riflemanButton.checkClicked(event, window, gameWidth, gameHeight) && money->getMoney() >= Rifleman::riflemanCost)
+        if(riflemanButton.checkClicked(event, window, gameWidth, gameHeight) && money->getMoney() >= Rifleman::riflemanCost && Rifleman::spawnTime <= 0)
         {
+            Rifleman::spawnTime = 2; //2 second spawn time
+            riflemanPoints.setFillColor(sf::Color::Black);
             auto unit = make_shared<Rifleman>(riflemanText, gameWidth, gameHeight, 10, 0.1, true);
             ButtonController::spawnFriendlyUnit(unitController, unit, money);
         }
+    }
+}
+
+void ButtonController::changeIconPointColor(UnitType unitType, sf::Color color)
+{
+    switch(unitType)
+    {
+        case UnitType::Rifleman:
+            riflemanPoints.setFillColor(color);
+            break;
+        default:
+            throw "Invalid unit type";
     }
 }
 

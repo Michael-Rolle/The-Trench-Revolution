@@ -18,6 +18,7 @@ class Rifleman : public Unit
         virtual void takeDamage(float damageAmount) override;
 
         static int riflemanCost;
+        static float spawnTime; //time you have to wait between spawning units
 
         virtual ~Rifleman(){}
 

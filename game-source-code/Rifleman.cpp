@@ -2,6 +2,7 @@
 #include <cstdlib>
 
 int Rifleman::riflemanCost = 50;
+float Rifleman::spawnTime = 0.0f;
 
 Rifleman::Rifleman(shared_ptr<sf::Texture> texture, const float gameWidth, const float gameHeight, unsigned int frameCount, float switchTime, bool friendly):
     Unit{texture, frameCount, switchTime, friendly}

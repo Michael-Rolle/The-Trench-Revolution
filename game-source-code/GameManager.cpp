@@ -73,6 +73,14 @@ void GameManager::update()
     {
         unitController->updateUnits(clock.getElapsedTime().asSeconds(), money, gameWidth, gameHeight);
         money->update(clock.getElapsedTime().asSeconds());
+        if(Rifleman::spawnTime > 0.0f)
+        {
+            Rifleman::spawnTime -= clock.getElapsedTime().asSeconds();
+        }
+        else
+        {
+            buttonController->changeIconPointColor(UnitType::Rifleman, sf::Color::Yellow);
+        }
         clock.restart();
     }
 }
