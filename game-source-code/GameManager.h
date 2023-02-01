@@ -27,10 +27,13 @@ class GameManager
         void resetGame();
         void draw(shared_ptr<Drawable> drawable);
 
+    public:
+        static const float gameWidth;
+        static const float gameHeight;
     private:
         sf::RenderWindow window;
-        const float gameWidth = 1920.0f;
-        const float gameHeight = 1080.0f;
+        //const float gameWidth = 1920.0f;
+        //const float gameHeight = 1080.0f;
         const unsigned short frameRate = 60;
         sf::Clock clock;
         GameState gameState;

@@ -1,5 +1,8 @@
 #include "GameManager.h"
 
+const float GameManager::gameWidth = 1920.0f;
+const float GameManager::gameHeight = 1080.0f;
+
 GameManager::GameManager():
     window{sf::VideoMode(1280.0f, 720.0f), "The Trench Revoltion"},
     gameState{GameState::StartScreen},
@@ -33,6 +36,24 @@ void GameManager::pollEvent()
         {
             window.close();
             break;
+        }
+        if(gameState == GameState::Playing)
+        {
+            if(sf::Keyboard::isKeyPressed(sf::Keyboard::A) || sf::Keyboard::isKeyPressed(sf::Keyboard::D))
+            {
+                auto windowWidth = window.getView().getSize().x;
+                auto windowHeight = window.getView().getSize().y;
+                auto windowLeft = window.getView().getCenter().x - 0.5f*windowWidth;
+                auto windowTop = window.getView().getCenter().y - 0.5f*windowHeight;
+                if(sf::Keyboard::isKeyPressed(sf::Keyboard::D) && (windowLeft + windowWidth < gameWidth))
+                {
+                    window.setView(sf::View{sf::FloatRect{windowLeft+0.1*clock.getElapsedTime().asSeconds()*gameWidth, windowTop, windowWidth, windowHeight}});
+                }
+                else if(sf::Keyboard::isKeyPressed(sf::Keyboard::A) && (windowLeft > 0.0f))
+                {
+                    window.setView(sf::View{sf::FloatRect{windowLeft-0.1*clock.getElapsedTime().asSeconds()*gameWidth, windowTop, windowWidth, windowHeight}});
+                }
+            }
         }
         buttonController->checkButtonClicks(*event, window, clock, gameState, unitController, money, gameWidth, gameHeight);
     }

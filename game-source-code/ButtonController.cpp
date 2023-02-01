@@ -33,12 +33,13 @@ void ButtonController::checkButtonClicks(const sf::Event& event, sf::RenderWindo
         if(startButton.checkClicked(event, window, gameWidth, gameHeight))
         {
             ButtonController::startGame(gameState);
+            window.setView(sf::View{sf::FloatRect{0.0f, 0.25f*gameHeight, 0.75f*gameWidth, 0.75f*gameHeight}});
             clock.restart();
         }
     }
     else if(gameState == GameState::Playing)
     {
-        if(riflemanButton.checkClicked(event, window, gameWidth, gameHeight) && money->getMoney() >= 50)
+        if(riflemanButton.checkClicked(event, window, gameWidth, gameHeight) && money->getMoney() >= Rifleman::riflemanCost)
         {
             auto unit = make_shared<Rifleman>(riflemanText, gameWidth, gameHeight, 10, 0.1, true);
             ButtonController::spawnFriendlyUnit(unitController, unit, money);
@@ -60,9 +61,11 @@ void ButtonController::draw(sf::RenderWindow& window, const GameState gameState)
     switch(gameState)
     {
         case GameState::StartScreen:
+            startButton.setPosition(sf::Vector2f{0.5f*window.getView().getSize().x, 0.5f*window.getView().getSize().y});
             startButton.draw(window, gameState);
             break;
         case GameState::Playing:
+            riflemanButton.setPosition(sf::Vector2f{(window.getView().getCenter().x - 0.5f*window.getView().getSize().x) + 0.05f*window.getView().getSize().x, (window.getView().getCenter().y - 0.5f*window.getView().getSize().y) + 0.95f*window.getView().getSize().y});
             riflemanButton.draw(window, gameState);
             break;
         case GameState::EndScreen:

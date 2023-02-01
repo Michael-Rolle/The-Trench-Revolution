@@ -1,4 +1,5 @@
 #include "Button.h"
+#include <iostream>
 
 Button::Button(shared_ptr<sf::Texture> texture, sf::IntRect positionDetails):
     buttonRect{positionDetails}
@@ -14,10 +15,16 @@ bool Button::checkClicked(const sf::Event& event, sf::RenderWindow& window, cons
     {
         auto mouseX = sf::Mouse::getPosition(window).x*gameWidth/window.getSize().x;
         auto mouseY = sf::Mouse::getPosition(window).y*gameHeight/window.getSize().y;
+        cout << "mouseX : " + to_string(mouseX) + "\nmouseY : " + to_string(mouseY) + "\nbuttonLeft : " + to_string(buttonRect.left) + "\nbuttonTop : " + to_string(buttonRect.top) << endl;
         if((mouseX - buttonRect.left <= buttonRect.width) && (mouseX - buttonRect.left > 0) && (mouseY - buttonRect.top  <= buttonRect.height) && (mouseY - buttonRect.top  > 0))
             return true;
     }
     return false;
+}
+
+void Button::setPosition(const sf::Vector2f& coordinates)
+{
+    buttonSprite.setPosition(coordinates.x - 0.5*buttonSprite.getGlobalBounds().width, coordinates.y - 0.5*buttonSprite.getGlobalBounds().height);
 }
 
 void Button::draw(sf::RenderWindow& window, const GameState gameState)

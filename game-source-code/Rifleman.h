@@ -17,6 +17,8 @@ class Rifleman : public Unit
         virtual void stop() override; //Stops the unit from advancing
         virtual void takeDamage(float damageAmount) override;
 
+        static int riflemanCost;
+
         virtual ~Rifleman(){}
 
     private:

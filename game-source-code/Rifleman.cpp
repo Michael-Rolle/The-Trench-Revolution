@@ -1,6 +1,8 @@
 #include "Rifleman.h"
 #include <cstdlib>
 
+int Rifleman::riflemanCost = 50;
+
 Rifleman::Rifleman(shared_ptr<sf::Texture> texture, const float gameWidth, const float gameHeight, unsigned int frameCount, float switchTime, bool friendly):
     Unit{texture, frameCount, switchTime, friendly}
 {
@@ -14,7 +16,7 @@ Rifleman::Rifleman(shared_ptr<sf::Texture> texture, const float gameWidth, const
     this->accuracy = 50;
     this->speed = 100;
     this->reloadTime = 3;
-    this->cost = 50;
+    this->cost = riflemanCost;
     this->unitType = UnitType::Rifleman;
 }
 
