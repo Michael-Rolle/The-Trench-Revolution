@@ -13,7 +13,7 @@ Rifleman::Rifleman(shared_ptr<sf::Texture> texture, const float gameWidth, const
         unitSprite.setPosition(gameWidth, (0.72+0.024*(row-1))*gameHeight);
     this->health = 100;
     this->maxHealth = 100;
-    this->damage = 100;
+    this->damage = 50;
     this->range = 10;
     this->accuracy = 50;
     this->speed = 30;
