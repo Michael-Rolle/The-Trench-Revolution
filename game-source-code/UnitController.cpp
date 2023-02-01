@@ -2,6 +2,7 @@
 
 UnitController::UnitController():
     riflemanTextures{ make_shared<sf::Texture>(), make_shared<sf::Texture>(), make_shared<sf::Texture>(), make_shared<sf::Texture>() },
+    baseTextures{ make_shared<sf::Texture>(), make_shared<sf::Texture>() },
     friendlyUnits{},
     enemyUnits{}
 {
@@ -15,6 +16,15 @@ UnitController::UnitController():
         throw "Cannot load texture";
     if(!riflemanTextures.at(3)->loadFromFile("resources/Rifleman/Die.png"))
         throw "Cannot load texture";
+
+    if(!baseTextures.at(0)->loadFromFile("resources/friendlyBase.jpg"))
+        throw "Cannot load texture";
+    if(!baseTextures.at(0)->loadFromFile("resources/enemyBase.jpg"))
+        throw "Cannot load texture";
+    auto friendlyBase = make_shared<Base>(baseTextures.at(0), 1920.0f, 1080.0f, 1, 1, true);
+    this->addFriendlyUnit(friendlyBase);
+    auto enemyBase = make_shared<Base>(baseTextures.at(1), 1920.0f, 1080.0f, 1, 1, false);
+    this->addEnemyUnit(enemyBase);
 }
 
 struct sortUnit
@@ -47,6 +57,8 @@ void UnitController::updateUnits(const float deltaTime, shared_ptr<Money> money,
             case UnitType::Rifleman:
                 unit->updateAnimation(riflemanTextures, deltaTime);
                 break;
+            case UnitType::Base:
+                break;
             default:
                 throw "Invalid unit type";
         }
@@ -60,7 +72,7 @@ void UnitController::updateUnits(const float deltaTime, shared_ptr<Money> money,
             }
             else//Check for enemies in range
             {
-                if(unit->blockNum < 70)
+                //if(unit->blockNum < 70)
                     unit->blockNum++;
             }
             unit->fire(enemyUnits);
@@ -86,6 +98,8 @@ void UnitController::updateUnits(const float deltaTime, shared_ptr<Money> money,
             case UnitType::Rifleman:
                 unit->updateAnimation(riflemanTextures, deltaTime);
                 break;
+            case UnitType::Base:
+                break;
             default:
                 throw "Invalid unit type";
         }
@@ -99,7 +113,7 @@ void UnitController::updateUnits(const float deltaTime, shared_ptr<Money> money,
             }
             else
             {
-                if(unit->blockNum > 10)
+                //if(unit->blockNum > 10)
                     unit->blockNum--;
             }
             unit->fire(friendlyUnits);

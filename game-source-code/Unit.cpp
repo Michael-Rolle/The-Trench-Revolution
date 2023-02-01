@@ -55,7 +55,6 @@ void Unit::updateAnimation(const vector<shared_ptr<sf::Texture>>& textures, cons
             throw "Invalid animation mode";
     }
     unitSprite.setTextureRect(animation.textRect);
-    unitSprite.setScale(0.03*1920.0f/unitSprite.getLocalBounds().width, 0.03*1920.0f/unitSprite.getLocalBounds().height);
     unitSprite.setOrigin(unitSprite.getLocalBounds().left + 0.5*unitSprite.getLocalBounds().width, unitSprite.getLocalBounds().top + 0.5*unitSprite.getLocalBounds().height);
 
     greenHealthBar.setScale((this->health/this->maxHealth)*0.02*1920.0f/greenHealthBar.getLocalBounds().width, 0.002*1920.0f/greenHealthBar.getLocalBounds().height);

@@ -15,6 +15,7 @@ using namespace std;
 class Unit : public Drawable //Abstract Base Class, use pointer or reference for derived classes
 {
     public:
+        Unit(){}
         Unit(shared_ptr<sf::Texture> texture, unsigned int frameCount, float switchTime, bool friendly); //Scaling of sprite left for derived classes
         virtual void draw(sf::RenderWindow& window, const GameState gameState) override;
         virtual void fire(vector<shared_ptr<Unit>> enemyUnits) = 0; //Checks to see if closest enemy is in range and shoots

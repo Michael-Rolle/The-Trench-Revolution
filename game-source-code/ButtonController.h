@@ -9,6 +9,7 @@
 #include "UnitController.h"
 #include "Money.h"
 #include "UnitType.h"
+#include "Base.h"
 #include <vector>
 #include <memory>
 

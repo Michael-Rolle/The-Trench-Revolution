@@ -6,6 +6,7 @@
 #include "Rifleman.h"
 #include "Money.h"
 #include "AnimationMode.h"
+#include "Base.h"
 #include <vector>
 #include <memory>
 #include <algorithm>
@@ -24,10 +25,7 @@ class UnitController : public Drawable
     private:
         float totalTime;
         vector<shared_ptr<sf::Texture>> riflemanTextures;
-        //sf::Texture riflemanIdle;
-        //sf::Texture riflemanRun;
-        //sf::Texture riflemanShoot;
-        //sf::Texture riflemanDie;
+        vector<shared_ptr<sf::Texture>> baseTextures;
         vector<shared_ptr<Unit>> friendlyUnits;
         vector<shared_ptr<Unit>> enemyUnits;
 };

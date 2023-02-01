@@ -7,6 +7,7 @@ float Rifleman::spawnTime = 0.0f;
 Rifleman::Rifleman(shared_ptr<sf::Texture> texture, const float gameWidth, const float gameHeight, unsigned int frameCount, float switchTime, bool friendly):
     Unit{texture, frameCount, switchTime, friendly}
 {
+    unitSprite.setScale(0.3*1920.0f/unitSprite.getLocalBounds().width, 0.03*1920.0f/unitSprite.getLocalBounds().height);
     if(friendly)
         unitSprite.setPosition(0, (0.72+0.0048*(row-1))*gameHeight);
     else
