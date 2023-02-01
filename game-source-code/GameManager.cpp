@@ -34,7 +34,7 @@ void GameManager::pollEvent()
             window.close();
             break;
         }
-        buttonController->checkButtonClicks(*event, window, gameState, unitController, money, gameWidth, gameHeight);
+        buttonController->checkButtonClicks(*event, window, clock, gameState, unitController, money, gameWidth, gameHeight);
     }
 }
 

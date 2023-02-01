@@ -14,25 +14,26 @@ ButtonController::ButtonController(const float gameWidth, const float gameHeight
         throw "Cannot load texture";
 
     //Determine button positions
-    int width = 0.05*gameWidth;
-    int height = 0.0584*gameHeight;
+    int width = 0.1*gameWidth;
+    int height = 0.05*gameHeight;
     int left = 0.5*gameWidth - 0.5*width;
     int top = 0.5*gameHeight - 0.5*height;
     startButton = Button{startButtonText, sf::IntRect{left, top, width, height}};
     width = 0.05*gameWidth;
-    height = 0.05*gameHeight;
+    height = 0.0584*gameHeight;
     left = 0.05*gameWidth  - 0.5*width;
     top = 0.95*gameHeight - 0.5*height;
     riflemanButton = Button{riflemanButtonText, sf::IntRect{left, top, width, height}};
 }
 
-void ButtonController::checkButtonClicks(const sf::Event& event, sf::RenderWindow& window, GameState& gameState, shared_ptr<UnitController> unitController, shared_ptr<Money> money, const float gameWidth, const float gameHeight)
+void ButtonController::checkButtonClicks(const sf::Event& event, sf::RenderWindow& window, sf::Clock& clock, GameState& gameState, shared_ptr<UnitController> unitController, shared_ptr<Money> money, const float gameWidth, const float gameHeight)
 {
     if(gameState == GameState::StartScreen)
     {
         if(startButton.checkClicked(event, window, gameWidth, gameHeight))
         {
             ButtonController::startGame(gameState);
+            clock.restart();
         }
     }
     else if(gameState == GameState::Playing)
