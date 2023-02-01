@@ -38,18 +38,9 @@ class Unit : public Drawable //Abstract Base Class, use pointer or reference for
         AnimationMode animationMode;
         UnitType unitType;
 
-        //bool operator < (const Unit& unit) const
-        //{
-        //    return (this->row < unit.row);
-        //}
-
         virtual ~Unit(){} // virtual desstructor, defaults to doing nothing
 
     protected:
-        //sf::Texture idleText;
-        //sf::Texture runText;
-        //sf::Texture shootText;
-        //sf::Texture dieText;
         sf::Sprite unitSprite;
         Animation animation;
 };
