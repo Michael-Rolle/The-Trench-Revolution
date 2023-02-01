@@ -14,6 +14,8 @@ class Button : public Drawable
         Button(shared_ptr<sf::Texture> texture, sf::IntRect positionDetails);
         bool checkClicked(const sf::Event& event, sf::RenderWindow& window, const float gameWidth, const float gameHeight);
         void setPosition(const sf::Vector2f& coordinates);
+        sf::Vector2f getPosition() const;
+        sf::FloatRect getGlobalBounds() const;
         virtual void draw(sf::RenderWindow& window, const GameState gameState) override;
 
     private:

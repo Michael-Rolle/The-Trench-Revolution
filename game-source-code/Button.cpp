@@ -25,6 +25,17 @@ void Button::setPosition(const sf::Vector2f& coordinates)
     buttonSprite.setPosition(coordinates.x - 0.5f*buttonSprite.getGlobalBounds().width, coordinates.y -0.5f*buttonSprite.getGlobalBounds().height);
 }
 
+sf::Vector2f Button::getPosition() const
+{
+    //return sf::Vector2f{buttonSprite.getPosition().x+0.5f*buttonSprite.getGlobalBounds().width, buttonSprite.getPosition().y+0.5f*buttonSprite.getGlobalBounds().height};
+    return buttonSprite.getPosition();
+}
+
+sf::FloatRect Button::getGlobalBounds() const
+{
+    return buttonSprite.getGlobalBounds();
+}
+
 void Button::draw(sf::RenderWindow& window, const GameState gameState)
 {
     window.draw(buttonSprite);

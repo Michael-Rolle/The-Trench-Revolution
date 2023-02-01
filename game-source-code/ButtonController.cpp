@@ -24,6 +24,14 @@ ButtonController::ButtonController(const float gameWidth, const float gameHeight
     left = 0.05*gameWidth  - 0.5*width;
     top = 0.95*gameHeight - 0.5*height;
     riflemanButton = Button{riflemanButtonText, sf::IntRect{left, top, width, height}};
+    if(!pointsFont.loadFromFile("resources/HeadlinerNo45.ttf"))
+        throw "Cannot load font";
+    riflemanPoints.setFont(pointsFont);
+    riflemanPoints.setString(to_string(Rifleman::riflemanCost));
+    riflemanPoints.setCharacterSize(15);
+    riflemanPoints.setFillColor(sf::Color::White);
+    riflemanPoints.setOrigin(riflemanPoints.getGlobalBounds().left+0.5f*riflemanPoints.getGlobalBounds().width, riflemanPoints.getGlobalBounds().top+0.5f*riflemanPoints.getGlobalBounds().height);
+    riflemanPoints.setPosition(riflemanButton.getPosition().x+0.5f*riflemanButton.getGlobalBounds().width, riflemanButton.getPosition().y+0.5f*riflemanButton.getGlobalBounds().height);
 }
 
 void ButtonController::checkButtonClicks(const sf::Event& event, sf::RenderWindow& window, sf::Clock& clock, GameState& gameState, shared_ptr<UnitController> unitController, shared_ptr<Money> money, const float gameWidth, const float gameHeight)
@@ -67,7 +75,9 @@ void ButtonController::draw(sf::RenderWindow& window, const GameState gameState)
             break;
         case GameState::Playing:
             riflemanButton.setPosition(sf::Vector2f{(window.getView().getCenter().x - 0.5f*window.getView().getSize().x) + 0.05f*window.getView().getSize().x, (window.getView().getCenter().y - 0.5f*window.getView().getSize().y) + 0.95f*window.getView().getSize().y});
+            riflemanPoints.setPosition(riflemanButton.getPosition());
             riflemanButton.draw(window, gameState);
+            window.draw(riflemanPoints);
             break;
         case GameState::EndScreen:
             //

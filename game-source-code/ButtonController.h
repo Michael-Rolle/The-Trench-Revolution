@@ -25,10 +25,12 @@ class ButtonController : public Drawable
         void spawnFriendlyUnit(shared_ptr<UnitController> unitController, shared_ptr<Unit> unit, shared_ptr<Money> money);
 
     private:
+        sf::Font pointsFont;
         shared_ptr<sf::Texture> startButtonText;
         Button startButton;
         shared_ptr<sf::Texture> riflemanButtonText;
         Button riflemanButton;
+        sf::Text riflemanPoints;
         shared_ptr<sf::Texture> riflemanText;
 };
 
