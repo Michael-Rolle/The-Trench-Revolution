@@ -20,7 +20,10 @@ Unit::Unit(shared_ptr<sf::Texture> texture, unsigned int frameCount, float switc
     this->dying = false;
     this->animationMode = AnimationMode::None;
 
-    this->greenHealthBar.setFillColor(sf::Color::Green);
+    if(this->friendly)
+        this->greenHealthBar.setFillColor(sf::Color::Green);
+    else
+        this->greenHealthBar.setFillColor(sf::Color::Blue);
     this->redHealthBar.setFillColor(sf::Color::Red);
 }
 
