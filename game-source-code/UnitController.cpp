@@ -2,6 +2,7 @@
 
 UnitController::UnitController():
     riflemanTextures{ make_shared<sf::Texture>(), make_shared<sf::Texture>(), make_shared<sf::Texture>(), make_shared<sf::Texture>() },
+    sniperTextures{ make_shared<sf::Texture>(), make_shared<sf::Texture>(), make_shared<sf::Texture>(), make_shared<sf::Texture>() },
     baseTextures{ make_shared<sf::Texture>(), make_shared<sf::Texture>() },
     friendlyUnits{},
     enemyUnits{}
@@ -15,6 +16,15 @@ UnitController::UnitController():
     if(!riflemanTextures.at(2)->loadFromFile("resources/Rifleman/Shoot.png"))
         throw "Cannot load texture";
     if(!riflemanTextures.at(3)->loadFromFile("resources/Rifleman/Die.png"))
+        throw "Cannot load texture";
+
+    if(!sniperTextures.at(0)->loadFromFile("resources/Sniper/Idle.png"))
+        throw "Cannot load texture";
+    if(!sniperTextures.at(1)->loadFromFile("resources/Sniper/Run.png"))
+        throw "Cannot load texture";
+    if(!sniperTextures.at(2)->loadFromFile("resources/Sniper/Shoot.png"))
+        throw "Cannot load texture";
+    if(!sniperTextures.at(3)->loadFromFile("resources/Sniper/Die.png"))
         throw "Cannot load texture";
 
     if(!baseTextures.at(0)->loadFromFile("resources/friendlyBase.png"))
@@ -58,6 +68,9 @@ void UnitController::updateUnits(const float deltaTime, shared_ptr<Money> money,
         {
             case UnitType::Rifleman:
                 unit->updateAnimation(riflemanTextures, deltaTime);
+                break;
+            case UnitType::Sniper:
+                unit->updateAnimation(sniperTextures, deltaTime);
                 break;
             case UnitType::Base:
                 unit->updateAnimation(baseTextures, deltaTime);
@@ -106,6 +119,9 @@ void UnitController::updateUnits(const float deltaTime, shared_ptr<Money> money,
         {
             case UnitType::Rifleman:
                 unit->updateAnimation(riflemanTextures, deltaTime);
+                break;
+            case UnitType::Sniper:
+                unit->updateAnimation(sniperTextures, deltaTime);
                 break;
             case UnitType::Base:
                 unit->updateAnimation(baseTextures, deltaTime);

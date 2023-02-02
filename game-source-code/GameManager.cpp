@@ -75,13 +75,13 @@ void GameManager::update()
         unitController->updateUnits(clock.getElapsedTime().asSeconds(), money, victory, gameState, gameWidth, gameHeight);
         money->update(clock.getElapsedTime().asSeconds());
         if(Rifleman::spawnTime > 0.0f)
-        {
             Rifleman::spawnTime -= clock.getElapsedTime().asSeconds();
-        }
         else
-        {
             buttonController->changeIconPointColor(UnitType::Rifleman, sf::Color::Yellow);
-        }
+        if(Sniper::spawnTime > 0.0f)
+            Sniper::spawnTime -= clock.getElapsedTime().asSeconds();
+        else
+            buttonController->changeIconPointColor(UnitType::Sniper, sf::Color::Yellow);
         clock.restart();
     }
     else if(gameState == GameState::EndScreen)

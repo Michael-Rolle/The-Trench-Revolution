@@ -6,6 +6,7 @@
 #include "Drawable.h"
 #include "Unit.h"
 #include "Rifleman.h"
+#include "Sniper.h"
 #include "UnitController.h"
 #include "Money.h"
 #include "UnitType.h"
@@ -35,6 +36,10 @@ class ButtonController : public Drawable
         Button riflemanButton;
         sf::Text riflemanPoints;
         shared_ptr<sf::Texture> riflemanText;
+        shared_ptr<sf::Texture> sniperButtonText;
+        Button sniperButton;
+        sf::Text sniperPoints;
+        shared_ptr<sf::Texture> sniperText;
 };
 
 #endif // BUTTONCONTROLLER_H

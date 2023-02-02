@@ -1,5 +1,6 @@
 #ifndef RIFLEMAN_H
 #define RIFLEMAN_H
+
 #include "Unit.h"
 #include <SFML/Graphics.hpp>
 #include <memory>

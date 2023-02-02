@@ -3,14 +3,22 @@
 ButtonController::ButtonController(const float gameWidth, const float gameHeight):
     startButtonText{make_shared<sf::Texture>()},
     riflemanButtonText{make_shared<sf::Texture>()},
-    riflemanText{make_shared<sf::Texture>()}
+    riflemanText{make_shared<sf::Texture>()},
+    sniperButtonText{make_shared<sf::Texture>()},
+    sniperText{make_shared<sf::Texture>()}
 {
     //Load textures
     if(!startButtonText->loadFromFile("resources/startButton.png"))
         throw "Cannot laod texture";
+    if(!pointsFont.loadFromFile("resources/HeadlinerNo45.ttf"))
+        throw "Cannot load font";
     if(!riflemanButtonText->loadFromFile("resources/Rifleman/Icon.png"))
         throw "Cannot load texture";
     if(!riflemanText->loadFromFile("resources/Rifleman/Idle.png"))
+        throw "Cannot load texture";
+    if(!sniperButtonText->loadFromFile("resources/Sniper/Icon.png"))
+        throw "Cannot load texture";
+    if(!sniperText->loadFromFile("resources/Sniper/Idle.png"))
         throw "Cannot load texture";
 
     //Determine button positions
@@ -19,19 +27,27 @@ ButtonController::ButtonController(const float gameWidth, const float gameHeight
     int left = 0.5*gameWidth - 0.5*width;
     int top = 0.5*gameHeight - 0.5*height;
     startButton = Button{startButtonText, sf::IntRect{left, top, width, height}};
+
     width = 0.02*gameWidth;
     height = 0.0234*gameHeight;
     left = 0.05*gameWidth  - 0.5*width;
     top = 0.95*gameHeight - 0.5*height;
     riflemanButton = Button{riflemanButtonText, sf::IntRect{left, top, width, height}};
-    if(!pointsFont.loadFromFile("resources/HeadlinerNo45.ttf"))
-        throw "Cannot load font";
     riflemanPoints.setFont(pointsFont);
     riflemanPoints.setString(to_string(Rifleman::riflemanCost));
     riflemanPoints.setCharacterSize(15);
     riflemanPoints.setFillColor(sf::Color::White);
     riflemanPoints.setOrigin(riflemanPoints.getGlobalBounds().left+0.5f*riflemanPoints.getGlobalBounds().width, riflemanPoints.getGlobalBounds().top+0.5f*riflemanPoints.getGlobalBounds().height);
     riflemanPoints.setPosition(riflemanButton.getPosition().x+0.5f*riflemanButton.getGlobalBounds().width, riflemanButton.getPosition().y+0.5f*riflemanButton.getGlobalBounds().height);
+
+    left = left + 1.5f*width;
+    sniperButton = Button{sniperButtonText, sf::IntRect{left, top, width, height}};
+    sniperPoints.setFont(pointsFont);
+    sniperPoints.setString(to_string(Sniper::sniperCost));
+    sniperPoints.setCharacterSize(15);
+    sniperPoints.setFillColor(sf::Color::White);
+    sniperPoints.setOrigin(sniperPoints.getGlobalBounds().left+0.5f*sniperPoints.getGlobalBounds().width, sniperPoints.getGlobalBounds().top+0.5f*sniperPoints.getGlobalBounds().height);
+    sniperPoints.setPosition(sniperButton.getPosition().x+0.5f*sniperButton.getGlobalBounds().width, sniperButton.getPosition().y+0.5f*sniperButton.getGlobalBounds().height);
 }
 
 void ButtonController::checkButtonClicks(const sf::Event& event, sf::RenderWindow& window, sf::Clock& clock, GameState& gameState, shared_ptr<UnitController> unitController, shared_ptr<Money> money, const float gameWidth, const float gameHeight)
@@ -55,6 +71,13 @@ void ButtonController::checkButtonClicks(const sf::Event& event, sf::RenderWindo
             auto unit = make_shared<Rifleman>(riflemanText, gameWidth, gameHeight, 10, 0.1, true);
             ButtonController::spawnFriendlyUnit(unitController, unit, money);
         }
+        if(sniperButton.checkClicked(event, window, gameWidth, gameHeight) && money->getMoney() >= Sniper::sniperCost && Sniper::spawnTime <= 0)
+        {
+            Sniper::spawnTime = 6; //6 second spawn time
+            sniperPoints.setFillColor(sf::Color::Black);
+            auto unit = make_shared<Sniper>(sniperText, gameWidth, gameHeight, 10, 0.1, true);
+            ButtonController::spawnFriendlyUnit(unitController, unit, money);
+        }
     }
 }
 
@@ -64,6 +87,9 @@ void ButtonController::changeIconPointColor(UnitType unitType, sf::Color color)
     {
         case UnitType::Rifleman:
             riflemanPoints.setFillColor(color);
+            break;
+        case UnitType::Sniper:
+            sniperPoints.setFillColor(color);
             break;
         default:
             throw "Invalid unit type";
@@ -92,6 +118,10 @@ void ButtonController::draw(sf::RenderWindow& window, const GameState gameState)
             riflemanPoints.setPosition(riflemanButton.getPosition());
             riflemanButton.draw(window, gameState);
             window.draw(riflemanPoints);
+            sniperButton.setPosition(sf::Vector2f{(window.getView().getCenter().x - 0.5f*window.getView().getSize().x) + 0.05f*window.getView().getSize().x + 1.5f*riflemanButton.getGlobalBounds().width, (window.getView().getCenter().y - 0.5f*window.getView().getSize().y) + 0.95f*window.getView().getSize().y});
+            sniperPoints.setPosition(sniperButton.getPosition());
+            sniperButton.draw(window, gameState);
+            window.draw(sniperPoints);
             break;
         case GameState::EndScreen:
             //

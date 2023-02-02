@@ -2,7 +2,7 @@
 #include <cstdlib>
 
 int Rifleman::riflemanCost = 50;
-float Rifleman::spawnTime = 0.0f;
+float Rifleman::spawnTime = 2.0f;
 
 Rifleman::Rifleman(shared_ptr<sf::Texture> texture, const float gameWidth, const float gameHeight, unsigned int frameCount, float switchTime, bool friendly):
     Unit{texture, frameCount, switchTime, friendly}
@@ -21,8 +21,6 @@ Rifleman::Rifleman(shared_ptr<sf::Texture> texture, const float gameWidth, const
     this->reloadTime = 3;
     this->cost = riflemanCost;
     this->unitType = UnitType::Rifleman;
-
-
 }
 
 void Rifleman::advance(const float deltaTime)
