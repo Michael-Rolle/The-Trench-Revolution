@@ -49,7 +49,7 @@ void UnitController::addEnemyUnit(shared_ptr<Unit> unit)
     sort(enemyUnits.begin(), enemyUnits.end(), sortUnit());
 }
 
-void UnitController::updateUnits(const float deltaTime, shared_ptr<Money> money, const float gameWidth, const float gameHeight)
+void UnitController::updateUnits(const float deltaTime, shared_ptr<Money> money, bool& victory, GameState& gameState, const float gameWidth, const float gameHeight)
 {
     totalTime += deltaTime;
     for(auto& unit : friendlyUnits)
@@ -82,6 +82,12 @@ void UnitController::updateUnits(const float deltaTime, shared_ptr<Money> money,
         }
         else if(!unit->alive && !unit->dying)
         {
+            if(unit->unitType == UnitType::Base)
+            {
+                gameState = GameState::EndScreen;
+                victory = false;
+                return;
+            }
             std::remove(friendlyUnits.begin(), friendlyUnits.end(), unit);
             friendlyUnits.erase(friendlyUnits.end());
             break;
@@ -124,6 +130,12 @@ void UnitController::updateUnits(const float deltaTime, shared_ptr<Money> money,
         }
         else if(!unit->alive && !unit->dying)
         {
+            if(unit->unitType == UnitType::Base)
+            {
+                gameState = GameState::EndScreen;
+                victory = true;
+                return;
+            }
             money->add((int)unit->cost/2);
             std::remove(enemyUnits.begin(), enemyUnits.end(), unit);
             enemyUnits.erase(enemyUnits.end());
@@ -134,7 +146,7 @@ void UnitController::updateUnits(const float deltaTime, shared_ptr<Money> money,
 
 void UnitController::draw(sf::RenderWindow& window, const GameState gameState)
 {
-    if(gameState == GameState::Playing)
+    if(gameState == GameState::Playing || gameState == GameState::EndScreen)
     {
         for(auto& unit : friendlyUnits)
         {

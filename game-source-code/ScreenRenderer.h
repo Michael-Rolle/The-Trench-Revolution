@@ -9,6 +9,8 @@ class ScreenRenderer : public Drawable//Renders the background image
 {
     public:
         ScreenRenderer(const float gameWidth, const float gameHeight);
+        void setVictoryText(const float gameWidth, const float gameHeight);
+        void setDefeatText(const float gameWidth, const float gameHeight);
         virtual void draw(sf::RenderWindow& window, const GameState gameState) override;
 
     private:
@@ -18,8 +20,9 @@ class ScreenRenderer : public Drawable//Renders the background image
         sf::Sprite startBackground;
         sf::Texture playingFieldBackgroundText;
         sf::Sprite playingFieldBackground;
-        sf::Texture endBackgroundText;
-        sf::Sprite endBackground;
+        sf::Text endText;
+        //sf::Texture endBackgroundText;
+        //sf::Sprite endBackground;
 };
 
 #endif // SCREENRENDERER_H

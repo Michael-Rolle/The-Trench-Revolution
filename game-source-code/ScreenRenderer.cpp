@@ -18,11 +18,30 @@ ScreenRenderer::ScreenRenderer(const float gameWidth, const float gameHeight)
     title.setFillColor(sf::Color::White);
     title.setOutlineColor(sf::Color::Black);
     title.setOutlineThickness(3);
+    endText.setFont(font);
+    endText.setString("DEFEAT!");
+    endText.setCharacterSize(150);
+    endText.setLetterSpacing(2);
+    endText.setOrigin(endText.getGlobalBounds().left + endText.getGlobalBounds().width/2.0f, endText.getGlobalBounds().top + endText.getGlobalBounds().height/2.0f);
+    endText.setPosition(0.5*gameWidth, 0.15*gameHeight);
+    endText.setFillColor(sf::Color::Red);
+    endText.setOutlineColor(sf::Color::Black);
+    endText.setOutlineThickness(3);
 
     if(!playingFieldBackgroundText.loadFromFile("resources/playingFieldBackground.png"))
         throw "Cannot load playing field background";
     playingFieldBackground.setTexture(playingFieldBackgroundText);
     playingFieldBackground.setScale(gameWidth/playingFieldBackground.getLocalBounds().width, gameHeight/playingFieldBackground.getLocalBounds().height);
+}
+
+void ScreenRenderer::setVictoryText(const float gameWidth, const float gameHeight)
+{
+    endText.setString("VICTORY!");
+}
+
+void ScreenRenderer::setDefeatText(const float gameWidth, const float gameHeight)
+{
+    endText.setString("DEFEAT!");
 }
 
 void ScreenRenderer::draw(sf::RenderWindow& window, const GameState gameState)
@@ -37,7 +56,8 @@ void ScreenRenderer::draw(sf::RenderWindow& window, const GameState gameState)
             window.draw(playingFieldBackground);
             break;
         case GameState::EndScreen:
-            window.draw(endBackground);
+            window.draw(playingFieldBackground);
+            window.draw(endText);
             break;
         default:
             throw "Invalid game state";

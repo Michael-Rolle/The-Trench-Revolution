@@ -37,6 +37,7 @@ class GameManager
         //const float gameHeight = 1080.0f;
         const unsigned short frameRate = 60;
         float elapsedTransitionTime;
+        bool victory;
         sf::Clock clock;
         sf::Clock scrollClock;
         GameState gameState;

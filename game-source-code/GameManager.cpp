@@ -17,6 +17,7 @@ GameManager::GameManager():
     window.setFramerateLimit(frameRate);
 
     this->elapsedTransitionTime = 0.1;
+    this->victory = false;
 }
 
 void GameManager::run() //Main game loop
@@ -71,7 +72,7 @@ void GameManager::update()
 {
     if(gameState == GameState::Playing)
     {
-        unitController->updateUnits(clock.getElapsedTime().asSeconds(), money, gameWidth, gameHeight);
+        unitController->updateUnits(clock.getElapsedTime().asSeconds(), money, victory, gameState, gameWidth, gameHeight);
         money->update(clock.getElapsedTime().asSeconds());
         if(Rifleman::spawnTime > 0.0f)
         {
@@ -82,6 +83,14 @@ void GameManager::update()
             buttonController->changeIconPointColor(UnitType::Rifleman, sf::Color::Yellow);
         }
         clock.restart();
+    }
+    else if(gameState == GameState::EndScreen)
+    {
+        window.setView(sf::View{sf::FloatRect{0.0f, 0.0f, gameWidth, gameHeight}});
+        if(victory)
+            screenRenderer->setVictoryText(gameWidth, gameHeight);
+        else
+            screenRenderer->setDefeatText(gameWidth, gameHeight);
     }
 }
 
