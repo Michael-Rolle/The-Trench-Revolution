@@ -18,7 +18,7 @@ Base::Base(shared_ptr<sf::Texture> texture, const float gameWidth, const float g
     this->reloadTime = 5;
     this->cost = 0;
     this->unitType = UnitType::Base;
-    this->row = 18;
+    this->row = 19;
 }
 
 void Base::fire(vector<shared_ptr<Unit>> enemyUnits)

@@ -2,7 +2,7 @@
 
 Money::Money(const float gameWidth, const float gameHeight)
 {
-    money = 1000;
+    money = 0;
     totalTime = 0;
     if(!font.loadFromFile("resources/HeadlinerNo45.ttf"))
         throw "Cannnot load font";

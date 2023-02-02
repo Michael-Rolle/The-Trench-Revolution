@@ -14,10 +14,10 @@ Sniper::Sniper(shared_ptr<sf::Texture> texture, const float gameWidth, const flo
     this->health = 50;
     this->maxHealth = 50;
     this->damage = 200;
-    this->range = 25;
+    this->range = 20;
     this->accuracy = 70;
     this->speed = 30;
-    this->reloadTime = 6;
+    this->reloadTime = 8;
     this->cost = sniperCost;
     this->unitType = UnitType::Sniper;
 }
@@ -57,7 +57,7 @@ void Sniper::reload(const float deltaTime)
 {
     if(this->reloadTime <= 0)
     {
-        this->reloadTime = 3;
+        this->reloadTime = 8;
         return;
     }
     this->reloadTime -= deltaTime;

@@ -110,7 +110,12 @@ void UnitController::updateUnits(const float deltaTime, shared_ptr<Money> money,
     if(totalTime > 5+(rand()%10))
     {
         totalTime = 0;
-        UnitController::addEnemyUnit(make_shared<Rifleman>(riflemanTextures.at(0), gameWidth, gameHeight, 10, 0.1, false));
+        shared_ptr<Unit> unit;
+        if(1+rand()%100 <= 20) //20% chance of spawning sniper
+            unit = make_shared<Sniper>(sniperTextures.at(0), gameWidth, gameHeight, 10, 0.1, false);
+        else
+            unit = make_shared<Rifleman>(riflemanTextures.at(0), gameWidth, gameHeight, 10, 0.1, false);
+        UnitController::addEnemyUnit(unit);
     }
 
     for(auto& unit: enemyUnits)

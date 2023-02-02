@@ -4,6 +4,7 @@
 #include "Unit.h"
 #include "Drawable.h"
 #include "Rifleman.h"
+#include "Sniper.h"
 #include "Money.h"
 #include "AnimationMode.h"
 #include "Base.h"
