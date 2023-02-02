@@ -2,6 +2,7 @@
 
 UnitController::UnitController():
     riflemanTextures{ make_shared<sf::Texture>(), make_shared<sf::Texture>(), make_shared<sf::Texture>(), make_shared<sf::Texture>() },
+    shotgunnerTextures{ make_shared<sf::Texture>(), make_shared<sf::Texture>(), make_shared<sf::Texture>(), make_shared<sf::Texture>() },
     sniperTextures{ make_shared<sf::Texture>(), make_shared<sf::Texture>(), make_shared<sf::Texture>(), make_shared<sf::Texture>() },
     baseTextures{ make_shared<sf::Texture>(), make_shared<sf::Texture>() },
     friendlyUnits{},
@@ -16,6 +17,15 @@ UnitController::UnitController():
     if(!riflemanTextures.at(2)->loadFromFile("resources/Rifleman/Shoot.png"))
         throw "Cannot load texture";
     if(!riflemanTextures.at(3)->loadFromFile("resources/Rifleman/Die.png"))
+        throw "Cannot load texture";
+
+    if(!shotgunnerTextures.at(0)->loadFromFile("resources/Shotgunner/Idle.png"))
+        throw "Cannot load texture";
+    if(!shotgunnerTextures.at(1)->loadFromFile("resources/Shotgunner/Run.png"))
+        throw "Cannot load texture";
+    if(!shotgunnerTextures.at(2)->loadFromFile("resources/Shotgunner/Shoot.png"))
+        throw "Cannot load texture";
+    if(!shotgunnerTextures.at(3)->loadFromFile("resources/Shotgunner/Die.png"))
         throw "Cannot load texture";
 
     if(!sniperTextures.at(0)->loadFromFile("resources/Sniper/Idle.png"))
@@ -69,6 +79,9 @@ void UnitController::updateUnits(const float deltaTime, shared_ptr<Money> money,
             case UnitType::Rifleman:
                 unit->updateAnimation(riflemanTextures, deltaTime);
                 break;
+            case UnitType::Shotgunner:
+                unit->updateAnimation(shotgunnerTextures, deltaTime);
+                break;
             case UnitType::Sniper:
                 unit->updateAnimation(sniperTextures, deltaTime);
                 break;
@@ -112,7 +125,7 @@ void UnitController::updateUnits(const float deltaTime, shared_ptr<Money> money,
         totalTime = 0;
         shared_ptr<Unit> unit;
         if(1+rand()%100 <= 20) //20% chance of spawning sniper
-            unit = make_shared<Sniper>(sniperTextures.at(0), gameWidth, gameHeight, 10, 0.1, false);
+            unit = make_shared<Sniper>(sniperTextures.at(0), gameWidth, gameHeight, 10, 0.12, false);
         else
             unit = make_shared<Rifleman>(riflemanTextures.at(0), gameWidth, gameHeight, 10, 0.1, false);
         UnitController::addEnemyUnit(unit);

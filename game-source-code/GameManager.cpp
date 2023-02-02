@@ -78,6 +78,10 @@ void GameManager::update()
             Rifleman::spawnTime -= clock.getElapsedTime().asSeconds();
         else
             buttonController->changeIconPointColor(UnitType::Rifleman, sf::Color::Yellow);
+        if(Shotgunner::spawnTime > 0.0f)
+            Shotgunner::spawnTime -= clock.getElapsedTime().asSeconds();
+        else
+            buttonController->changeIconPointColor(UnitType::Shotgunner, sf::Color::Yellow);
         if(Sniper::spawnTime > 0.0f)
             Sniper::spawnTime -= clock.getElapsedTime().asSeconds();
         else
