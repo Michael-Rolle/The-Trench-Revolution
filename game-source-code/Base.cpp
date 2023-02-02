@@ -4,7 +4,7 @@ Base::Base(shared_ptr<sf::Texture> texture, const float gameWidth, const float g
     Unit{texture, frameCount, switchTime, friendly}
 {
     unitSprite.setOrigin(0.5f*unitSprite.getLocalBounds().width, 0.5f*unitSprite.getLocalBounds().height);
-    unitSprite.setScale(0.05f*gameWidth/unitSprite.getGlobalBounds().width, 0.05f*gameWidth/unitSprite.getGlobalBounds().height);
+    unitSprite.setScale(0.1f*gameWidth/unitSprite.getGlobalBounds().width, 0.05f*gameWidth/unitSprite.getGlobalBounds().height);
     if(friendly)
         unitSprite.setPosition(0.05*gameWidth, 0.8*gameHeight);
     else
@@ -18,7 +18,7 @@ Base::Base(shared_ptr<sf::Texture> texture, const float gameWidth, const float g
     this->reloadTime = 5;
     this->cost = 0;
     this->unitType = UnitType::Base;
-    this->row = 25;
+    this->row = 18;
 }
 
 void Base::fire(vector<shared_ptr<Unit>> enemyUnits)
