@@ -17,9 +17,9 @@ UnitController::UnitController():
     if(!riflemanTextures.at(3)->loadFromFile("resources/Rifleman/Die.png"))
         throw "Cannot load texture";
 
-    if(!baseTextures.at(0)->loadFromFile("resources/friendlyBase.jpg"))
+    if(!baseTextures.at(0)->loadFromFile("resources/friendlyBase.png"))
         throw "Cannot load texture";
-    if(!baseTextures.at(0)->loadFromFile("resources/enemyBase.jpg"))
+    if(!baseTextures.at(1)->loadFromFile("resources/enemyBase.png"))
         throw "Cannot load texture";
     auto friendlyBase = make_shared<Base>(baseTextures.at(0), 1920.0f, 1080.0f, 1, 1, true);
     this->addFriendlyUnit(friendlyBase);
@@ -37,12 +37,14 @@ struct sortUnit
 
 void UnitController::addFriendlyUnit(shared_ptr<Unit> unit)
 {
+    unit->friendly = true;
     friendlyUnits.push_back(unit);
     sort(friendlyUnits.begin(), friendlyUnits.end(), sortUnit()); //sorts them based on the row they're in
 }
 
 void UnitController::addEnemyUnit(shared_ptr<Unit> unit)
 {
+    unit->friendly = false;
     enemyUnits.push_back(unit);
     sort(enemyUnits.begin(), enemyUnits.end(), sortUnit());
 }

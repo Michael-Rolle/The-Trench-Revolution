@@ -18,7 +18,7 @@ Unit::Unit(shared_ptr<sf::Texture> texture, unsigned int frameCount, float switc
     this->canShoot = true;
     this->shooting = false;
     this->dying = false;
-    this->animationMode = AnimationMode::Idle;
+    this->animationMode = AnimationMode::None;
 
     this->greenHealthBar.setFillColor(sf::Color::Green);
     this->redHealthBar.setFillColor(sf::Color::Red);
@@ -35,6 +35,8 @@ void Unit::updateAnimation(const vector<shared_ptr<sf::Texture>>& textures, cons
 {
     switch(this->animationMode)
     {
+        case AnimationMode::None:
+            break;
         case AnimationMode::Idle:
             unitSprite.setTexture(*textures.at(0));
             animation.update(textures.at(0), AnimationMode::Idle, this->shooting, this->dying, this->canShoot, deltaTime, this->friendly);
