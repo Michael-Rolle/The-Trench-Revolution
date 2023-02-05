@@ -19,12 +19,13 @@ Money::Money(const float gameWidth, const float gameHeight)
 void Money::update(const float deltaTime)
 {
     totalTime += deltaTime;
-    if(totalTime > 120)
-        addAmount = 100;
+    if(totalTime > 360)
+        addAmount = 200;
     else if(totalTime > 240)
         addAmount = 150;
-    else if(totalTime > 360)
-        addAmount = 200;
+    else if(totalTime > 120)
+        addAmount = 100;
+
     elapsedTime += deltaTime;
     if(elapsedTime >= 5)
     {
