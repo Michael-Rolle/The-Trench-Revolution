@@ -38,7 +38,7 @@ void Money::draw(sf::RenderWindow& window, const GameState gameState)
 {
     if(gameState == GameState::Playing)
     {
-        moneyText.setPosition(sf::Vector2f{window.getView().getCenter().x-0.5f*window.getView().getSize().x+0.06f*window.getDefaultView().getSize().x, window.getView().getCenter().y-0.5f*window.getView().getSize().y+0.06f*window.getDefaultView().getSize().y});
+        moneyText.setPosition(sf::Vector2f{window.getView().getCenter().x-0.5f*window.getView().getSize().x+0.06f*window.getView().getSize().x, window.getView().getCenter().y-0.5f*window.getView().getSize().y+0.06f*window.getView().getSize().y});
         window.draw(moneyText);
     }
 }

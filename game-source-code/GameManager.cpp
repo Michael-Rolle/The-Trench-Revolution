@@ -87,8 +87,11 @@ void GameManager::update()
         unitController->updateUnits(clock.getElapsedTime().asSeconds(), money, victory, gameState, gameWidth, gameHeight);
         money->update(clock.getElapsedTime().asSeconds());
         totalTime += clock.getElapsedTime().asSeconds();
-        time.setString(to_string((int)floor(totalTime/60)) + ":" + to_string((int)totalTime%60));
-        time.setPosition(window.getView().getCenter().x - 0.5f*window.getView().getSize().x + 0.94f*window.getView().getSize().x, window.getView().getCenter().y - 0.5f*window.getView().getSize().y + 0.06f*window.getView().getSize().y);
+        auto seconds = (int)totalTime%60;
+        if(seconds < 10)
+            time.setString(to_string((int)floor(totalTime/60)) + ":0" + to_string(seconds));
+        else
+            time.setString(to_string((int)floor(totalTime/60)) + ":" + to_string(seconds));
         if(Rifleman::spawnTime > 0.0f)
             Rifleman::spawnTime -= clock.getElapsedTime().asSeconds();
         else
@@ -124,7 +127,12 @@ void GameManager::render()
     for(auto& elem : drawableObjects)
         draw(elem);
     if(gameState != GameState::StartScreen)
+    {
+        if(gameState == GameState::EndScreen)
+            time.setScale((time.getGlobalBounds().width/0.4f)/time.getGlobalBounds().width, (time.getGlobalBounds().height/0.4f)/time.getGlobalBounds().height);
+        time.setPosition(window.getView().getCenter().x - 0.5f*window.getView().getSize().x + 0.94f*window.getView().getSize().x, window.getView().getCenter().y - 0.5f*window.getView().getSize().y + 0.06f*window.getView().getSize().y);
         window.draw(time);
+    }
 
     window.display();
 }
