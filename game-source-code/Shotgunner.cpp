@@ -1,9 +1,9 @@
-#include "Sniper.h"
+#include "Shotgunner.h"
 
-int Sniper::sniperCost = 150;
-float Sniper::spawnTime = 6.0f;
+int Shotgunner::shotgunnerCost = 100;
+float Shotgunner::spawnTime = 4.0f;
 
-Sniper::Sniper(shared_ptr<sf::Texture> texture, const float gameWidth, const float gameHeight, unsigned int frameCount, float switchTime, bool friendly):
+Shotgunner::Shotgunner(shared_ptr<sf::Texture> texture, const float gameWidth, const float gameHeight, unsigned int frameCount, float switchTime, bool friendly):
     Unit{texture, frameCount, switchTime, friendly}
 {
     unitSprite.setScale(0.3*1920.0f/unitSprite.getLocalBounds().width, 0.03*1920.0f/unitSprite.getLocalBounds().height);
@@ -11,18 +11,18 @@ Sniper::Sniper(shared_ptr<sf::Texture> texture, const float gameWidth, const flo
         unitSprite.setPosition(0, (0.72+0.0048*(row-1))*gameHeight);
     else
         unitSprite.setPosition(gameWidth, (0.72+0.0048*(row-1))*gameHeight);
-    this->health = 50;
-    this->maxHealth = 50;
+    this->health = 150;
+    this->maxHealth = 150;
     this->damage = 100;
-    this->range = 20;
-    this->accuracy = 80;
-    this->speed = 20;
-    this->reloadTime = 8;
-    this->cost = sniperCost;
-    this->unitType = UnitType::Sniper;
+    this->range = 5;
+    this->accuracy = 50;
+    this->speed = 60;
+    this->reloadTime = 2;
+    this->cost = shotgunnerCost;
+    this->unitType = UnitType::Shotgunner;
 }
 
-void Sniper::fire(vector<shared_ptr<Unit>> enemyUnits)
+void Shotgunner::fire(vector<shared_ptr<Unit>> enemyUnits)
 {
     for(auto& enemy : enemyUnits)
     {
@@ -53,11 +53,11 @@ void Sniper::fire(vector<shared_ptr<Unit>> enemyUnits)
     }
 }
 
-void Sniper::reload(const float deltaTime)
+void Shotgunner::reload(const float deltaTime)
 {
     if(this->reloadTime <= 0)
     {
-        this->reloadTime = 8;
+        this->reloadTime = 2;
         return;
     }
     this->reloadTime -= deltaTime;
@@ -65,7 +65,7 @@ void Sniper::reload(const float deltaTime)
         this->reloading = false;
 }
 
-void Sniper::die()
+void Shotgunner::die()
 {
     this->animationMode = AnimationMode::Die;
     this->health = 0;
@@ -73,7 +73,7 @@ void Sniper::die()
     this->dying = true;
 }
 
-void Sniper::advance(const float deltaTime)
+void Shotgunner::advance(const float deltaTime)
 {
     if(this->canAdvance && !this->shooting)
     {
@@ -85,13 +85,13 @@ void Sniper::advance(const float deltaTime)
     }
 }
 
-void Sniper::stop()
+void Shotgunner::stop()
 {
     this->canAdvance = false;
     this->animationMode = AnimationMode::Idle;
 }
 
-void Sniper::takeDamage(float damageAmount)
+void Shotgunner::takeDamage(float damageAmount)
 {
     this->health -= damageAmount;
     if(this->health <= 0)
