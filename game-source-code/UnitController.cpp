@@ -100,10 +100,9 @@ void UnitController::updateUnits(const float deltaTime, shared_ptr<Money> money,
             {
                 unit->advance(deltaTime);
             }
-            else//Check for enemies in range
+            else
             {
-                //if(unit->blockNum < 70)
-                    unit->blockNum++;
+                unit->blockNum++;
             }
             unit->fire(enemyUnits);
         }
@@ -124,8 +123,19 @@ void UnitController::updateUnits(const float deltaTime, shared_ptr<Money> money,
     if(totalTime > spawnTime)
     {
         totalTime = 0;
-        spawnTime = 5+rand()%15;
-        auto numEnemies = 1+rand()%3; //1 to 3 enemies
+        spawnTime = 5+rand()%25;
+        int numEnemies;
+        auto numEnemiesRand = 1+rand()%100;
+        if(numEnemiesRand <= 50)
+            numEnemies = 1; //50% chance
+        else if(numEnemiesRand <= 75)
+            numEnemies = 2; //25% chance
+        else if(numEnemiesRand <= 90)
+            numEnemies = 3; //15% chance
+        else if(numEnemiesRand <= 98)
+            numEnemies = 4; //8% chance
+        else
+            numEnemies = 5; //2% chance
         for(int i = 0; i < numEnemies; i++)
         {
             auto randNum = 1+rand()%100; //random number between 1 and 100
@@ -174,8 +184,7 @@ void UnitController::updateUnits(const float deltaTime, shared_ptr<Money> money,
             }
             else
             {
-                //if(unit->blockNum > 10)
-                    unit->blockNum--;
+                unit->blockNum--;
             }
             unit->fire(friendlyUnits);
         }
