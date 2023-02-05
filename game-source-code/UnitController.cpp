@@ -123,7 +123,7 @@ void UnitController::updateUnits(const float deltaTime, shared_ptr<Money> money,
     if(totalTime > spawnTime)
     {
         totalTime = 0;
-        spawnTime = 5+rand()%25;
+        spawnTime = 5+rand()%20;
         int numEnemies;
         auto numEnemiesRand = 1+rand()%100;
         if(numEnemiesRand <= 50)

@@ -21,7 +21,9 @@ class Money : public Drawable
         sf::Font font;
         sf::Text moneyText;
         int money;
+        int addAmount;
         float totalTime;
+        float elapsedTime;
 };
 
 #endif // MONEY_H

@@ -2,8 +2,10 @@
 
 Money::Money(const float gameWidth, const float gameHeight)
 {
-    money = 0;
-    totalTime = 0;
+    this->money = 0;
+    this->addAmount = 50;
+    this->totalTime = 0;
+    this->elapsedTime = 0;
     if(!font.loadFromFile("resources/HeadlinerNo45.ttf"))
         throw "Cannnot load font";
     moneyText.setFont(font);
@@ -17,10 +19,17 @@ Money::Money(const float gameWidth, const float gameHeight)
 void Money::update(const float deltaTime)
 {
     totalTime += deltaTime;
-    if(totalTime >= 5)
+    if(totalTime > 120)
+        addAmount = 100;
+    else if(totalTime > 240)
+        addAmount = 150;
+    else if(totalTime > 360)
+        addAmount = 200;
+    elapsedTime += deltaTime;
+    if(elapsedTime >= 5)
     {
-        totalTime = 0;
-        money += 50;
+        elapsedTime = 0;
+        money += addAmount;
         moneyText.setString(to_string(money));
     }
 }
