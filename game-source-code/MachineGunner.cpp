@@ -16,7 +16,7 @@ MachineGunner::MachineGunner(shared_ptr<sf::Texture> texture, const float gameWi
     this->damage = 10;
     this->range = 10;
     this->accuracy = 60;
-    this->speed = 20;
+    this->speed = 25;
     this->reloadTime = 0.2;
     this->cost = machineGunnerCost;
     this->unitType = UnitType::MachineGunner;

@@ -16,7 +16,7 @@ Rifleman::Rifleman(shared_ptr<sf::Texture> texture, const float gameWidth, const
     this->maxHealth = 100;
     this->damage = 50;
     this->range = 12;
-    this->accuracy = 50;
+    this->accuracy = 60;
     this->speed = 40;
     this->reloadTime = 3;
     this->cost = riflemanCost;

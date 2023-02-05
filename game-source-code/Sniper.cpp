@@ -16,7 +16,7 @@ Sniper::Sniper(shared_ptr<sf::Texture> texture, const float gameWidth, const flo
     this->damage = 100;
     this->range = 20;
     this->accuracy = 80;
-    this->speed = 25;
+    this->speed = 30;
     this->reloadTime = 8;
     this->cost = sniperCost;
     this->unitType = UnitType::Sniper;
