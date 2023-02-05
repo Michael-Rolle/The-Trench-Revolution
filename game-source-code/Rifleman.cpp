@@ -39,7 +39,7 @@ void Rifleman::fire(vector<shared_ptr<Unit>> enemyUnits)
 {
     for(auto& enemy : enemyUnits)
     {
-        if(enemy->dying)
+        if(enemy->dying || enemy->friendly == this->friendly)
             continue;
         if(abs(enemy->blockNum - this->blockNum) <= this->range)
         {
@@ -97,4 +97,29 @@ void Rifleman::stop()
 {
     this->canAdvance = false;
     this->animationMode = AnimationMode::Idle;
+}
+
+void Rifleman::update(vector<shared_ptr<Unit>> units, const vector<shared_ptr<sf::Texture>>& textures, const float deltaTime, const float gameWidth, const float gameHeight)
+{
+    this->updateAnimation(textures, deltaTime);
+    if(this->alive && !this->dying)
+    {
+        if(this->reloading)
+            this->reload(deltaTime);
+        if(this->friendly)
+        {
+            if(this->getPositionX() < (0.01*gameWidth)*this->blockNum)
+                this->advance(deltaTime);
+            else
+                this->blockNum++;
+        }
+        else
+        {
+            if(this->getPositionX() > (0.01*gameWidth)*this->blockNum)
+                this->advance(deltaTime);
+            else
+                this->blockNum--;
+        }
+        this->fire(units);
+    }
 }

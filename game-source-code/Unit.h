@@ -23,8 +23,9 @@ class Unit : public Drawable //Abstract Base Class, use pointer or reference for
         virtual void advance(const float deltaTime) = 0; //Moves forward at the units specific speed to the next block
         virtual void stop() = 0; //Stops the unit from advancing
         virtual void takeDamage(float damageAmount) = 0;
+        virtual void update(vector<shared_ptr<Unit>> units, const vector<shared_ptr<sf::Texture>>& textures, const float deltaTime, const float gameWidth, const float gameHeight) = 0;
+
         float getPositionX() { return unitSprite.getPosition().x; }
-        void updateAnimation(const vector<shared_ptr<sf::Texture>>& textures, const float deltaTime);
         int row; //rows 1-10
         int blockNum;
         int cost;
@@ -41,6 +42,7 @@ class Unit : public Drawable //Abstract Base Class, use pointer or reference for
         virtual ~Unit(){} // virtual destructor, defaults to doing nothing
 
     protected:
+        void updateAnimation(const vector<shared_ptr<sf::Texture>>& textures, const float deltaTime);
         float health;
         float maxHealth;
         float damage;

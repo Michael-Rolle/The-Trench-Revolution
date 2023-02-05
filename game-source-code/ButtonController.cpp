@@ -151,7 +151,8 @@ void ButtonController::spawnFriendlyUnit(shared_ptr<UnitController> unitControll
 {
     if(money->getMoney() >= unit->cost)
     {
-        unitController->addFriendlyUnit(unit);
+        unit->friendly = true;
+        unitController->addUnit(unit);
         money->subtract(unit->cost);
     }
 }

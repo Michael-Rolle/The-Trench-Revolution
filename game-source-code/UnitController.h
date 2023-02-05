@@ -21,10 +21,12 @@ class UnitController : public Drawable
 {
     public:
         UnitController();
-        void addFriendlyUnit(shared_ptr<Unit> unit);
-        void addEnemyUnit(shared_ptr<Unit> unit);
+        void addUnit(shared_ptr<Unit> unit);
         void updateUnits(const float deltaTime, shared_ptr<Money> money, bool& victory, GameState& gamestate, const float gameWidth, const float gameHeight); //must involve removing dead units
         virtual void draw(sf::RenderWindow& window, const GameState gameState) override;
+
+    private:
+        void spawnEnemies(const float gameWidth, const float gameHeight);
 
     private:
         float totalTime;
@@ -34,8 +36,7 @@ class UnitController : public Drawable
         vector<shared_ptr<sf::Texture>> sniperTextures;
         vector<shared_ptr<sf::Texture>> machineGunnerTextures;
         vector<shared_ptr<sf::Texture>> baseTextures;
-        vector<shared_ptr<Unit>> friendlyUnits;
-        vector<shared_ptr<Unit>> enemyUnits;
+        vector<shared_ptr<Unit>> units;
 };
 
 #endif // UNITCONTROLLER_H

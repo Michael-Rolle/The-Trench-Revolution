@@ -56,3 +56,8 @@ void Base::takeDamage(float damageAmount)
         this->die();
     }
 }
+
+void Base::update(vector<shared_ptr<Unit>> units, const vector<shared_ptr<sf::Texture>>& textures, const float deltaTime, const float gameWidth, const float gameHeight)
+{
+    this->updateAnimation(textures, deltaTime);
+}

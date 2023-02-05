@@ -6,8 +6,7 @@ UnitController::UnitController():
     sniperTextures{ make_shared<sf::Texture>(), make_shared<sf::Texture>(), make_shared<sf::Texture>(), make_shared<sf::Texture>() },
     machineGunnerTextures{ make_shared<sf::Texture>(), make_shared<sf::Texture>(), make_shared<sf::Texture>(), make_shared<sf::Texture>() },
     baseTextures{ make_shared<sf::Texture>(), make_shared<sf::Texture>() },
-    friendlyUnits{},
-    enemyUnits{}
+    units{}
 {
     this->totalTime = 0;
     this->spawnTime = 1;
@@ -53,9 +52,9 @@ UnitController::UnitController():
     if(!baseTextures.at(1)->loadFromFile("resources/enemyBase.png"))
         throw "Cannot load texture";
     auto friendlyBase = make_shared<Base>(baseTextures.at(0), 1920.0f, 1080.0f, true);
-    this->addFriendlyUnit(friendlyBase);
+    this->addUnit(friendlyBase);
     auto enemyBase = make_shared<Base>(baseTextures.at(1), 1920.0f, 1080.0f, false);
-    this->addEnemyUnit(enemyBase);
+    this->addUnit(enemyBase);
 }
 
 struct sortUnit
@@ -66,73 +65,14 @@ struct sortUnit
     }
 };
 
-void UnitController::addFriendlyUnit(shared_ptr<Unit> unit)
+void UnitController::addUnit(shared_ptr<Unit> unit)
 {
-    unit->friendly = true;
-    friendlyUnits.push_back(unit);
-    sort(friendlyUnits.begin(), friendlyUnits.end(), sortUnit()); //sorts them based on the row they're in
+    units.push_back(unit);
+    sort(units.begin(), units.end(), sortUnit()); //sorts them based on the row they're in
 }
 
-void UnitController::addEnemyUnit(shared_ptr<Unit> unit)
+void UnitController::spawnEnemies(const float gameWidth, const float gameHeight)
 {
-    unit->friendly = false;
-    enemyUnits.push_back(unit);
-    sort(enemyUnits.begin(), enemyUnits.end(), sortUnit());
-}
-
-void UnitController::updateUnits(const float deltaTime, shared_ptr<Money> money, bool& victory, GameState& gameState, const float gameWidth, const float gameHeight)
-{
-    totalTime += deltaTime;
-    for(auto& unit : friendlyUnits)
-    {
-        switch(unit->unitType)
-        {
-            case UnitType::Rifleman:
-                unit->updateAnimation(riflemanTextures, deltaTime);
-                break;
-            case UnitType::Shotgunner:
-                unit->updateAnimation(shotgunnerTextures, deltaTime);
-                break;
-            case UnitType::Sniper:
-                unit->updateAnimation(sniperTextures, deltaTime);
-                break;
-            case UnitType::MachineGunner:
-                unit->updateAnimation(machineGunnerTextures, deltaTime);
-                break;
-            case UnitType::Base:
-                unit->updateAnimation(baseTextures, deltaTime);
-                break;
-            default:
-                throw "Invalid unit type";
-        }
-        if(unit->alive && !unit->dying)
-        {
-            if(unit->reloading)
-                unit->reload(deltaTime);
-            if(unit->getPositionX() < (0.01*gameWidth)*unit->blockNum)
-            {
-                unit->advance(deltaTime);
-            }
-            else
-            {
-                unit->blockNum++;
-            }
-            unit->fire(enemyUnits);
-        }
-        else if(!unit->alive && !unit->dying)
-        {
-            if(unit->unitType == UnitType::Base)
-            {
-                gameState = GameState::EndScreen;
-                victory = false;
-                return;
-            }
-            std::remove(friendlyUnits.begin(), friendlyUnits.end(), unit);
-            friendlyUnits.erase(friendlyUnits.end());
-            break;
-        }
-    }
-
     if(totalTime > spawnTime)
     {
         totalTime = 0;
@@ -154,26 +94,63 @@ void UnitController::updateUnits(const float deltaTime, shared_ptr<Money> money,
             auto randNum = 1+rand()%100; //random number between 1 and 100
             shared_ptr<Unit> unit;
             if(randNum <= 70)
-            {
                 unit = make_shared<Rifleman>(riflemanTextures.at(0), gameWidth, gameHeight, false);
-            }
             else if(randNum <= 80)
-            {
                 unit = make_shared<Shotgunner>(shotgunnerTextures.at(0), gameWidth, gameHeight, false);
-            }
             else if(randNum <= 90)
-            {
                 unit = make_shared<Sniper>(sniperTextures.at(0), gameWidth, gameHeight, false);
-            }
             else
-            {
                 unit = make_shared<MachineGunner>(machineGunnerTextures.at(0), gameWidth, gameHeight, false);
-            }
-            UnitController::addEnemyUnit(unit);
+            UnitController::addUnit(unit);
         }
     }
+}
 
-    for(auto& unit: enemyUnits)
+void UnitController::updateUnits(const float deltaTime, shared_ptr<Money> money, bool& victory, GameState& gameState, const float gameWidth, const float gameHeight)
+{
+    totalTime += deltaTime;
+    for(auto& unit : units)
+    {
+        switch(unit->unitType)
+        {
+            case UnitType::Rifleman:
+                unit->update(units, riflemanTextures, deltaTime, gameWidth, gameHeight);
+                break;
+            case UnitType::Shotgunner:
+                unit->update(units, shotgunnerTextures, deltaTime, gameWidth, gameHeight);
+                break;
+            case UnitType::Sniper:
+                unit->update(units, sniperTextures, deltaTime, gameWidth, gameHeight);
+                break;
+            case UnitType::MachineGunner:
+                unit->update(units, machineGunnerTextures, deltaTime, gameWidth, gameHeight);
+                break;
+            case UnitType::Base:
+                unit->update(units, baseTextures, deltaTime, gameWidth, gameHeight);
+                break;
+            default:
+                throw "Invalid unit type";
+        }
+        if(!unit->alive && !unit->dying)
+        {
+            if(unit->unitType == UnitType::Base)
+            {
+                gameState = GameState::EndScreen;
+                if(unit->friendly)
+                    victory = false;
+                else
+                    victory = true;
+                return;
+            }
+            std::remove(units.begin(), units.end(), unit);
+            units.erase(units.end());
+            break;
+        }
+    }
+    UnitController::spawnEnemies(gameWidth, gameHeight);
+}
+
+    /*for(auto& unit: enemyUnits)
     {
         switch(unit->unitType)
         {
@@ -221,18 +198,13 @@ void UnitController::updateUnits(const float deltaTime, shared_ptr<Money> money,
             enemyUnits.erase(enemyUnits.end());
             break;
         }
-    }
-}
+    }*/
 
 void UnitController::draw(sf::RenderWindow& window, const GameState gameState)
 {
     if(gameState == GameState::Playing || gameState == GameState::EndScreen)
     {
-        for(auto& unit : friendlyUnits)
-        {
-            unit->draw(window, gameState);
-        }
-        for(auto& unit : enemyUnits)
+        for(auto& unit : units)
         {
             unit->draw(window, gameState);
         }
