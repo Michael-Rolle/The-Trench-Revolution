@@ -15,7 +15,7 @@ Animation::Animation(shared_ptr<sf::Texture> texture, unsigned int frameCount, f
     textRect.top = 0;
 }
 
-void Animation::update(shared_ptr<sf::Texture> texture, AnimationMode animationMode, bool& shooting, bool& dying, bool& canShoot, float deltaTime, bool facingRight)
+void Animation::update(shared_ptr<sf::Texture> texture, AnimationMode animationMode, UnitType unitType, bool& shooting, bool& dying, bool& canShoot, float deltaTime, bool facingRight)
 {
     if(animationMode != prevAnimationMode)
     {
@@ -23,6 +23,16 @@ void Animation::update(shared_ptr<sf::Texture> texture, AnimationMode animationM
         prevAnimationMode = animationMode;
         textRect.width = texture->getSize().x/float(frameCount);
         textRect.height = texture->getSize().y;
+        if(unitType == UnitType::MachineGunner && animationMode == AnimationMode::Shoot)
+        {
+            this->frameCount = 3;
+            textRect.width = texture->getSize().x / 10.0;
+        }
+        else if(unitType == UnitType::MachineGunner && animationMode != AnimationMode::Shoot)
+        {
+            this->frameCount = 10;
+            textRect.width = texture->getSize().x / float(frameCount);
+        }
     }
 
     totalTime += deltaTime;

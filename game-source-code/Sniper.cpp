@@ -3,8 +3,8 @@
 int Sniper::sniperCost = 150;
 float Sniper::spawnTime = 6.0f;
 
-Sniper::Sniper(shared_ptr<sf::Texture> texture, const float gameWidth, const float gameHeight, unsigned int frameCount, float switchTime, bool friendly):
-    Unit{texture, frameCount, switchTime, friendly}
+Sniper::Sniper(shared_ptr<sf::Texture> texture, const float gameWidth, const float gameHeight, bool friendly):
+    Unit{texture, 10, 0.11, friendly}
 {
     unitSprite.setScale(0.3*1920.0f/unitSprite.getLocalBounds().width, 0.03*1920.0f/unitSprite.getLocalBounds().height);
     if(friendly)
@@ -16,7 +16,7 @@ Sniper::Sniper(shared_ptr<sf::Texture> texture, const float gameWidth, const flo
     this->damage = 100;
     this->range = 20;
     this->accuracy = 80;
-    this->speed = 20;
+    this->speed = 25;
     this->reloadTime = 8;
     this->cost = sniperCost;
     this->unitType = UnitType::Sniper;

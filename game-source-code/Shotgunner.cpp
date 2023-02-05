@@ -3,8 +3,8 @@
 int Shotgunner::shotgunnerCost = 100;
 float Shotgunner::spawnTime = 4.0f;
 
-Shotgunner::Shotgunner(shared_ptr<sf::Texture> texture, const float gameWidth, const float gameHeight, unsigned int frameCount, float switchTime, bool friendly):
-    Unit{texture, frameCount, switchTime, friendly}
+Shotgunner::Shotgunner(shared_ptr<sf::Texture> texture, const float gameWidth, const float gameHeight, bool friendly):
+    Unit{texture, 10, 0.09, friendly}
 {
     unitSprite.setScale(0.3*1920.0f/unitSprite.getLocalBounds().width, 0.03*1920.0f/unitSprite.getLocalBounds().height);
     if(friendly)

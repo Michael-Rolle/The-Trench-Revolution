@@ -4,6 +4,7 @@ UnitController::UnitController():
     riflemanTextures{ make_shared<sf::Texture>(), make_shared<sf::Texture>(), make_shared<sf::Texture>(), make_shared<sf::Texture>() },
     shotgunnerTextures{ make_shared<sf::Texture>(), make_shared<sf::Texture>(), make_shared<sf::Texture>(), make_shared<sf::Texture>() },
     sniperTextures{ make_shared<sf::Texture>(), make_shared<sf::Texture>(), make_shared<sf::Texture>(), make_shared<sf::Texture>() },
+    machineGunnerTextures{ make_shared<sf::Texture>(), make_shared<sf::Texture>(), make_shared<sf::Texture>(), make_shared<sf::Texture>() },
     baseTextures{ make_shared<sf::Texture>(), make_shared<sf::Texture>() },
     friendlyUnits{},
     enemyUnits{}
@@ -38,13 +39,22 @@ UnitController::UnitController():
     if(!sniperTextures.at(3)->loadFromFile("resources/Sniper/Die.png"))
         throw "Cannot load texture";
 
+    if(!machineGunnerTextures.at(0)->loadFromFile("resources/MachineGunner/Idle.png"))
+        throw "Cannot load texture";
+    if(!machineGunnerTextures.at(1)->loadFromFile("resources/MachineGunner/Run.png"))
+        throw "Cannot load texture";
+    if(!machineGunnerTextures.at(2)->loadFromFile("resources/MachineGunner/Shoot.png"))
+        throw "Cannot load texture";
+    if(!machineGunnerTextures.at(3)->loadFromFile("resources/MachineGunner/Die.png"))
+        throw "Cannot load texture";
+
     if(!baseTextures.at(0)->loadFromFile("resources/friendlyBase.png"))
         throw "Cannot load texture";
     if(!baseTextures.at(1)->loadFromFile("resources/enemyBase.png"))
         throw "Cannot load texture";
-    auto friendlyBase = make_shared<Base>(baseTextures.at(0), 1920.0f, 1080.0f, 1, 1, true);
+    auto friendlyBase = make_shared<Base>(baseTextures.at(0), 1920.0f, 1080.0f, true);
     this->addFriendlyUnit(friendlyBase);
-    auto enemyBase = make_shared<Base>(baseTextures.at(1), 1920.0f, 1080.0f, 1, 1, false);
+    auto enemyBase = make_shared<Base>(baseTextures.at(1), 1920.0f, 1080.0f, false);
     this->addEnemyUnit(enemyBase);
 }
 
@@ -85,6 +95,9 @@ void UnitController::updateUnits(const float deltaTime, shared_ptr<Money> money,
                 break;
             case UnitType::Sniper:
                 unit->updateAnimation(sniperTextures, deltaTime);
+                break;
+            case UnitType::MachineGunner:
+                unit->updateAnimation(machineGunnerTextures, deltaTime);
                 break;
             case UnitType::Base:
                 unit->updateAnimation(baseTextures, deltaTime);
@@ -142,15 +155,19 @@ void UnitController::updateUnits(const float deltaTime, shared_ptr<Money> money,
             shared_ptr<Unit> unit;
             if(randNum <= 70)
             {
-                unit = make_shared<Rifleman>(riflemanTextures.at(0), gameWidth, gameHeight, 10, 0.10, false);
+                unit = make_shared<Rifleman>(riflemanTextures.at(0), gameWidth, gameHeight, false);
+            }
+            else if(randNum <= 80)
+            {
+                unit = make_shared<Shotgunner>(shotgunnerTextures.at(0), gameWidth, gameHeight, false);
             }
             else if(randNum <= 90)
             {
-                unit = make_shared<Shotgunner>(shotgunnerTextures.at(0), gameWidth, gameHeight,  10, 0.08, false);
+                unit = make_shared<Sniper>(sniperTextures.at(0), gameWidth, gameHeight, false);
             }
             else
             {
-                unit = make_shared<Sniper>(sniperTextures.at(0), gameWidth, gameHeight, 10, 0.12, false);
+                unit = make_shared<MachineGunner>(machineGunnerTextures.at(0), gameWidth, gameHeight, false);
             }
             UnitController::addEnemyUnit(unit);
         }
@@ -167,6 +184,9 @@ void UnitController::updateUnits(const float deltaTime, shared_ptr<Money> money,
                 unit->updateAnimation(shotgunnerTextures, deltaTime);
             case UnitType::Sniper:
                 unit->updateAnimation(sniperTextures, deltaTime);
+                break;
+            case UnitType::MachineGunner:
+                unit->updateAnimation(machineGunnerTextures, deltaTime);
                 break;
             case UnitType::Base:
                 unit->updateAnimation(baseTextures, deltaTime);

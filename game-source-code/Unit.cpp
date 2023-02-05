@@ -42,19 +42,19 @@ void Unit::updateAnimation(const vector<shared_ptr<sf::Texture>>& textures, cons
             break;
         case AnimationMode::Idle:
             unitSprite.setTexture(*textures.at(0));
-            animation.update(textures.at(0), AnimationMode::Idle, this->shooting, this->dying, this->canShoot, deltaTime, this->friendly);
+            animation.update(textures.at(0), AnimationMode::Idle, this->unitType, this->shooting, this->dying, this->canShoot, deltaTime, this->friendly);
             break;
         case AnimationMode::Run:
             unitSprite.setTexture(*textures.at(1));
-            animation.update(textures.at(1), AnimationMode::Run, this->shooting, this->dying, this->canShoot, deltaTime, this->friendly);
+            animation.update(textures.at(1), AnimationMode::Run, this->unitType, this->shooting, this->dying, this->canShoot, deltaTime, this->friendly);
             break;
         case AnimationMode::Shoot:
             unitSprite.setTexture(*textures.at(2));
-            animation.update(textures.at(2), AnimationMode::Shoot, this->shooting, this->dying, this->canShoot, deltaTime, this->friendly);
+            animation.update(textures.at(2), AnimationMode::Shoot, this->unitType, this->shooting, this->dying, this->canShoot, deltaTime, this->friendly);
             break;
         case AnimationMode::Die:
             unitSprite.setTexture(*textures.at(3));
-            animation.update(textures.at(3), AnimationMode::Die, this->shooting, this->dying, this->canShoot, deltaTime, this->friendly);
+            animation.update(textures.at(3), AnimationMode::Die, this->unitType, this->shooting, this->dying, this->canShoot, deltaTime, this->friendly);
             break;
         default:
             throw "Invalid animation mode";

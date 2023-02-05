@@ -1,7 +1,7 @@
 #include "Base.h"
 
-Base::Base(shared_ptr<sf::Texture> texture, const float gameWidth, const float gameHeight, unsigned int frameCount, float switchTime, bool friendly):
-    Unit{texture, frameCount, switchTime, friendly}
+Base::Base(shared_ptr<sf::Texture> texture, const float gameWidth, const float gameHeight, bool friendly):
+    Unit{texture, 1, 1, friendly}
 {
     unitSprite.setOrigin(0.5f*unitSprite.getLocalBounds().width, 0.5f*unitSprite.getLocalBounds().height);
     unitSprite.setScale(0.1f*gameWidth/unitSprite.getGlobalBounds().width, 0.05f*gameWidth/unitSprite.getGlobalBounds().height);

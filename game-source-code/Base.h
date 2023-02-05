@@ -7,7 +7,7 @@
 class Base : public Unit
 {
     public:
-        Base(shared_ptr<sf::Texture> texture, const float gameWidth, const float gameHeight, unsigned int frameCount, float switchTime, bool friendly);
+        Base(shared_ptr<sf::Texture> texture, const float gameWidth, const float gameHeight, bool friendly);
         virtual void fire(vector<shared_ptr<Unit>> enemyUnits) override; //Checks to see if closest enemy is in range and shoots
         virtual void reload(const float deltaTime) override; //Takes time off the reloadTime counter
         virtual void die() override;

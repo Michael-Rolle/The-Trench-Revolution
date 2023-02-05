@@ -86,6 +86,10 @@ void GameManager::update()
             Sniper::spawnTime -= clock.getElapsedTime().asSeconds();
         else
             buttonController->changeIconPointColor(UnitType::Sniper, sf::Color::Yellow);
+        if(MachineGunner::spawnTime > 0.0f)
+            MachineGunner::spawnTime -= clock.getElapsedTime().asSeconds();
+        else
+            buttonController->changeIconPointColor(UnitType::MachineGunner, sf::Color::Yellow);
         clock.restart();
     }
     else if(gameState == GameState::EndScreen)

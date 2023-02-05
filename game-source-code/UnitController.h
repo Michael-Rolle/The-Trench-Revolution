@@ -6,6 +6,7 @@
 #include "Rifleman.h"
 #include "Sniper.h"
 #include "Shotgunner.h"
+#include "MachineGunner.h"
 #include "Money.h"
 #include "AnimationMode.h"
 #include "Base.h"
@@ -31,6 +32,7 @@ class UnitController : public Drawable
         vector<shared_ptr<sf::Texture>> riflemanTextures;
         vector<shared_ptr<sf::Texture>> shotgunnerTextures;
         vector<shared_ptr<sf::Texture>> sniperTextures;
+        vector<shared_ptr<sf::Texture>> machineGunnerTextures;
         vector<shared_ptr<sf::Texture>> baseTextures;
         vector<shared_ptr<Unit>> friendlyUnits;
         vector<shared_ptr<Unit>> enemyUnits;
