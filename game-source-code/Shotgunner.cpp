@@ -13,9 +13,9 @@ Shotgunner::Shotgunner(shared_ptr<sf::Texture> texture, const float gameWidth, c
         unitSprite.setPosition(gameWidth, (0.72+0.0048*(row-1))*gameHeight);
     this->health = 150;
     this->maxHealth = 150;
-    this->damage = 100;
+    this->damage = 50;
     this->range = 5;
-    this->accuracy = 50;
+    this->accuracy = 70;
     this->speed = 60;
     this->reloadTime = 2;
     this->cost = shotgunnerCost;
