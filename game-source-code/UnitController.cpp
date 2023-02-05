@@ -8,7 +8,7 @@ UnitController::UnitController():
     baseTextures{ make_shared<sf::Texture>(), make_shared<sf::Texture>() },
     units{}
 {
-    this->totalTime = 0;
+    this->elapsedTime = 0;
     this->spawnTime = 1;
 
     if(!riflemanTextures.at(0)->loadFromFile("resources/Rifleman/Idle.png"))
@@ -73,18 +73,44 @@ void UnitController::addUnit(shared_ptr<Unit> unit)
 
 void UnitController::spawnEnemies(const float gameWidth, const float gameHeight)
 {
-    if(totalTime > spawnTime)
+    if(elapsedTime > spawnTime)
     {
-        totalTime = 0;
-        spawnTime = 5+rand()%20;
+        elapsedTime = 0;
+        int baseTime;
+        int addTime;
+        int numEnemiesRand;
+        if(totalTime > 360)
+        {
+            baseTime = 2;
+            addTime = 3;
+            numEnemiesRand = 61+rand()%20;
+        }
+        else if(totalTime > 240)
+        {
+            baseTime = 3;
+            addTime = 5;
+            numEnemiesRand = 41+rand()%40;
+        }
+        else if(totalTime > 120)
+        {
+            baseTime = 4;
+            addTime = 10;
+            numEnemiesRand = 21+rand()%60;
+        }
+        else
+        {
+            baseTime = 5;
+            addTime = 20;
+            numEnemiesRand = 1+rand()%100;
+        }
+        spawnTime = baseTime+rand()%addTime;
         int numEnemies;
-        auto numEnemiesRand = 1+rand()%100;
-        if(numEnemiesRand <= 50)
-            numEnemies = 1; //50% chance
-        else if(numEnemiesRand <= 75)
-            numEnemies = 2; //25% chance
+        if(numEnemiesRand <= 40)
+            numEnemies = 1; //40% chance
+        else if(numEnemiesRand <= 70)
+            numEnemies = 2; //30% chance
         else if(numEnemiesRand <= 90)
-            numEnemies = 3; //15% chance
+            numEnemies = 3; //20% chance
         else if(numEnemiesRand <= 98)
             numEnemies = 4; //8% chance
         else
@@ -109,6 +135,7 @@ void UnitController::spawnEnemies(const float gameWidth, const float gameHeight)
 void UnitController::updateUnits(const float deltaTime, shared_ptr<Money> money, bool& victory, GameState& gameState, const float gameWidth, const float gameHeight)
 {
     totalTime += deltaTime;
+    elapsedTime += deltaTime;
     for(auto& unit : units)
     {
         switch(unit->unitType)

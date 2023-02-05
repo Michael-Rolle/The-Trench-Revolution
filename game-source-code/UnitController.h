@@ -29,6 +29,7 @@ class UnitController : public Drawable
         void spawnEnemies(const float gameWidth, const float gameHeight);
 
     private:
+        float elapsedTime;
         float totalTime;
         float spawnTime;
         vector<shared_ptr<sf::Texture>> riflemanTextures;
