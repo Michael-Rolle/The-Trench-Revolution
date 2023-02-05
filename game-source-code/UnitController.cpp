@@ -142,6 +142,8 @@ void UnitController::updateUnits(const float deltaTime, shared_ptr<Money> money,
                     victory = true;
                 return;
             }
+            if(!unit->friendly)
+                money->add((int)unit->cost/2);
             std::remove(units.begin(), units.end(), unit);
             units.erase(units.end());
             break;
@@ -149,56 +151,6 @@ void UnitController::updateUnits(const float deltaTime, shared_ptr<Money> money,
     }
     UnitController::spawnEnemies(gameWidth, gameHeight);
 }
-
-    /*for(auto& unit: enemyUnits)
-    {
-        switch(unit->unitType)
-        {
-            case UnitType::Rifleman:
-                unit->updateAnimation(riflemanTextures, deltaTime);
-                break;
-            case UnitType::Shotgunner:
-                unit->updateAnimation(shotgunnerTextures, deltaTime);
-            case UnitType::Sniper:
-                unit->updateAnimation(sniperTextures, deltaTime);
-                break;
-            case UnitType::MachineGunner:
-                unit->updateAnimation(machineGunnerTextures, deltaTime);
-                break;
-            case UnitType::Base:
-                unit->updateAnimation(baseTextures, deltaTime);
-                break;
-            default:
-                throw "Invalid unit type";
-        }
-        if(unit->alive && !unit->dying)
-        {
-            if(unit->reloading)
-                unit->reload(deltaTime);
-            if(unit->getPositionX() > (0.01*gameWidth)*unit->blockNum)
-            {
-                unit->advance(deltaTime);
-            }
-            else
-            {
-                unit->blockNum--;
-            }
-            unit->fire(friendlyUnits);
-        }
-        else if(!unit->alive && !unit->dying)
-        {
-            if(unit->unitType == UnitType::Base)
-            {
-                gameState = GameState::EndScreen;
-                victory = true;
-                return;
-            }
-            money->add((int)unit->cost/2);
-            std::remove(enemyUnits.begin(), enemyUnits.end(), unit);
-            enemyUnits.erase(enemyUnits.end());
-            break;
-        }
-    }*/
 
 void UnitController::draw(sf::RenderWindow& window, const GameState gameState)
 {
