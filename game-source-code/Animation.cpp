@@ -25,13 +25,11 @@ void Animation::update(shared_ptr<sf::Texture> texture, AnimationMode animationM
         textRect.height = texture->getSize().y;
         if(unitType == UnitType::MachineGunner && animationMode == AnimationMode::Shoot)
         {
-            this->frameCount = 3;
-            textRect.width = texture->getSize().x / 10.0;
+            this->switchTime = 0.02;
         }
         else if(unitType == UnitType::MachineGunner && animationMode != AnimationMode::Shoot)
         {
-            this->frameCount = 10;
-            textRect.width = texture->getSize().x / float(frameCount);
+            this->switchTime = 0.12;
         }
     }
 
