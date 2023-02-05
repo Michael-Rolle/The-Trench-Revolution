@@ -8,7 +8,8 @@ UnitController::UnitController():
     friendlyUnits{},
     enemyUnits{}
 {
-    totalTime = 0;
+    this->totalTime = 0;
+    this->spawnTime = 1;
 
     if(!riflemanTextures.at(0)->loadFromFile("resources/Rifleman/Idle.png"))
         throw "Cannot load texture";
@@ -120,15 +121,29 @@ void UnitController::updateUnits(const float deltaTime, shared_ptr<Money> money,
         }
     }
 
-    if(totalTime > 5+(rand()%10))
+    if(totalTime > spawnTime)
     {
         totalTime = 0;
-        shared_ptr<Unit> unit;
-        if(1+rand()%100 <= 20) //20% chance of spawning sniper
-            unit = make_shared<Sniper>(sniperTextures.at(0), gameWidth, gameHeight, 10, 0.12, false);
-        else
-            unit = make_shared<Rifleman>(riflemanTextures.at(0), gameWidth, gameHeight, 10, 0.1, false);
-        UnitController::addEnemyUnit(unit);
+        spawnTime = 5+rand()%15;
+        auto numEnemies = 1+rand()%3; //1 to 3 enemies
+        for(int i = 0; i < numEnemies; i++)
+        {
+            auto randNum = 1+rand()%100; //random number between 1 and 100
+            shared_ptr<Unit> unit;
+            if(randNum <= 70)
+            {
+                unit = make_shared<Rifleman>(riflemanTextures.at(0), gameWidth, gameHeight, 10, 0.10, false);
+            }
+            else if(randNum <= 90)
+            {
+                unit = make_shared<Shotgunner>(shotgunnerTextures.at(0), gameWidth, gameHeight,  10, 0.08, false);
+            }
+            else
+            {
+                unit = make_shared<Sniper>(sniperTextures.at(0), gameWidth, gameHeight, 10, 0.12, false);
+            }
+            UnitController::addEnemyUnit(unit);
+        }
     }
 
     for(auto& unit: enemyUnits)
@@ -138,6 +153,8 @@ void UnitController::updateUnits(const float deltaTime, shared_ptr<Money> money,
             case UnitType::Rifleman:
                 unit->updateAnimation(riflemanTextures, deltaTime);
                 break;
+            case UnitType::Shotgunner:
+                unit->updateAnimation(shotgunnerTextures, deltaTime);
             case UnitType::Sniper:
                 unit->updateAnimation(sniperTextures, deltaTime);
                 break;

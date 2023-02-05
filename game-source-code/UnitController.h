@@ -27,6 +27,7 @@ class UnitController : public Drawable
 
     private:
         float totalTime;
+        float spawnTime;
         vector<shared_ptr<sf::Texture>> riflemanTextures;
         vector<shared_ptr<sf::Texture>> shotgunnerTextures;
         vector<shared_ptr<sf::Texture>> sniperTextures;
