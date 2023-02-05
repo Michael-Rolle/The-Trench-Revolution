@@ -33,8 +33,6 @@ class GameManager
         static const float gameHeight;
     private:
         sf::RenderWindow window;
-        //const float gameWidth = 1920.0f;
-        //const float gameHeight = 1080.0f;
         const unsigned short frameRate = 60;
         float elapsedTransitionTime;
         bool victory;
@@ -46,6 +44,9 @@ class GameManager
         shared_ptr<UnitController> unitController;
         shared_ptr<Money> money;
         vector<shared_ptr<Drawable>> drawableObjects;
+        sf::Font font;
+        float totalTime;
+        sf::Text time;
 };
 
 #endif // GAMEMANAGER_H

@@ -1,4 +1,5 @@
 #include "GameManager.h"
+#include <cmath>
 
 const float GameManager::gameWidth = 1920.0f;
 const float GameManager::gameHeight = 1080.0f;
@@ -18,6 +19,17 @@ GameManager::GameManager():
 
     this->elapsedTransitionTime = 0.1;
     this->victory = false;
+
+    //Time
+    if(!font.loadFromFile("resources/HeadlinerNo45.ttf"))
+        throw "Cannot load font";
+    time.setFont(font);
+    time.setString("0:00");
+    time.setCharacterSize(30);
+    time.setFillColor(sf::Color::White);
+    time.setOrigin(time.getGlobalBounds().left + 0.5*time.getGlobalBounds().width, time.getGlobalBounds().top + 0.5*time.getGlobalBounds().height);
+    time.setPosition(0.94*gameWidth, 0.06*gameHeight);
+    this->totalTime = 0;
 }
 
 void GameManager::run() //Main game loop
@@ -74,6 +86,9 @@ void GameManager::update()
     {
         unitController->updateUnits(clock.getElapsedTime().asSeconds(), money, victory, gameState, gameWidth, gameHeight);
         money->update(clock.getElapsedTime().asSeconds());
+        totalTime += clock.getElapsedTime().asSeconds();
+        time.setString(to_string((int)floor(totalTime/60)) + ":" + to_string((int)totalTime%60));
+        time.setPosition(window.getView().getCenter().x - 0.5f*window.getView().getSize().x + 0.94f*window.getView().getSize().x, window.getView().getCenter().y - 0.5f*window.getView().getSize().y + 0.06f*window.getView().getSize().y);
         if(Rifleman::spawnTime > 0.0f)
             Rifleman::spawnTime -= clock.getElapsedTime().asSeconds();
         else
@@ -108,6 +123,8 @@ void GameManager::render()
 
     for(auto& elem : drawableObjects)
         draw(elem);
+    if(gameState != GameState::StartScreen)
+        window.draw(time);
 
     window.display();
 }
