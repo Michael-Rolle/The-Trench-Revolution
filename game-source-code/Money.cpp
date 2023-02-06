@@ -2,7 +2,7 @@
 
 Money::Money(const float gameWidth, const float gameHeight)
 {
-    this->money = 0;
+    this->money = 1000;
     this->addAmount = 50;
     this->totalTime = 0;
     this->elapsedTime = 0;

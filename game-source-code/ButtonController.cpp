@@ -9,7 +9,9 @@ ButtonController::ButtonController(const float gameWidth, const float gameHeight
     shotgunnerButtonText{make_shared<sf::Texture>()},
     shotgunnerText{make_shared<sf::Texture>()},
     machineGunnerButtonText{make_shared<sf::Texture>()},
-    machineGunnerText{make_shared<sf::Texture>()}
+    machineGunnerText{make_shared<sf::Texture>()},
+    tankButtonText{make_shared<sf::Texture>()},
+    tankText{make_shared<sf::Texture>()}
 {
     //Load textures
     if(!startButtonText->loadFromFile("resources/startButton.png"))
@@ -31,6 +33,10 @@ ButtonController::ButtonController(const float gameWidth, const float gameHeight
     if(!machineGunnerButtonText->loadFromFile("resources/MachineGunner/Icon.png"))
         throw "Cannot load texture";
     if(!machineGunnerText->loadFromFile("resources/MachineGunner/Idle.png"))
+        throw "Cannot load texture";
+    if(!tankButtonText->loadFromFile("resources/Tank/Icon.png"))
+        throw "Cannot load texture";
+    if(!tankText->loadFromFile("resources/Tank/Idle.png"))
         throw "Cannot load texture";
 
 
@@ -79,6 +85,16 @@ ButtonController::ButtonController(const float gameWidth, const float gameHeight
     machineGunnerPoints.setFillColor(sf::Color::White);
     machineGunnerPoints.setOrigin(machineGunnerPoints.getGlobalBounds().left+0.5f*machineGunnerPoints.getGlobalBounds().width, machineGunnerPoints.getGlobalBounds().top+0.5f*machineGunnerPoints.getGlobalBounds().height);
     machineGunnerPoints.setPosition(machineGunnerButton.getPosition().x+0.5f*machineGunnerButton.getGlobalBounds().width, machineGunnerButton.getPosition().y+0.5f*machineGunnerButton.getGlobalBounds().height);
+
+    left += 1.5f*width;
+    height = 0.44f*width;
+    tankButton = Button{tankButtonText, sf::IntRect{left, top, width, height}};
+    tankPoints.setFont(pointsFont);
+    tankPoints.setString(to_string(Tank::tankCost));
+    tankPoints.setCharacterSize(15);
+    tankPoints.setFillColor(sf::Color::White);
+    tankPoints.setOrigin(tankPoints.getGlobalBounds().left+0.5f*tankPoints.getGlobalBounds().width, tankPoints.getGlobalBounds().top+0.5f*tankPoints.getGlobalBounds().height);
+    tankPoints.setPosition(tankButton.getPosition().x+0.5f*tankButton.getGlobalBounds().width, tankButton.getPosition().y+0.5f*tankButton.getGlobalBounds().height);
 }
 
 void ButtonController::checkButtonClicks(const sf::Event& event, sf::RenderWindow& window, sf::Clock& clock, GameState& gameState, shared_ptr<UnitController> unitController, shared_ptr<Money> money, const float gameWidth, const float gameHeight)
@@ -123,6 +139,13 @@ void ButtonController::checkButtonClicks(const sf::Event& event, sf::RenderWindo
             auto unit = make_shared<MachineGunner>(machineGunnerText, gameWidth, gameHeight, true);
             ButtonController::spawnFriendlyUnit(unitController, unit, money);
         }
+        if(tankButton.checkClicked(event, window, gameWidth, gameHeight) && money->getMoney() >= Tank::tankCost && Tank::spawnTime <= 0)
+        {
+            Tank::spawnTime = 6; //6 second spawn time
+            tankPoints.setFillColor(sf::Color::White);
+            auto unit = make_shared<Tank>(tankText, gameWidth, gameHeight, true);
+            ButtonController::spawnFriendlyUnit(unitController, unit, money);
+        }
     }
 }
 
@@ -142,6 +165,9 @@ void ButtonController::changeIconPointColor(UnitType unitType, sf::Color color)
         case UnitType::MachineGunner:
             machineGunnerPoints.setFillColor(color);
             break;
+        case UnitType::Tank:
+            tankPoints.setFillColor(color);
+            break;
         default:
             throw "Invalid unit type";
     }
@@ -159,6 +185,7 @@ void ButtonController::spawnFriendlyUnit(shared_ptr<UnitController> unitControll
 
 void ButtonController::draw(sf::RenderWindow& window, const GameState gameState)
 {
+    int width = 1.5f*0.02f*1920.0f;
     switch(gameState)
     {
         case GameState::StartScreen:
@@ -166,25 +193,29 @@ void ButtonController::draw(sf::RenderWindow& window, const GameState gameState)
             startButton.draw(window, gameState);
             break;
         case GameState::Playing:
+            //int width = 0.02*1920.0f;
             riflemanButton.setPosition(sf::Vector2f{(window.getView().getCenter().x - 0.5f*window.getView().getSize().x) + 0.05f*window.getView().getSize().x, (window.getView().getCenter().y - 0.5f*window.getView().getSize().y) + 0.95f*window.getView().getSize().y});
             riflemanPoints.setPosition(riflemanButton.getPosition());
             riflemanButton.draw(window, gameState);
             window.draw(riflemanPoints);
             shotgunnerButton.setPosition(sf::Vector2f{(window.getView().getCenter().x - 0.5f*window.getView().getSize().x) + 0.05f*window.getView().getSize().x + 1.5f*riflemanButton.getGlobalBounds().width, (window.getView().getCenter().y - 0.5f*window.getView().getSize().y) + 0.95f*window.getView().getSize().y});
-            shotgunnerPoints.setPosition(shotgunnerButton.getPosition());
+            shotgunnerPoints.setPosition(riflemanPoints.getPosition().x + width, riflemanPoints.getPosition().y);
             shotgunnerButton.draw(window, gameState);
             window.draw(shotgunnerPoints);
             sniperButton.setPosition(sf::Vector2f{(window.getView().getCenter().x - 0.5f*window.getView().getSize().x) + 0.05f*window.getView().getSize().x + 3.0f*riflemanButton.getGlobalBounds().width, (window.getView().getCenter().y - 0.5f*window.getView().getSize().y) + 0.95f*window.getView().getSize().y});
-            sniperPoints.setPosition(sniperButton.getPosition());
+            sniperPoints.setPosition(shotgunnerPoints.getPosition().x + width, riflemanPoints.getPosition().y);
             sniperButton.draw(window, gameState);
             window.draw(sniperPoints);
             machineGunnerButton.setPosition(sf::Vector2f{(window.getView().getCenter().x - 0.5f*window.getView().getSize().x) + 0.05f*window.getView().getSize().x + 4.5f*machineGunnerButton.getGlobalBounds().width, (window.getView().getCenter().y - 0.5f*window.getView().getSize().y) + 0.95f*window.getView().getSize().y});
-            machineGunnerPoints.setPosition(machineGunnerButton.getPosition());
+            machineGunnerPoints.setPosition(sniperPoints.getPosition().x + width, riflemanPoints.getPosition().y);
             machineGunnerButton.draw(window, gameState);
             window.draw(machineGunnerPoints);
+            tankButton.setPosition(sf::Vector2f{(window.getView().getCenter().x - 0.5f*window.getView().getSize().x) + 0.05f*window.getView().getSize().x + 6.0f*riflemanButton.getGlobalBounds().width, (window.getView().getCenter().y - 0.5f*window.getView().getSize().y) + 0.95f*window.getView().getSize().y});
+            tankPoints.setPosition(machineGunnerPoints.getPosition().x + width, riflemanPoints.getPosition().y);
+            tankButton.draw(window, gameState);
+            window.draw(tankPoints);
             break;
         case GameState::EndScreen:
-            //
             break;
         default:
             throw "Invalid game state";

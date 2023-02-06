@@ -5,6 +5,7 @@ UnitController::UnitController():
     shotgunnerTextures{ make_shared<sf::Texture>(), make_shared<sf::Texture>(), make_shared<sf::Texture>(), make_shared<sf::Texture>() },
     sniperTextures{ make_shared<sf::Texture>(), make_shared<sf::Texture>(), make_shared<sf::Texture>(), make_shared<sf::Texture>() },
     machineGunnerTextures{ make_shared<sf::Texture>(), make_shared<sf::Texture>(), make_shared<sf::Texture>(), make_shared<sf::Texture>() },
+    tankTextures{ make_shared<sf::Texture>(), make_shared<sf::Texture>(), make_shared<sf::Texture>(), make_shared<sf::Texture>() },
     baseTextures{ make_shared<sf::Texture>(), make_shared<sf::Texture>() },
     units{}
 {
@@ -45,6 +46,15 @@ UnitController::UnitController():
     if(!machineGunnerTextures.at(2)->loadFromFile("resources/MachineGunner/Shoot.png"))
         throw "Cannot load texture";
     if(!machineGunnerTextures.at(3)->loadFromFile("resources/MachineGunner/Die.png"))
+        throw "Cannot load texture";
+
+    if(!tankTextures.at(0)->loadFromFile("resources/Tank/Idle.png"))
+        throw "Cannot load texture";
+    if(!tankTextures.at(1)->loadFromFile("resources/Tank/Run.png"))
+        throw "Cannot load texture";
+    if(!tankTextures.at(2)->loadFromFile("resources/Tank/Shoot.png"))
+        throw "Cannot load texture";
+    if(!tankTextures.at(3)->loadFromFile("resources/Tank/Die.png"))
         throw "Cannot load texture";
 
     if(!baseTextures.at(0)->loadFromFile("resources/friendlyBase.png"))
@@ -151,6 +161,9 @@ void UnitController::updateUnits(const float deltaTime, shared_ptr<Money> money,
                 break;
             case UnitType::MachineGunner:
                 unit->update(units, machineGunnerTextures, deltaTime, gameWidth, gameHeight);
+                break;
+            case UnitType::Tank:
+                unit->update(units, tankTextures, deltaTime, gameWidth, gameHeight);
                 break;
             case UnitType::Base:
                 unit->update(units, baseTextures, deltaTime, gameWidth, gameHeight);

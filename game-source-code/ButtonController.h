@@ -9,6 +9,7 @@
 #include "Sniper.h"
 #include "Shotgunner.h"
 #include "MachineGunner.h"
+#include "Tank.h"
 #include "UnitController.h"
 #include "Money.h"
 #include "UnitType.h"
@@ -50,6 +51,10 @@ class ButtonController : public Drawable
         Button machineGunnerButton;
         sf::Text machineGunnerPoints;
         shared_ptr<sf::Texture> machineGunnerText;
+        shared_ptr<sf::Texture> tankButtonText;
+        Button tankButton;
+        sf::Text tankPoints;
+        shared_ptr<sf::Texture> tankText;
 };
 
 #endif // BUTTONCONTROLLER_H

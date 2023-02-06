@@ -108,6 +108,10 @@ void GameManager::update()
             MachineGunner::spawnTime -= clock.getElapsedTime().asSeconds();
         else
             buttonController->changeIconPointColor(UnitType::MachineGunner, sf::Color::Yellow);
+        if(Tank::spawnTime > 0.0f)
+            Tank::spawnTime -= clock.getElapsedTime().asSeconds();
+        else
+            buttonController->changeIconPointColor(UnitType::Tank, sf::Color::Yellow);
         clock.restart();
     }
     else if(gameState == GameState::EndScreen)

@@ -60,10 +60,10 @@ void Unit::updateAnimation(const vector<shared_ptr<sf::Texture>>& textures, cons
             throw "Invalid animation mode";
     }
     unitSprite.setTextureRect(animation.textRect);
-    unitSprite.setOrigin(unitSprite.getLocalBounds().left + 0.5*unitSprite.getLocalBounds().width, unitSprite.getLocalBounds().top + 0.5*unitSprite.getLocalBounds().height);
+    unitSprite.setOrigin(unitSprite.getLocalBounds().left + 0.5*unitSprite.getLocalBounds().width, unitSprite.getLocalBounds().top + unitSprite.getLocalBounds().height); //set origin at feet
 
     greenHealthBar.setScale((this->health/this->maxHealth)*0.02*1920.0f/greenHealthBar.getLocalBounds().width, 0.002*1920.0f/greenHealthBar.getLocalBounds().height);
-    greenHealthBar.setPosition(unitSprite.getPosition().x-0.5f*redHealthBar.getGlobalBounds().width, unitSprite.getPosition().y-0.5f*redHealthBar.getGlobalBounds().height - 0.6*unitSprite.getGlobalBounds().height);
+    greenHealthBar.setPosition(unitSprite.getPosition().x-0.5f*redHealthBar.getGlobalBounds().width, unitSprite.getPosition().y-0.5f*redHealthBar.getGlobalBounds().height - 1.1*unitSprite.getGlobalBounds().height);
     redHealthBar.setScale(0.02*1920.0f/greenHealthBar.getLocalBounds().width, 0.002*1920.0f/greenHealthBar.getLocalBounds().height);
-    redHealthBar.setPosition(unitSprite.getPosition().x-0.5f*redHealthBar.getGlobalBounds().width, unitSprite.getPosition().y-0.5f*redHealthBar.getGlobalBounds().height - 0.6*unitSprite.getGlobalBounds().height);
+    redHealthBar.setPosition(unitSprite.getPosition().x-0.5f*redHealthBar.getGlobalBounds().width, unitSprite.getPosition().y-0.5f*redHealthBar.getGlobalBounds().height - 1.1*unitSprite.getGlobalBounds().height);
 }
