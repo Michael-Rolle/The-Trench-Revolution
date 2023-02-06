@@ -1,5 +1,6 @@
 #include "Tank.h"
 #include <cmath>
+#include <iostream>
 
 int Tank::tankCost = 500;
 float Tank::spawnTime = 15.0f;
@@ -31,10 +32,10 @@ Tank::Tank(shared_ptr<sf::Texture> texture, const float gameWidth, const float g
     this->totalTime = 0.0f;
     this->radius = 60; //radius of explosion
     explosion.setTexture(explosionText);
-    explosion.setOrigin(0.5f*explosion.getLocalBounds().width, 0.5f*explosion.getLocalBounds().height);
-    explosion.setScale(2*this->radius/explosion.getGlobalBounds().width, 2*this->radius/explosion.getGlobalBounds().height);
-    explosionTextRect.width = explosion.getGlobalBounds().width/6;
-    explosionTextRect.height = explosion.getGlobalBounds().height;
+    explosion.setOrigin(explosion.getLocalBounds().left + 0.5f*explosion.getLocalBounds().width, explosion.getLocalBounds().top + 0.5f*explosion.getLocalBounds().height);
+    explosion.setScale(2*6*2*this->radius/explosion.getLocalBounds().width, 2*2*this->radius/explosion.getLocalBounds().height);
+    explosionTextRect.width = explosion.getLocalBounds().width/6.0f;
+    explosionTextRect.height = explosion.getLocalBounds().height;
     explosion.setTextureRect(explosionTextRect);
 }
 
@@ -68,7 +69,8 @@ void Tank::fire(vector<shared_ptr<Unit>> enemyUnits)
                 this->shooting = true;
                 auto shotBlockNum = enemy->blockNum - rand()%4 + rand()%4; //can vary by 3 from original blockNum
                 auto shotRow = enemy->row - rand()%11 + rand()%11; //can vary by 10 from original blockNum
-                explosion.setPosition(sf::Vector2f{shotBlockNum*0.01f*1920.0f, 0.72f+0.0048f*1080.0f*(shotRow-1)});
+                explosion.setPosition(sf::Vector2f{shotBlockNum*0.01f*1920.0f, (0.72f+0.0048f*(shotRow-1))*1080.0f});
+                explosion.setOrigin(explosion.getLocalBounds().left + 0.5f*explosion.getLocalBounds().width, explosion.getLocalBounds().top + 0.5f*explosion.getLocalBounds().height);
                 auto enemiesHit = enemiesHitByShot(enemyUnits, shotBlockNum, shotRow);
                 for(auto& hitEnemy : enemiesHit)
                     hitEnemy->takeDamage(this->damage);
@@ -152,21 +154,23 @@ void Tank::update(vector<shared_ptr<Unit>> units, const vector<shared_ptr<sf::Te
         }
         this->fire(units);
     }
-    if(exploding)
+    if(this->exploding)
     {
-        totalTime += deltaTime;
-        if(totalTime >= switchTime)
+        this->totalTime += deltaTime;
+        if(this->totalTime >= this->switchTime)
         {
-            totalTime -= switchTime;
-            currentFrame++;
-            if(currentFrame >= 6)
+            this->totalTime -= this->switchTime;
+            this->currentFrame++;
+            if(this->currentFrame >= 6)
             {
                 this->exploding = false;
-                currentFrame = 0;
+                this->currentFrame = 0;
             }
         }
-        explosionTextRect.left = currentFrame * explosionTextRect.width;
-        explosion.setTextureRect(explosionTextRect);
+        this->explosionTextRect.left = this->currentFrame*this->explosionTextRect.width;
+        this->explosion.setTextureRect(this->explosionTextRect);
+        cout << "Tank x position: " + to_string(this->unitSprite.getPosition().x) + "\nTank y position: " + to_string(this->unitSprite.getPosition().y) << endl;
+        cout << "Explosion x position: " + to_string(this->explosion.getPosition().x) + "\nExplosion y position: " + to_string(this->explosion.getPosition().y) << endl;
     }
 }
 
