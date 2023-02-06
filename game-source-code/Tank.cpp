@@ -33,7 +33,7 @@ Tank::Tank(shared_ptr<sf::Texture> texture, const float gameWidth, const float g
     this->radius = 60; //radius of explosion
     explosion.setTexture(explosionText);
     explosion.setOrigin(explosion.getLocalBounds().left + 0.5f*explosion.getLocalBounds().width, explosion.getLocalBounds().top + 0.5f*explosion.getLocalBounds().height);
-    explosion.setScale(2*6*2*this->radius/explosion.getLocalBounds().width, 2*2*this->radius/explosion.getLocalBounds().height);
+    explosion.setScale(1.5*6*2*this->radius/explosion.getLocalBounds().width, 1.5*2*this->radius/explosion.getLocalBounds().height);
     explosionTextRect.width = explosion.getLocalBounds().width/6.0f;
     explosionTextRect.height = explosion.getLocalBounds().height;
     explosion.setTextureRect(explosionTextRect);
