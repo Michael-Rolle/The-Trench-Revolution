@@ -23,6 +23,19 @@ Tank::Tank(shared_ptr<sf::Texture> texture, const float gameWidth, const float g
     this->unitType = UnitType::Tank;
 }
 
+vector<shared_ptr<Unit>> Tank::enemiesHitByShot(vector<shared_ptr<Unit>>& enemies, const int shotBlockNum, const int shotRow)
+{
+    vector<shared_ptr<Unit>> enemiesHit;
+    for(auto& enemy : enemies)
+    {
+        if(enemy->friendly == this->friendly)
+            continue;
+        if(abs(enemy->row - shotRow) <= 10 && abs(enemy->blockNum - shotBlockNum <= 5))
+            enemiesHit.push_back(enemy);
+    }
+    return enemiesHit;
+}
+
 void Tank::fire(vector<shared_ptr<Unit>> enemyUnits)
 {
     for(auto& enemy : enemyUnits)
@@ -37,13 +50,15 @@ void Tank::fire(vector<shared_ptr<Unit>> enemyUnits)
             {
                 this->animationMode = AnimationMode::Shoot;
                 this->shooting = true;
-                if(this->canShoot) //Set to true at the correct spot in the animation
-                {
-                    if((1+rand()%100) <= this->accuracy)
-                        enemy->takeDamage(this->damage);
-                    this->reloading = true;
-                    this->canShoot = false;
-                }
+                auto shotBlockNum = enemy->blockNum - rand()%6 + rand()%6; //can vary by 5 from original blockNum
+                auto shotRow = enemy->row - rand()%11 + rand()%11; //can vary by 10 from original blockNum
+                auto enemiesHit = enemiesHitByShot(enemyUnits, shotBlockNum, shotRow);
+                for(auto& hitEnemy : enemiesHit)
+                    hitEnemy->takeDamage(this->damage);
+                //if((1+rand()%100) <= this->accuracy)
+                //    enemy->takeDamage(this->damage);
+                this->reloading = true;
+                this->canShoot = false;
             }
             return;
         }
@@ -58,7 +73,7 @@ void Tank::reload(const float deltaTime)
 {
     if(this->reloadTime <= 0)
     {
-        this->reloadTime = 8;
+        this->reloadTime = 10;
         return;
     }
     this->reloadTime -= deltaTime;

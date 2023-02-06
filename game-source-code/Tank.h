@@ -3,6 +3,7 @@
 
 #include <SFML/Graphics.hpp>
 #include "Unit.h"
+#include <memory>
 
 class Tank : public Unit
 {
@@ -15,6 +16,8 @@ class Tank : public Unit
         virtual void stop() override; //Stops the unit from advancing
         virtual void takeDamage(float damageAmount) override;
         virtual void update(vector<shared_ptr<Unit>> units, const vector<shared_ptr<sf::Texture>>& textures, const float deltaTime, const float gameWidth, const float gameHeight) override;
+
+        vector<shared_ptr<Unit>> enemiesHitByShot(vector<shared_ptr<Unit>>& enemies, const int shotBlockNum, const int shotRow);
 
         static int tankCost;
         static float spawnTime; //time you have to wait between spawning units

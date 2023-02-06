@@ -141,7 +141,7 @@ void ButtonController::checkButtonClicks(const sf::Event& event, sf::RenderWindo
         }
         if(tankButton.checkClicked(event, window, gameWidth, gameHeight) && money->getMoney() >= Tank::tankCost && Tank::spawnTime <= 0)
         {
-            Tank::spawnTime = 6; //6 second spawn time
+            Tank::spawnTime = 15; //15 second spawn time
             tankPoints.setFillColor(sf::Color::White);
             auto unit = make_shared<Tank>(tankText, gameWidth, gameHeight, true);
             ButtonController::spawnFriendlyUnit(unitController, unit, money);
