@@ -108,14 +108,14 @@ void MachineGunner::update(vector<shared_ptr<Unit>> units, const vector<shared_p
             this->reload(deltaTime);
         if(this->friendly)
         {
-            if(this->getPositionX() < (0.01*gameWidth)*this->blockNum)
+            if(this->getPosition().x < (0.01*gameWidth)*this->blockNum)
                 this->advance(deltaTime);
             else
                 this->blockNum++;
         }
         else
         {
-            if(this->getPositionX() > (0.01*gameWidth)*this->blockNum)
+            if(this->getPosition().x > (0.01*gameWidth)*this->blockNum)
                 this->advance(deltaTime);
             else
                 this->blockNum--;

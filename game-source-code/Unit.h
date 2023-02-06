@@ -25,7 +25,7 @@ class Unit : public Drawable //Abstract Base Class, use pointer or reference for
         virtual void takeDamage(float damageAmount) = 0;
         virtual void update(vector<shared_ptr<Unit>> units, const vector<shared_ptr<sf::Texture>>& textures, const float deltaTime, const float gameWidth, const float gameHeight) = 0;
 
-        float getPositionX() { return unitSprite.getPosition().x; }
+        sf::Vector2f getPosition() { return unitSprite.getPosition(); }
         int row; //rows 1-10
         int blockNum;
         int cost;

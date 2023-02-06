@@ -23,6 +23,9 @@ class Tank : public Unit
         static float spawnTime; //time you have to wait between spawning units
 
         virtual ~Tank(){}
+
+    private:
+        int radius;
 };
 
 #endif // TANK_H

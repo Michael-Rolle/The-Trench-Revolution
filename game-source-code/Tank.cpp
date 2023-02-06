@@ -1,4 +1,5 @@
 #include "Tank.h"
+#include <cmath>
 
 int Tank::tankCost = 500;
 float Tank::spawnTime = 15.0f;
@@ -21,6 +22,7 @@ Tank::Tank(shared_ptr<sf::Texture> texture, const float gameWidth, const float g
     this->reloadTime = 10;
     this->cost = tankCost;
     this->unitType = UnitType::Tank;
+    this->radius = 60; //radius of explosion
 }
 
 vector<shared_ptr<Unit>> Tank::enemiesHitByShot(vector<shared_ptr<Unit>>& enemies, const int shotBlockNum, const int shotRow)
@@ -30,7 +32,7 @@ vector<shared_ptr<Unit>> Tank::enemiesHitByShot(vector<shared_ptr<Unit>>& enemie
     {
         if(enemy->friendly == this->friendly)
             continue;
-        if(abs(enemy->row - shotRow) <= 10 && abs(enemy->blockNum - shotBlockNum <= 5))
+        if(sqrt(pow(abs((0.01f*1920.0f)*(shotBlockNum-enemy->blockNum)), 2) + pow(abs((0.0048*1080.0f)*(shotRow-enemy->row)), 2)) <= this->radius)
             enemiesHit.push_back(enemy);
     }
     return enemiesHit;
@@ -50,13 +52,11 @@ void Tank::fire(vector<shared_ptr<Unit>> enemyUnits)
             {
                 this->animationMode = AnimationMode::Shoot;
                 this->shooting = true;
-                auto shotBlockNum = enemy->blockNum - rand()%6 + rand()%6; //can vary by 5 from original blockNum
+                auto shotBlockNum = enemy->blockNum - rand()%4 + rand()%4; //can vary by 3 from original blockNum
                 auto shotRow = enemy->row - rand()%11 + rand()%11; //can vary by 10 from original blockNum
-                auto enemiesHit = enemiesHitByShot(enemyUnits, shotBlockNum, shotRow);
+                auto enemiesHit = enemiesHitByShot(enemyUnits, shotBlockNum, shotRow, 60);
                 for(auto& hitEnemy : enemiesHit)
                     hitEnemy->takeDamage(this->damage);
-                //if((1+rand()%100) <= this->accuracy)
-                //    enemy->takeDamage(this->damage);
                 this->reloading = true;
                 this->canShoot = false;
             }
@@ -123,14 +123,14 @@ void Tank::update(vector<shared_ptr<Unit>> units, const vector<shared_ptr<sf::Te
             this->reload(deltaTime);
         if(this->friendly)
         {
-            if(this->getPositionX() < (0.01*gameWidth)*this->blockNum)
+            if(this->getPosition().x < (0.01*gameWidth)*this->blockNum)
                 this->advance(deltaTime);
             else
                 this->blockNum++;
         }
         else
         {
-            if(this->getPositionX() > (0.01*gameWidth)*this->blockNum)
+            if(this->getPosition().x > (0.01*gameWidth)*this->blockNum)
                 this->advance(deltaTime);
             else
                 this->blockNum--;

@@ -10,7 +10,7 @@ Base::Base(shared_ptr<sf::Texture> texture, const float gameWidth, const float g
         unitSprite.setPosition(0.05*gameWidth, (0.72+0.0048*(row-1))*gameHeight);
     else
         unitSprite.setPosition(0.95*gameWidth, (0.72+0.0048*(row-1))*gameHeight);
-    this->blockNum = (int)this->getPositionX()/(0.01*gameWidth);
+    this->blockNum = (int)this->getPosition().x/(0.01*gameWidth);
     this->health = 10000;
     this->maxHealth = 10000;
     this->damage = 100;
