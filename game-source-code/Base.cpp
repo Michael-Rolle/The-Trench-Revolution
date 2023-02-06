@@ -62,3 +62,10 @@ void Base::update(vector<shared_ptr<Unit>> units, const vector<shared_ptr<sf::Te
 {
     this->updateAnimation(textures, deltaTime);
 }
+
+void Base::draw(sf::RenderWindow& window, const GameState gameState)
+{
+    window.draw(unitSprite);
+    window.draw(redHealthBar);
+    window.draw(greenHealthBar);
+}

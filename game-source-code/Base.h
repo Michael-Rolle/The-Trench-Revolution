@@ -15,6 +15,7 @@ class Base : public Unit
         virtual void stop() override; //Stops the unit from advancing
         virtual void takeDamage(float damageAmount) override;
         virtual void update(vector<shared_ptr<Unit>> units, const vector<shared_ptr<sf::Texture>>& textures, const float deltaTime, const float gameWidth, const float gameHeight) override;
+        virtual void draw(sf::RenderWindow& window, const GameState gameState) override;
 
         virtual ~Base(){}
 };

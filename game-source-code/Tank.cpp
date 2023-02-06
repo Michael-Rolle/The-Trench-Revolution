@@ -22,7 +22,20 @@ Tank::Tank(shared_ptr<sf::Texture> texture, const float gameWidth, const float g
     this->reloadTime = 10;
     this->cost = tankCost;
     this->unitType = UnitType::Tank;
+
+    if(!explosionText.loadFromFile("resources/Explosion.png"))
+        throw "Cannot load texture";
+    this->exploding = false;
+    this->switchTime = 0.15f;
+    this->currentFrame = 0;
+    this->totalTime = 0.0f;
     this->radius = 60; //radius of explosion
+    explosion.setTexture(explosionText);
+    explosion.setOrigin(0.5f*explosion.getLocalBounds().width, 0.5f*explosion.getLocalBounds().height);
+    explosion.setScale(2*this->radius/explosion.getGlobalBounds().width, 2*this->radius/explosion.getGlobalBounds().height);
+    explosionTextRect.width = explosion.getGlobalBounds().width/6;
+    explosionTextRect.height = explosion.getGlobalBounds().height;
+    explosion.setTextureRect(explosionTextRect);
 }
 
 vector<shared_ptr<Unit>> Tank::enemiesHitByShot(vector<shared_ptr<Unit>>& enemies, const int shotBlockNum, const int shotRow)
@@ -50,10 +63,12 @@ void Tank::fire(vector<shared_ptr<Unit>> enemyUnits)
                 this->stop();
             if(!this->reloading)
             {
+                this->exploding = true;
                 this->animationMode = AnimationMode::Shoot;
                 this->shooting = true;
                 auto shotBlockNum = enemy->blockNum - rand()%4 + rand()%4; //can vary by 3 from original blockNum
                 auto shotRow = enemy->row - rand()%11 + rand()%11; //can vary by 10 from original blockNum
+                explosion.setPosition(sf::Vector2f{shotBlockNum*0.01f*1920.0f, 0.72f+0.0048f*1080.0f*(shotRow-1)});
                 auto enemiesHit = enemiesHitByShot(enemyUnits, shotBlockNum, shotRow);
                 for(auto& hitEnemy : enemiesHit)
                     hitEnemy->takeDamage(this->damage);
@@ -137,4 +152,29 @@ void Tank::update(vector<shared_ptr<Unit>> units, const vector<shared_ptr<sf::Te
         }
         this->fire(units);
     }
+    if(exploding)
+    {
+        totalTime += deltaTime;
+        if(totalTime >= switchTime)
+        {
+            totalTime -= switchTime;
+            currentFrame++;
+            if(currentFrame >= 6)
+            {
+                this->exploding = false;
+                currentFrame = 0;
+            }
+        }
+        explosionTextRect.left = currentFrame * explosionTextRect.width;
+        explosion.setTextureRect(explosionTextRect);
+    }
+}
+
+void Tank::draw(sf::RenderWindow& window, const GameState gameState)
+{
+    window.draw(unitSprite);
+    window.draw(redHealthBar);
+    window.draw(greenHealthBar);
+    if(this->exploding)
+        window.draw(explosion);
 }

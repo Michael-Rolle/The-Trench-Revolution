@@ -16,6 +16,7 @@ class Tank : public Unit
         virtual void stop() override; //Stops the unit from advancing
         virtual void takeDamage(float damageAmount) override;
         virtual void update(vector<shared_ptr<Unit>> units, const vector<shared_ptr<sf::Texture>>& textures, const float deltaTime, const float gameWidth, const float gameHeight) override;
+        virtual void draw(sf::RenderWindow& window, const GameState gameState) override;
 
         vector<shared_ptr<Unit>> enemiesHitByShot(vector<shared_ptr<Unit>>& enemies, const int shotBlockNum, const int shotRow);
 
@@ -25,7 +26,14 @@ class Tank : public Unit
         virtual ~Tank(){}
 
     private:
+        sf::IntRect explosionTextRect;
+        sf::Texture explosionText;
+        sf::Sprite explosion;
+        float switchTime;
+        float totalTime;
+        unsigned int currentFrame;
         int radius;
+        bool exploding;
 };
 
 #endif // TANK_H

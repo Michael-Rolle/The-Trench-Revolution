@@ -27,12 +27,12 @@ Unit::Unit(shared_ptr<sf::Texture> texture, unsigned int frameCount, float switc
     this->redHealthBar.setFillColor(sf::Color::Red);
 }
 
-void Unit::draw(sf::RenderWindow& window, const GameState gameState)
+/*void Unit::draw(sf::RenderWindow& window, const GameState gameState)
 {
     window.draw(unitSprite);
     window.draw(redHealthBar);
     window.draw(greenHealthBar);
-}
+}*/
 
 void Unit::updateAnimation(const vector<shared_ptr<sf::Texture>>& textures, const float deltaTime)
 {
