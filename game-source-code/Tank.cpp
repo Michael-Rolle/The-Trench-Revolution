@@ -7,7 +7,7 @@ float Tank::spawnTime = 15.0f;
 Tank::Tank(shared_ptr<sf::Texture> texture, const float gameWidth, const float gameHeight, bool friendly):
     Unit{texture, 1, 1, friendly}
 {
-    unitSprite.setScale(0.08*1920.0f/unitSprite.getLocalBounds().width, 0.036*1920.0f/unitSprite.getLocalBounds().height);
+    unitSprite.setScale(0.07*1920.0f/unitSprite.getLocalBounds().width, 0.031*1920.0f/unitSprite.getLocalBounds().height);
     unitSprite.setOrigin(0.5f*unitSprite.getGlobalBounds().width, unitSprite.getGlobalBounds().height);
     if(friendly)
         unitSprite.setPosition(0, (0.72+0.0048*(row-1))*gameHeight);
@@ -54,7 +54,7 @@ void Tank::fire(vector<shared_ptr<Unit>> enemyUnits)
                 this->shooting = true;
                 auto shotBlockNum = enemy->blockNum - rand()%4 + rand()%4; //can vary by 3 from original blockNum
                 auto shotRow = enemy->row - rand()%11 + rand()%11; //can vary by 10 from original blockNum
-                auto enemiesHit = enemiesHitByShot(enemyUnits, shotBlockNum, shotRow, 60);
+                auto enemiesHit = enemiesHitByShot(enemyUnits, shotBlockNum, shotRow);
                 for(auto& hitEnemy : enemiesHit)
                     hitEnemy->takeDamage(this->damage);
                 this->reloading = true;
