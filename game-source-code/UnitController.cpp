@@ -129,14 +129,16 @@ void UnitController::spawnEnemies(const float gameWidth, const float gameHeight)
         {
             auto randNum = 1+rand()%100; //random number between 1 and 100
             shared_ptr<Unit> unit;
-            if(randNum <= 70)
+            if(randNum <= 60)
                 unit = make_shared<Rifleman>(riflemanTextures.at(0), gameWidth, gameHeight, false);
-            else if(randNum <= 80)
+            else if(randNum <= 75)
                 unit = make_shared<Shotgunner>(shotgunnerTextures.at(0), gameWidth, gameHeight, false);
-            else if(randNum <= 90)
+            else if(randNum <= 85)
                 unit = make_shared<Sniper>(sniperTextures.at(0), gameWidth, gameHeight, false);
-            else
+            else if(randNum <= 95)
                 unit = make_shared<MachineGunner>(machineGunnerTextures.at(0), gameWidth, gameHeight, false);
+            else
+                unit = make_shared<Tank>(tankTextures.at(0), gameWidth, gameHeight, false);
             UnitController::addUnit(unit);
         }
     }
