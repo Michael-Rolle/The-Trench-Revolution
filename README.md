@@ -7,7 +7,7 @@ From left to right the different troops are:
 -shotgunner
 -sniper
 -machinegunner
--tank
+-tank.
 Each troop has a different cost associated with it just above its button icon. A troop is available to spawn when the cost value above its button icon is lit yellow.
 This cost value will be white when the troop is still on cooldown after recently being spawned.
 
