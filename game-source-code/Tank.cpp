@@ -1,6 +1,5 @@
 #include "Tank.h"
 #include <cmath>
-#include <iostream>
 
 int Tank::tankCost = 500;
 float Tank::spawnTime = 15.0f;
@@ -169,8 +168,6 @@ void Tank::update(vector<shared_ptr<Unit>> units, const vector<shared_ptr<sf::Te
         }
         this->explosionTextRect.left = this->currentFrame*this->explosionTextRect.width;
         this->explosion.setTextureRect(this->explosionTextRect);
-        cout << "Tank x position: " + to_string(this->unitSprite.getPosition().x) + "\nTank y position: " + to_string(this->unitSprite.getPosition().y) << endl;
-        cout << "Explosion x position: " + to_string(this->explosion.getPosition().x) + "\nExplosion y position: " + to_string(this->explosion.getPosition().y) << endl;
     }
 }
 
